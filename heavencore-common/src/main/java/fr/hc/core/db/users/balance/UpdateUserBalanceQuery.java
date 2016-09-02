@@ -40,7 +40,8 @@ public class UpdateUserBalanceQuery implements Query
 			ps.setInt(3, delta);
 
 			System.out.println("Executing query " + ps);
-			ps.executeUpdate();
+			if (ps.executeUpdate() == 0)
+				throw new HeavenException("Vous fouillez dans votre bourse... Vous n'avez pas assez.");
 
 			userProvider.invalidateCache(user);
 		}
