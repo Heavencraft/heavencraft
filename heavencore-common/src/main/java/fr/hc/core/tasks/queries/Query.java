@@ -1,9 +1,10 @@
-package fr.hc.core.tasks.async;
+package fr.hc.core.tasks.queries;
 
 import java.sql.SQLException;
 
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.tasks.async.AsyncTask;
 
 public interface Query extends AsyncTask
 {
