@@ -3,9 +3,10 @@ package fr.hc.rp.db.users;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import fr.hc.core.db.users.User;
+import fr.hc.core.db.users.AbstractUser;
+import fr.hc.core.db.users.balance.UserWithBalance;
 
-public class RPUser extends User
+public class RPUser extends AbstractUser implements UserWithBalance
 {
 	private final int balance;
 
@@ -16,6 +17,7 @@ public class RPUser extends User
 		balance = rs.getInt("balance");
 	}
 
+	@Override
 	public int getBalance()
 	{
 		return balance;
