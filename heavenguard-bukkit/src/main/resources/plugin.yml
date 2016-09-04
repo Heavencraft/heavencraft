@@ -1,0 +1,7 @@
+name: HeavenGuard
+version: 1.0
+main: fr.heavencraft.heavenguard.bukkit.BukkitHeavenGuard
+depend: [WorldEdit, HeavenCore]
+commands:
+  region:
+    aliases: rg

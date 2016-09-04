@@ -2,7 +2,10 @@ package fr.hc.rp;
 
 import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.connection.ConnectionProvider;
+import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.users.UsersListener;
+import fr.hc.guard.HeavenGuardInstance;
+import fr.hc.rp.db.users.RPUser;
 import fr.hc.rp.db.users.RPUserProvider;
 
 public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
@@ -21,7 +24,9 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 
 		connectionProvider = createConnectionProvider(getConfig());
 
-		new UsersListener(RPUserProvider.get());
+		final UserProvider<RPUser> userProvider = RPUserProvider.get();
+		HeavenGuardInstance.get().setUserProvider(userProvider);
+		new UsersListener(userProvider);
 	}
 
 	@Override

@@ -11,8 +11,14 @@ public class UsersCache<U extends User>
 {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
+	private final Map<Integer, U> usersById = new ConcurrentHashMap<Integer, U>();
 	private final Map<UUID, U> usersByUniqueId = new ConcurrentHashMap<UUID, U>();
 	private final Map<String, U> usersByName = new ConcurrentHashMap<String, U>();
+
+	public U getUserById(int id)
+	{
+		return usersById.get(id);
+	}
 
 	public U getUserByUniqueId(UUID uniqueId)
 	{
@@ -26,12 +32,14 @@ public class UsersCache<U extends User>
 
 	public void addToCache(U user)
 	{
+		usersById.put(user.getId(), user);
 		usersByUniqueId.put(user.getUniqueId(), user);
 		usersByName.put(user.getName(), user);
 	}
 
 	public void invalidateCache(User user)
 	{
+		usersById.remove(user.getId());
 		usersByUniqueId.remove(user.getUniqueId());
 		usersByName.remove(user.getName());
 
