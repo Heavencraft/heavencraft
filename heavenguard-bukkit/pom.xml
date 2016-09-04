@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.heavencraft</groupId>
-	<artifactId>heavenrp-bukkit</artifactId>
+	<artifactId>heavenguard-bukkit</artifactId>
 	<version>3.0</version>
 
 	<properties>
@@ -14,19 +14,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.heavencraft</groupId>
-			<artifactId>heavenrp-common</artifactId>
+			<artifactId>heavenguard-common</artifactId>
 			<version>3.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>fr.heavencraft</groupId>
 			<artifactId>heavencore-bukkit</artifactId>
-			<version>3.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>fr.heavencraft</groupId>
-			<artifactId>heavenguard-bukkit</artifactId>
 			<version>3.0</version>
 		</dependency>
 	</dependencies>
@@ -50,7 +44,7 @@
 				<configuration>
 					<artifactSet>
 						<includes>
-							<include>fr.heavencraft:heavenrp-common</include>
+							<include>fr.heavencraft:heavenguard-common</include>
 						</includes>
 					</artifactSet>
 				</configuration>

@@ -16,6 +16,7 @@ import fr.hc.core.exceptions.HeavenException;
 
 public abstract class UserProvider<U extends User>
 {
+	private static final String SELECT_USER_BY_ID = "SELECT * FROM users WHERE id = ? LIMIT 1;";
 	private static final String SELECT_USER_BY_UUID = "SELECT * FROM users WHERE uuid = ? LIMIT 1;";
 	private static final String SELECT_USER_BY_NAME = "SELECT * FROM users WHERE name = ? LIMIT 1;";
 	private static final String INSERT_USER = "INSERT INTO users (uuid, name) VALUES (?, ?);";
@@ -30,6 +31,35 @@ public abstract class UserProvider<U extends User>
 	{
 		this.connectionProvider = connectionProvider;
 		this.factory = factory;
+	}
+
+	public Optional<U> getUserById(int id) throws HeavenException
+	{
+		// Try to get user from cache
+		U user = cache.getUserById(id);
+		if (user != null)
+			return Optional.of(user);
+
+		// Get user from database
+		try (Connection connection = connectionProvider.getConnection();
+				PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID))
+		{
+			ps.setInt(1, id);
+
+			final ResultSet rs = ps.executeQuery();
+
+			if (!rs.next())
+				return Optional.empty();
+
+			user = factory.newUser(rs);
+			cache.addToCache(user);
+			return Optional.of(user);
+		}
+		catch (final SQLException ex)
+		{
+			log.error("Error while executing SQL query '{}'", SELECT_USER_BY_UUID, ex);
+			throw new DatabaseErrorException();
+		}
 	}
 
 	public Optional<U> getUserByUniqueId(UUID uniqueId) throws HeavenException
