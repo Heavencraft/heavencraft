@@ -1,3 +1,4 @@
 name: HeavenCore
 version: 3.0
 main: fr.hc.core.BukkitHeavenCore
+depend: [WorldEdit]
