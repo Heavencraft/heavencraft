@@ -64,7 +64,7 @@ public class RegionProvider
 					cache.addToCache(new Region(connectionProvider, rs, this));
 				}
 
-				log.info("%1$s regions loaded from database.", count);
+				log.info("{} regions loaded from database.", count);
 			}
 		}
 		catch (final SQLException ex)
@@ -113,7 +113,7 @@ public class RegionProvider
 					cache.addToCache(region);
 				}
 
-				log.info("%1$s regions loaded from database.", count);
+				log.info("{} global regions loaded from database.", count);
 			}
 		}
 		catch (final SQLException ex)
