@@ -11,19 +11,6 @@ import fr.heavencraft.heavenguard.bukkit.listeners.PlayerListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionEnvironmentListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionPlayerListener;
 
-/*
- * Database looks like :
- * regions (
- *   id, name, parent_id,
- *   world, min_x, min_y, min_z, max_x, max_y, max_z,
- *   ... +flags
- * )
- * 
- * hg_regions_members (region_id, user_id, owner)
- * 
- * hg_uuid (id, uuid, last_name)
- * 
- */
 public class BukkitHeavenGuard extends AbstractBukkitPlugin implements HeavenGuard
 {
 	private RegionProvider regionProvider;
