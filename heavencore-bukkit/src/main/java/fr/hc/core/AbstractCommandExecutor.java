@@ -43,7 +43,7 @@ public abstract class AbstractCommandExecutor implements CommandExecutor
 		command.setPermission(permission);
 		command.setPermissionMessage("");
 
-		log.info("Command %1$s registered", name);
+		log.info("Command {} registered", name);
 	}
 
 	@Override
