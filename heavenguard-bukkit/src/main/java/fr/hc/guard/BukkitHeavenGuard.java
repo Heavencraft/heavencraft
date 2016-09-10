@@ -6,9 +6,6 @@ import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.db.users.User;
 import fr.hc.core.db.users.UserProvider;
-import fr.hc.guard.HeavenGuard;
-import fr.hc.guard.HeavenGuardInstance;
-import fr.hc.guard.RegionManager;
 import fr.hc.guard.db.RegionProvider;
 import fr.heavencraft.heavenguard.bukkit.listeners.PlayerListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionEnvironmentListener;
@@ -47,12 +44,13 @@ public class BukkitHeavenGuard extends AbstractBukkitPlugin implements HeavenGua
 			super.onEnable();
 			saveDefaultConfig();
 
+			connectionProvider = createConnectionProvider(getConfig());
+			initDatabaseIfNeeded(connectionProvider, "SELECT * FROM users LIMIT 1");
+
 			new PlayerListener(this);
 
 			new ProtectionPlayerListener(this);
 			new ProtectionEnvironmentListener(this);
-
-			connectionProvider = createConnectionProvider(getConfig());
 
 			regionProvider = new RegionProvider(connectionProvider);
 			regionManager = new RegionManager(regionProvider);
