@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import fr.hc.core.HeavenCoreInstance;
 import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.tasks.queries.Query;
@@ -22,8 +21,6 @@ public class UpdateUserBalanceQuery implements Query
 		this.user = user;
 		this.delta = delta;
 		this.userProvider = userProvider;
-
-		HeavenCoreInstance.get().getTaskManager().schedule(this);
 	}
 
 	@Override
