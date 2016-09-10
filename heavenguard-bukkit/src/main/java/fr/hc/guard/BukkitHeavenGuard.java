@@ -32,7 +32,7 @@ public class BukkitHeavenGuard extends AbstractBukkitPlugin implements HeavenGua
 			saveDefaultConfig();
 
 			connectionProvider = createConnectionProvider(getConfig());
-			initDatabaseIfNeeded(connectionProvider, "SELECT * FROM users LIMIT 1");
+			initDatabaseIfNeeded(connectionProvider, "SELECT * FROM regions LIMIT 1");
 
 			new PlayerListener(this);
 

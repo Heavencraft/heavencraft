@@ -1,6 +1,6 @@
 name: HeavenGuard
-version: 1.0
-main: fr.heavencraft.heavenguard.bukkit.BukkitHeavenGuard
+version: 3.0
+main: fr.hc.guard.BukkitHeavenGuard
 depend: [WorldEdit, HeavenCore]
 commands:
   region:

@@ -2,7 +2,7 @@
 CREATE TABLE regions (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     name            VARCHAR(16)         NOT NULL,
-    paren_id        INT UNSIGNED        DEFAULT NULL,
+    parent_id       INT UNSIGNED        DEFAULT NULL,
     world           VARCHAR(16)         NOT NULL,
     min_x           INT                 NOT NULL,
     min_y           TINYINT UNSIGNED    NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE regions (
     max_z           INT                 NOT NULL,
     flag_pvp        BOOLEAN             DEFAULT NULL,
     flag_public     BOOLEAN             DEFAULT NULL,
-    flag_remove_timestamp TIMESTAMP     DEFAULT NULL,
+    flag_remove_timestamp TIMESTAMP     NULL DEFAULT NULL,
     flag_state      MEDIUMBLOB          DEFAULT NULL,
 
     PRIMARY KEY (id),

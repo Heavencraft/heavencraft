@@ -1,13 +1,13 @@
 package fr.hc.core;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
+import java.sql.Statement;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,22 +33,24 @@ public abstract class AbstractBukkitPlugin extends JavaPlugin
 		try (Connection connection = connectionProvider.getConnection();
 				PreparedStatement ps = connection.prepareStatement(testQuery))
 		{
-			ps.executeUpdate();
+			ps.executeQuery();
 			return;
 		}
 		catch (final SQLException ex)
 		{
+			initDatabase(connectionProvider);
 		}
-
-		initDatabase(connectionProvider);
 	}
 
 	private void initDatabase(ConnectionProvider connectionProvider) throws StopServerException
 	{
 		try (Connection connection = connectionProvider.getConnection();
-				PreparedStatement ps = connection.prepareStatement(getInitDatabaseQuery()))
+				Statement statement = connection.createStatement())
 		{
-			ps.executeUpdate();
+			for (final String query : getInitDatabaseQueries())
+				if (!query.trim().isEmpty())
+					statement.execute(query);
+
 			return;
 		}
 		catch (final SQLException ex)
@@ -58,17 +60,30 @@ public abstract class AbstractBukkitPlugin extends JavaPlugin
 		}
 	}
 
-	private String getInitDatabaseQuery() throws StopServerException
+	private String[] getInitDatabaseQueries() throws StopServerException
 	{
-		try
+		String queries = "";
+
+		try (InputStream in = getClassLoader().getResourceAsStream("database.sql");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in)))
 		{
-			return Files.readAllLines(new File(getClassLoader().getResource("database.sql").toURI()).toPath()).stream()
-					.collect(Collectors.joining("\n"));
+			String line;
+			while ((line = reader.readLine()) != null)
+			{
+				line = line.trim();
+
+				if (line.isEmpty() || line.startsWith("--"))
+					continue;
+
+				queries += line;
+			}
 		}
-		catch (IOException | URISyntaxException e)
+		catch (final IOException e)
 		{
 			e.printStackTrace();
 			throw new StopServerException();
 		}
+
+		return queries.split(";");
 	}
 }
