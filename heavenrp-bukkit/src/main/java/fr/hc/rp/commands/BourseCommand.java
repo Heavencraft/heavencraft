@@ -8,13 +8,10 @@ import org.bukkit.entity.Player;
 
 import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.AbstractCommandExecutor;
-import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
-import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.users.RPUser;
 
 public class BourseCommand extends AbstractCommandExecutor
@@ -27,8 +24,8 @@ public class BourseCommand extends AbstractCommandExecutor
 
 	private static Random Random = new Random();
 	private final HeavenRP plugin = HeavenRPInstance.get();
-	
-	public BourseCommand(BukkitHeavenRP plugin)
+
+	public BourseCommand(AbstractBukkitPlugin plugin)
 	{
 		super(plugin, "bourse");
 	}
@@ -37,64 +34,85 @@ public class BourseCommand extends AbstractCommandExecutor
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
 		ChatUtil.sendMessage(player, PURSE_MESSAGE);
-		
+
 		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
-		
-		if(user.isPresent()) {
+
+		if (user.isPresent())
+		{
 			final int balance = user.get().getBalance();
-			if(balance == 0) {
+			if (balance == 0)
+			{
 				ChatUtil.sendMessage(player, PURSE_EMPTY);
 			}
-			else if (balance < 100) {
-				if(Random.nextDouble() <= 0.1) {
+			else if (balance < 100)
+			{
+				if (Random.nextDouble() <= 0.1)
+				{
 					ChatUtil.sendMessage(player, PURSE_FAIL);
 				}
-				else {
+				else
+				{
 					ChatUtil.sendMessage(player, PURSE_SUCCESS, balance);
 				}
 			}
-			else if (balance < 200) {
-				if(Random.nextDouble() <= 0.125) {
+			else if (balance < 200)
+			{
+				if (Random.nextDouble() <= 0.125)
+				{
 					ChatUtil.sendMessage(player, PURSE_FAIL);
 				}
-				else {
+				else
+				{
 					ChatUtil.sendMessage(player, PURSE_SUCCESS, balance);
 				}
 			}
-			else if (balance < 500) {
-				if(Random.nextDouble() <= 0.143) {
+			else if (balance < 500)
+			{
+				if (Random.nextDouble() <= 0.143)
+				{
 					ChatUtil.sendMessage(player, PURSE_FAIL);
 				}
-				else {
+				else
+				{
 					ChatUtil.sendMessage(player, PURSE_SUCCESS, balance);
 				}
 			}
-			else if (balance < 700) {
-				if(Random.nextDouble() <= 0.167) {
+			else if (balance < 700)
+			{
+				if (Random.nextDouble() <= 0.167)
+				{
 					ChatUtil.sendMessage(player, PURSE_FAIL);
 				}
-				else {
+				else
+				{
 					ChatUtil.sendMessage(player, PURSE_SUCCESS, balance);
 				}
 			}
-			else if (balance < 1000) {
-				if(Random.nextDouble() <= 0.25) {
+			else if (balance < 1000)
+			{
+				if (Random.nextDouble() <= 0.25)
+				{
 					ChatUtil.sendMessage(player, PURSE_FAIL);
 				}
-				else {
+				else
+				{
 					ChatUtil.sendMessage(player, PURSE_SUCCESS, balance);
 				}
 			}
-			else {
-				if(Random.nextDouble() <= 0.34) {
+			else
+			{
+				if (Random.nextDouble() <= 0.34)
+				{
 					ChatUtil.sendMessage(player, PURSE_FAIL);
 				}
-				else {
+				else
+				{
 					ChatUtil.sendMessage(player, PURSE_SUCCESS, balance);
 				}
 			}
 		}
-		else {
+		else
+		{
 			throw new HeavenException("Le joueur n'a pas de compte");
 		}
 	}
