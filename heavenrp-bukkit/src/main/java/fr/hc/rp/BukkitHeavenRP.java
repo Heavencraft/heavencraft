@@ -15,6 +15,7 @@ import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
 import fr.hc.rp.db.warps.RPWarpProvider;
 import fr.hc.rp.warps.WarpCommandExecutor;
+import fr.hc.rp.warps.WarpSignListener;
 
 public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 {
@@ -53,6 +54,9 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			new WarpCommandExecutor(this);
 			new SpawnCommand(this);
 			new BourseCommand(this);
+			
+			new WarpSignListener(this);
+			
 		}
 		catch (final StopServerException ex)
 		{
