@@ -7,6 +7,7 @@ import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.users.UsersListener;
 import fr.hc.guard.HeavenGuardInstance;
+import fr.hc.rp.commands.SpawnCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.towns.TownProvider;
@@ -49,6 +50,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			HeavenGuardInstance.get().setUserProvider(userProvider);
 			new UsersListener(userProvider);
 			new WarpCommandExecutor(this);
+			new SpawnCommand(this);
 		}
 		catch (final StopServerException ex)
 		{
