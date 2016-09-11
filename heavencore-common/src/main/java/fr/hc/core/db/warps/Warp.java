@@ -1,10 +1,11 @@
-package fr.hc.rp.db.warps;
+package fr.hc.core.db.warps;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Warp
+public abstract class Warp
 {
+	
 	private final int id;
 	private final String name;
 	private final String creator;
@@ -16,11 +17,12 @@ public class Warp
 	private final float pitch;
 	private final int price;
 	
+	
 	protected Warp(ResultSet rs) throws SQLException
 	{
 		this.id = rs.getInt("id");
 		this.name = rs.getString("name");
-		this.creator = rs.getString("creator_name");
+		this.creator = rs.getString("creator");
 		this.world = rs.getString("world");
 		this.x = rs.getDouble("x");
 		this.y = rs.getDouble("y");
@@ -29,25 +31,21 @@ public class Warp
 		this.pitch = rs.getFloat("pitch");
 		this.price = rs.getInt("price");
 	}
-
-	public int getPrice()
-	{
-		return price;
-	}
+	
 
 	public int getId()
 	{
 		return id;
 	}
-	
+
 	public String getName()
 	{
 		return name;
 	}
-	
-	public String getWorldName()
+
+	public String getCreator()
 	{
-		return world;
+		return creator;
 	}
 
 	public double getX()
@@ -75,10 +73,13 @@ public class Warp
 		return pitch;
 	}
 
-	public String getCreator()
+	public int getPrice()
 	{
-		return creator;
+		return price;
 	}
-		
-	
+
+	public String getWorldName()
+	{
+		return world;
+	}
 }
