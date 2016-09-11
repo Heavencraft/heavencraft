@@ -2,3 +2,8 @@ name: HeavenRP
 version: 3.0
 main: fr.hc.rp.BukkitHeavenRP
 depend: [HeavenCore]
+commands:
+ spawn:
+  description: Téléporte au spawn.
+  usage: /spawn
+    
