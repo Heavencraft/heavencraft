@@ -6,4 +6,7 @@ commands:
  spawn:
   description: Téléporte au spawn.
   usage: /spawn
+ warp:
+   description: Téléporte a un endroit donné.
+   usage: /warp
     
