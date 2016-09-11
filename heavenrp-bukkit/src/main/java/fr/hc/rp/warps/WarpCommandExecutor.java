@@ -13,14 +13,17 @@ import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.users.RPUser;
-import fr.hc.rp.db.warps.Warp;
-import fr.hc.rp.db.warps.WarpProvider;
+import fr.hc.rp.db.warps.RPWarp;
+import fr.hc.rp.db.warps.RPWarpProvider;
 
 public class WarpCommandExecutor extends AbstractCommandExecutor
 {
 
 	private static final String WarpPermission = "heavencraft.commands.warp";
 	private final HeavenRP plugin = HeavenRPInstance.get();
+
+	private static final String WARP_DOES_NOT_EXIST = "Le warp {%1$s} n'existe pas.";
+	private static final String WARP_DOES_ALREADY_EXIST = "Le warp {%1$s} existe déjà.";
 
 	public WarpCommandExecutor(BukkitHeavenRP plugin)
 	{
@@ -30,49 +33,65 @@ public class WarpCommandExecutor extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		WarpProvider warpProvider = plugin.getWarpProvider();
+		RPWarpProvider warpProvider = plugin.getWarpProvider();
 		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
 
+		// Parse the command
 		switch (args.length)
 		{
 			case 1:
 				if (args[0].equalsIgnoreCase("list"))
 				{
-					List<Warp> warps = warpProvider.listWarps();
+					List<RPWarp> warps = warpProvider.listWarps();
 					String list = "";
-
-					for (Warp warp : warps)
+					
+					// Build the list
+					for (RPWarp warp : warps)
 					{
-						list = (list == "" ? "" : ", ") + "{" + warp.getName() + "}";
+						list += (list == "" ? "" : ", ") + "{" + warp.getName() + "}";
 					}
 
 					ChatUtil.sendMessage(player, "Liste des warps :");
 					ChatUtil.sendMessage(player, list);
+					return;
 				}
+				sendUsage(player);
 				break;
 
 			case 2:
+				// Does the warp exist?
+				Optional<RPWarp> wrp = plugin.getWarpProvider().getWarpByName(args[1]);
+				if (!wrp.isPresent())
+				{
+					ChatUtil.sendMessage(player, WARP_DOES_NOT_EXIST, args[1]);
+					return;
+				}
+
 				if (args[0].equalsIgnoreCase("remove"))
 				{
-					if (warpProvider.getWarpByName(args[1]) == null)
-					{
-						ChatUtil.sendMessage(player, "Le warp {%1$s} n'existe pas.", args[1]);
-						return;
-					}
-
 					warpProvider.deleteWarp(args[1]);
 					ChatUtil.sendMessage(player, "Le warp {%1$s} a bien été supprimé.", args[1]);
+					return;
 				}
 				else if (args[0].equalsIgnoreCase("tp"))
 				{
-					player.teleport(((RPWarp) warpProvider.getWarpByName(args[1])).getLocation());
+					player.teleport(WarpUtils.getLocation(wrp.get()));
 					ChatUtil.sendMessage(player, "Vous avez été téléporté à {%1$s}.", args[1]);
+					return;
 				}
 				break;
 
 			case 3:
 				if (args[0].equalsIgnoreCase("define"))
 				{
+					// Is it a duplicate?
+					Optional<RPWarp> wrp2 = plugin.getWarpProvider().getWarpByName(args[1]);
+					if (wrp2.isPresent())
+					{
+						ChatUtil.sendMessage(player, WARP_DOES_ALREADY_EXIST, args[1]);
+						return;
+					}
+					
 					warpProvider.createWarp(args[1], user.get(), player.getLocation().getWorld().getName(),
 							Integer.parseInt(args[2]), player.getLocation().getX(), player.getLocation().getY(),
 							player.getLocation().getZ(), player.getLocation().getYaw(),

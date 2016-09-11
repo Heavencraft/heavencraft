@@ -12,7 +12,7 @@ import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
-import fr.hc.rp.db.warps.WarpProvider;
+import fr.hc.rp.db.warps.RPWarpProvider;
 import fr.hc.rp.warps.WarpCommandExecutor;
 
 public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
@@ -23,7 +23,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 	private CompanyProvider companyProvider;
 	private TownProvider townProvider;
 	private RPUserProvider userProvider;
-	private WarpProvider warpProvider;
+	private RPWarpProvider warpProvider;
 
 	public BukkitHeavenRP()
 	{
@@ -45,7 +45,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			companyProvider = new CompanyProvider(connectionProvider);
 			townProvider = new TownProvider(connectionProvider);
 			userProvider = new RPUserProvider(connectionProvider);
-			warpProvider = new WarpProvider(connectionProvider);
+			warpProvider = new RPWarpProvider(connectionProvider);
 
 			HeavenGuardInstance.get().setUserProvider(userProvider);
 			new UsersListener(userProvider);
@@ -89,8 +89,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 		return userProvider;
 	}
 
-	@Override
-	public WarpProvider getWarpProvider()
+	public RPWarpProvider getWarpProvider()
 	{
 		return warpProvider;
 	}
