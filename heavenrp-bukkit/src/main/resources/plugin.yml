@@ -3,6 +3,9 @@ version: 3.0
 main: fr.hc.rp.BukkitHeavenRP
 depend: [HeavenCore]
 commands:
+ test:
+   description: Commande pour tester de nouvelles fonctionalités.
+   usage: /test
  spawn:
    description: Téléporte au spawn.
    usage: /spawn
