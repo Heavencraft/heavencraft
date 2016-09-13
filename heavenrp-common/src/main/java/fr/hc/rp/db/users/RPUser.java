@@ -10,6 +10,7 @@ public class RPUser extends AbstractUser implements UserWithBalance
 {
 	private final int balance;
 	private final int bankAccountId;
+	private final boolean hasBankAccount;
 
 	// Available from package only
 	RPUser(ResultSet rs) throws SQLException
@@ -18,12 +19,18 @@ public class RPUser extends AbstractUser implements UserWithBalance
 
 		balance = rs.getInt("balance");
 		bankAccountId = rs.getInt("bank_account_id");
+		hasBankAccount = !rs.wasNull();
 	}
 
 	@Override
 	public int getBalance()
 	{
 		return balance;
+	}
+
+	public boolean hasBankAccount()
+	{
+		return hasBankAccount;
 	}
 
 	public int getBankAccountId()

@@ -248,7 +248,7 @@ public class ProtectionPlayerListener extends AbstractBukkitListener
 	{
 		final Block block = event.getClickedBlock();
 
-		log.debug("onPlayerRightClickBlock %1$s", block.getType().name());
+		log.debug("onPlayerRightClickBlock {}", block.getType().name());
 
 		// Player can't place a Vehicule
 		if (event.hasItem() && VEHICULES.contains(event.getItem().getType()))

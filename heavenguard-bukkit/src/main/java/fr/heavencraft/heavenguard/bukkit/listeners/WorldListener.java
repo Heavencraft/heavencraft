@@ -22,6 +22,6 @@ public class WorldListener extends AbstractBukkitListener
 	{
 		final GlobalRegion world = plugin.getRegionProvider().getGlobalRegion(event.getWorld().getName());
 
-		log.info("Loaded %1$s", world);
+		log.info("Loaded {}", world);
 	}
 }

@@ -15,7 +15,7 @@ CREATE TABLE bank_accounts (
 CREATE TABLE companies (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name            VARCHAR(28)         NOT NULL,
-    bank_account_id MEDIUMINT UNSIGNED  NOT NULL,
+    bank_account_id MEDIUMINT UNSIGNED  NULL,
 
     PRIMARY KEY (id),
     UNIQUE (name),
@@ -29,7 +29,7 @@ CREATE TABLE companies (
 CREATE TABLE towns (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name            VARCHAR(28)         NOT NULL,
-    bank_account_id MEDIUMINT UNSIGNED  NOT NULL,
+    bank_account_id MEDIUMINT UNSIGNED  NULL,
 
     PRIMARY KEY (id),
     UNIQUE (name),
@@ -45,7 +45,7 @@ CREATE TABLE users (
     uuid            CHAR(36)            NOT NULL,
     name            VARCHAR(16)         NOT NULL,
     balance         MEDIUMINT UNSIGNED  NOT NULL DEFAULT 0,
-    bank_account_id MEDIUMINT UNSIGNED  NOT NULL,
+    bank_account_id MEDIUMINT UNSIGNED  NULL,
 
     PRIMARY KEY (id),
     UNIQUE (uuid),

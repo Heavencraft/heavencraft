@@ -6,20 +6,22 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.db.users.UpdateUserNameQuery;
 import fr.hc.core.db.users.User;
 import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.exceptions.HeavenException;
 
-public class UsersListener implements Listener
+public class UsersListener extends AbstractBukkitListener
 {
 	private final UserProvider<? extends User> userProvider;
 
-	public UsersListener(UserProvider<? extends User> userProvider)
+	public UsersListener(JavaPlugin plugin, UserProvider<? extends User> userProvider)
 	{
+		super(plugin);
 		this.userProvider = userProvider;
 	}
 

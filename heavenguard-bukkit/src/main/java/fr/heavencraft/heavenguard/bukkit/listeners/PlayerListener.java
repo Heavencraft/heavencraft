@@ -31,6 +31,8 @@ public class PlayerListener extends AbstractBukkitListener
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	private void onPlayerInteract(PlayerInteractEvent event)
 	{
+		log.debug("onPlayerInteract {}", event);
+
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
 			return;
 
@@ -49,6 +51,8 @@ public class PlayerListener extends AbstractBukkitListener
 
 	public void displayRegionAt(Player player, Location location) throws HeavenException
 	{
+		log.debug("displaying region at {} to {}", location, player);
+
 		final String world = location.getWorld().getName();
 		final int x = location.getBlockX();
 		final int y = location.getBlockY();
