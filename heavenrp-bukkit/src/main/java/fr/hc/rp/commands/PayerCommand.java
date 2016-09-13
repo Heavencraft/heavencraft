@@ -17,6 +17,9 @@ import fr.hc.rp.db.bankaccounts.BankAccountMoneyTransfertQuery;
 import fr.hc.rp.db.companies.Company;
 import fr.hc.rp.db.towns.Town;
 import fr.hc.rp.db.users.RPUser;
+import fr.hc.rp.exceptions.CompanyNotFoundException;
+import fr.hc.rp.exceptions.TownNotFoundException;
+import fr.hc.rp.exceptions.UserNotFoundException;
 
 public class PayerCommand extends AbstractCommandExecutor
 {
@@ -61,7 +64,7 @@ public class PayerCommand extends AbstractCommandExecutor
 			throw new HeavenException("Le nombre {%1$s} est incorrect.", args[2]);
 		}
 
-		switch (args[0])
+		switch (args[0].toLowerCase())
 		{
 			case "ville":
 				toTown = plugin.getTownProvider().getTownByName(args[1]);
@@ -71,7 +74,7 @@ public class PayerCommand extends AbstractCommandExecutor
 				}
 				else
 				{
-					throw new HeavenException("La villes {%1$s} n'existe pas.", args[1]);
+					throw new TownNotFoundException(args[1]);
 				}
 				break;
 
@@ -80,7 +83,7 @@ public class PayerCommand extends AbstractCommandExecutor
 
 				if (!optUser.isPresent())
 				{
-					throw new HeavenException("Le joueur {%1$s} n'existe pas.", args[1]);
+					throw new UserNotFoundException(args[1]);
 				}
 				toUser = optUser.get();
 				if (toUser.getName().equals(player.getName()))
@@ -99,7 +102,7 @@ public class PayerCommand extends AbstractCommandExecutor
 				}
 				else
 				{
-					throw new HeavenException("L'entreprise {%1$s} n'existe pas.", args[1]);
+					throw new CompanyNotFoundException(args[1]);
 				}
 				break;
 
