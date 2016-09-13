@@ -1,12 +1,14 @@
-package fr.hc.rp.db.warps;
+package fr.hc.core.db.warps;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Warp
+public abstract class Warp
 {
+	
 	private final int id;
 	private final String name;
+	private final String creator;
 	private final String world;
 	private final double x;
 	private final double y;
@@ -14,12 +16,13 @@ public class Warp
 	private final float yaw;
 	private final float pitch;
 	private final int price;
-	private final int magicpoints;
+	
 	
 	protected Warp(ResultSet rs) throws SQLException
 	{
 		this.id = rs.getInt("id");
 		this.name = rs.getString("name");
+		this.creator = rs.getString("creator");
 		this.world = rs.getString("world");
 		this.x = rs.getDouble("x");
 		this.y = rs.getDouble("y");
@@ -27,32 +30,22 @@ public class Warp
 		this.yaw = rs.getFloat("yaw");
 		this.pitch = rs.getFloat("pitch");
 		this.price = rs.getInt("price");
-		this.magicpoints = rs.getInt("magicpoints");
 	}
-
-	public int getPrice()
-	{
-		return price;
-	}
-
-	public int getMagicpoints()
-	{
-		return magicpoints;
-	}
+	
 
 	public int getId()
 	{
 		return id;
 	}
-	
+
 	public String getName()
 	{
 		return name;
 	}
-	
-	public String getWorldName()
+
+	public String getCreator()
 	{
-		return world;
+		return creator;
 	}
 
 	public double getX()
@@ -79,6 +72,14 @@ public class Warp
 	{
 		return pitch;
 	}
-		
-	
+
+	public int getPrice()
+	{
+		return price;
+	}
+
+	public String getWorldName()
+	{
+		return world;
+	}
 }

@@ -52,3 +52,23 @@ CREATE TABLE users (
     UNIQUE (name),
     FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id)
 );
+
+--
+-- Warps
+--
+CREATE TABLE warps (
+    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(32)         NOT NULL,
+    creator         MEDIUMINT UNSIGNED  NOT NULL,
+    price           INTEGER             NOT NULL,
+    world           VARCHAR(16)         NOT NULL,
+    x               DOUBLE              NOT NULL,
+    y               DOUBLE              NOT NULL,
+    z               DOUBLE              NOT NULL,
+    yaw             FLOAT               NOT NULL,
+    pitch           FLOAT               NOT NULL,
+    
+    PRIMARY KEY (id),
+    UNIQUE (name),
+    FOREIGN KEY (creator) REFERENCES users (id)
+);

@@ -2,3 +2,20 @@ name: HeavenRP
 version: 3.0
 main: fr.hc.rp.BukkitHeavenRP
 depend: [HeavenCore]
+commands:
+ test:
+   description: Commande pour tester de nouvelles fonctionalités.
+   usage: /test
+ spawn:
+   description: Téléporte au spawn.
+   usage: /spawn
+ warp:
+   description: Téléporte a un endroit donné.
+   usage: /warp
+ bourse:
+   description: Informe du solde du porte-monnaie
+   usage: /bourse
+ payer:
+   description: Permet de payer un joueur, une ville ou une entreprise.
+   usage: /payer <ville/joueur/entreprise> <nom> <montant>
+    
