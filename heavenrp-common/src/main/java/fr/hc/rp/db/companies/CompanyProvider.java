@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
-import fr.hc.rp.exceptions.TownNotFoundException;
+import fr.hc.rp.exceptions.CompanyNotFoundException;
 
 public class CompanyProvider
 {
@@ -43,7 +43,7 @@ public class CompanyProvider
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new TownNotFoundException(name);
+				throw new CompanyNotFoundException(name);
 
 			company = new Company(rs);
 			cache.addToCache(company);
