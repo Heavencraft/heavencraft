@@ -43,7 +43,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			userProvider = new RPUserProvider(connectionProvider);
 
 			HeavenGuardInstance.get().setUserProvider(userProvider);
-			new UsersListener(userProvider);
+			new UsersListener(this, userProvider);
 		}
 		catch (final StopServerException ex)
 		{

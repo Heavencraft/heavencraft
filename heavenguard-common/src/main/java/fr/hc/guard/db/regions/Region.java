@@ -21,7 +21,7 @@ import fr.hc.guard.db.RegionProvider;
 
 public class Region
 {
-	private static final String LOAD_MEMBERS = "SELECT id, owner FROM regions_members WHERE region_id = ?;";
+	private static final String LOAD_MEMBERS = "SELECT user_id, owner FROM regions_members WHERE region_id = ?;";
 
 	private static final int NO_PARENT = 0;
 
@@ -69,7 +69,7 @@ public class Region
 			try (ResultSet rs2 = ps.executeQuery())
 			{
 				while (rs2.next())
-					(rs2.getBoolean("owner") ? owners : members).add(rs2.getInt("id"));
+					(rs2.getBoolean("owner") ? owners : members).add(rs2.getInt("user_id"));
 			}
 		}
 

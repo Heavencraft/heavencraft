@@ -104,7 +104,7 @@ public class FlagHandler
 		{
 			final Optional<Region> parent = region.getParent();
 
-			if (parent != null)
+			if (parent.isPresent())
 				return parent.get().getFlagHandler().getFlag(flag, true);
 		}
 

@@ -105,12 +105,12 @@ public class RegionProvider
 		{
 			try (ResultSet rs = ps.executeQuery())
 			{
-				final int count = 0;
+				int count = 0;
 
 				while (rs.next())
 				{
-					final GlobalRegion region = new GlobalRegion(connectionProvider, rs);
-					cache.addToCache(region);
+					++count;
+					cache.addToCache(new GlobalRegion(connectionProvider, rs));
 				}
 
 				log.info("{} global regions loaded from database.", count);
@@ -145,14 +145,14 @@ public class RegionProvider
 			{
 				throw new HeavenException("La region existe déjà");
 			}
-
-			return loadRegion(name);
 		}
 		catch (final SQLException ex)
 		{
 			log.error("Error while executing SQL query '{}'", CREATE_REGION, ex);
 			throw new DatabaseErrorException();
 		}
+
+		return loadRegion(name);
 	}
 
 	public void deleteRegion(String name) throws HeavenException

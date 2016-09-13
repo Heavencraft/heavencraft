@@ -34,11 +34,11 @@ public class BankAccountProvider
 
 	public BankAccount getBankAccountByUser(RPUser user) throws HeavenException
 	{
-		try
+		if (user.hasBankAccount())
 		{
 			return getBankAccountById(user.getBankAccountId());
 		}
-		catch (final BankAccountNotFoundException ex)
+		else
 		{
 			final BankAccount bankAccount = createBankAccount();
 			new SetUserBankAccountQuery(user, bankAccount, plugin.getUserProvider()).schedule();
@@ -48,11 +48,11 @@ public class BankAccountProvider
 
 	public BankAccount getBankAccountByCompany(Company company) throws HeavenException
 	{
-		try
+		if (company.hasBankAccount())
 		{
 			return getBankAccountById(company.getBankAccountId());
 		}
-		catch (final BankAccountNotFoundException ex)
+		else
 		{
 			final BankAccount bankAccount = createBankAccount();
 			new SetCompanyBankAccountQuery(company, bankAccount, plugin.getCompanyProvider()).schedule();
@@ -62,11 +62,11 @@ public class BankAccountProvider
 
 	public BankAccount getBankAccountByTown(Town town) throws HeavenException
 	{
-		try
+		if (town.hasBankAccount())
 		{
 			return getBankAccountById(town.getBankAccountId());
 		}
-		catch (final BankAccountNotFoundException ex)
+		else
 		{
 			final BankAccount bankAccount = createBankAccount();
 			new SetTownBankAccountQuery(town, bankAccount, plugin.getTownProvider()).schedule();

@@ -18,6 +18,12 @@ public abstract class AbstractUser implements User
 	}
 
 	@Override
+	public String toString()
+	{
+		return name;
+	}
+
+	@Override
 	public int getId()
 	{
 		return id;
