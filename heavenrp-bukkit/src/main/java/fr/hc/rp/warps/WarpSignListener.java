@@ -8,11 +8,11 @@ import org.bukkit.event.block.SignChangeEvent;
 
 import fr.hc.core.AbstractSignListener;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.utils.PlayerUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.warps.RPWarp;
-import fr.hc.rp.player.PlayerUtil;
 
 public class WarpSignListener extends AbstractSignListener
 {
