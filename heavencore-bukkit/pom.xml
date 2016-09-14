@@ -66,6 +66,7 @@
 							<include>com.zaxxer:HikariCP</include>
 							<include>org.slf4j:slf4j-api</include>
 							<include>org.slf4j:slf4j-simple</include>
+							<include>org.json:json</include>
 						</includes>
 					</artifactSet>
 				</configuration>
