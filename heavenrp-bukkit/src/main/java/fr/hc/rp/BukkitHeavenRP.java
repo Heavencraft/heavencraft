@@ -7,6 +7,7 @@ import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.users.UsersListener;
 import fr.hc.guard.HeavenGuardInstance;
+import fr.hc.rp.banks.LivretSignListener;
 import fr.hc.rp.commands.BourseCommand;
 import fr.hc.rp.commands.PayerCommand;
 import fr.hc.rp.commands.SpawnCommand;
@@ -60,6 +61,10 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			new BourseCommand(this);
 			new PayerCommand(this);
 
+			// Bank
+			new LivretSignListener(this);
+			
+			// Warps
 			new WarpSignListener(this);
 		}
 		catch (final StopServerException ex)
