@@ -3,6 +3,7 @@ package fr.hc.rp;
 import org.bukkit.Bukkit;
 
 import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.HeavenCoreInstance;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.users.UsersListener;
@@ -52,6 +53,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			userProvider = new RPUserProvider(connectionProvider);
 			warpProvider = new RPWarpProvider(connectionProvider);
 
+			HeavenCoreInstance.get().setUserProvider(userProvider);
 			HeavenGuardInstance.get().setUserProvider(userProvider);
 			new UsersListener(this, userProvider);
 
@@ -63,7 +65,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 
 			// Bank
 			new LivretSignListener(this);
-			
+
 			// Warps
 			new WarpSignListener(this);
 		}

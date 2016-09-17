@@ -8,6 +8,9 @@ import fr.hc.core.commands.RoucoupsCommand;
 import fr.hc.core.commands.SpectatorCommand;
 import fr.hc.core.connection.ConnectionProviderFactory;
 import fr.hc.core.connection.HikariConnectionProviderFactory;
+import fr.hc.core.db.homes.HomeProvider;
+import fr.hc.core.db.users.UserProvider;
+import fr.hc.core.db.users.home.UserWithHome;
 import fr.hc.core.tasks.TaskManager;
 import fr.hc.core.tasks.async.AsyncTaskExecutor;
 import fr.hc.core.tasks.sync.BukkitSyncTaskExecutor;
@@ -15,6 +18,8 @@ import fr.hc.core.tasks.sync.BukkitSyncTaskExecutor;
 public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 {
 	private final ConnectionProviderFactory connectionProviderFactory = new HikariConnectionProviderFactory();
+	private HomeProvider homeProvider;
+	private UserProvider<? extends UserWithHome> userProvider;
 	private TaskManager taskManager;
 
 	public BukkitHeavenCore()
@@ -40,6 +45,24 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 	public ConnectionProviderFactory getConnectionProviderFactory()
 	{
 		return connectionProviderFactory;
+	}
+
+	@Override
+	public HomeProvider getHomeProvider()
+	{
+		return homeProvider;
+	}
+
+	@Override
+	public UserProvider<? extends UserWithHome> getUserProvider()
+	{
+		return userProvider;
+	}
+
+	@Override
+	public void setUserProvider(UserProvider<? extends UserWithHome> userProvider)
+	{
+		this.userProvider = userProvider;
 	}
 
 	@Override
