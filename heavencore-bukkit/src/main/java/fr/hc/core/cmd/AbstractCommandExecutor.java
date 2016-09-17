@@ -1,4 +1,4 @@
-package fr.hc.core;
+package fr.hc.core.cmd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
 

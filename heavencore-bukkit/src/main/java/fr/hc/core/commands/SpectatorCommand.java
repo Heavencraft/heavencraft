@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.AbstractBukkitPlugin;
-import fr.hc.core.AbstractCommandExecutor;
+import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;

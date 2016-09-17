@@ -14,13 +14,13 @@ public class SetCompanyBankAccountQuery implements Query
 
 	private final Company company;
 	private final BankAccount bankAccount;
-	private final CompanyProvider companyProvider;
+	private final CompanyProvider provider;
 
-	public SetCompanyBankAccountQuery(Company company, BankAccount bankAccount, CompanyProvider companyProvider)
+	public SetCompanyBankAccountQuery(Company company, BankAccount bankAccount, CompanyProvider provider)
 	{
 		this.company = company;
 		this.bankAccount = bankAccount;
-		this.companyProvider = companyProvider;
+		this.provider = provider;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class SetCompanyBankAccountQuery implements Query
 		if (company.getBankAccountId() == bankAccount.getId())
 			return; // Nothing to do
 
-		try (Connection connection = companyProvider.getConnectionProvider().getConnection();
+		try (Connection connection = provider.getConnectionProvider().getConnection();
 				PreparedStatement ps = connection.prepareStatement(QUERY))
 		{
 			ps.setInt(1, bankAccount.getId());
@@ -38,7 +38,7 @@ public class SetCompanyBankAccountQuery implements Query
 			System.out.println("Executing query " + ps);
 			ps.executeUpdate();
 
-			companyProvider.invalidateCache(company);
+			provider.invalidateCache(company);
 		}
 	}
 }

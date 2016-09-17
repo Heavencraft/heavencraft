@@ -4,14 +4,14 @@ import org.bukkit.command.CommandSender;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 
-public class RemoveSubCommand extends AbstractSubCommand
+public class RemoveSubCommand extends HeavenGuardSubCommand
 {
-	public RemoveSubCommand(BukkitHeavenGuard plugin)
+	public RemoveSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.REMOVE_COMMAND);
+		super(HeavenGuardPermissions.REMOVE_COMMAND);
 	}
 
 	@Override

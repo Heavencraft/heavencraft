@@ -14,16 +14,16 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 import fr.hc.guard.db.regions.Region;
 import fr.hc.guard.exceptions.RegionNotFoundException;
 
-public class SelectSubCommand extends AbstractSubCommand
+public class SelectSubCommand extends HeavenGuardSubCommand
 {
-	public SelectSubCommand(BukkitHeavenGuard plugin)
+	public SelectSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.SELECT_COMMAND);
+		super(HeavenGuardPermissions.SELECT_COMMAND);
 	}
 
 	@Override

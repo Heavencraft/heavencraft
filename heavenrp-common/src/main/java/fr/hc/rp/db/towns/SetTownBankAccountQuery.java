@@ -14,13 +14,13 @@ public class SetTownBankAccountQuery implements Query
 
 	private final Town town;
 	private final BankAccount bankAccount;
-	private final TownProvider townProvider;
+	private final TownProvider provider;
 
-	public SetTownBankAccountQuery(Town town, BankAccount bankAccount, TownProvider townProvider)
+	public SetTownBankAccountQuery(Town town, BankAccount bankAccount, TownProvider provider)
 	{
 		this.town = town;
 		this.bankAccount = bankAccount;
-		this.townProvider = townProvider;
+		this.provider = provider;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class SetTownBankAccountQuery implements Query
 		if (town.getBankAccountId() == bankAccount.getId())
 			return; // Nothing to do
 
-		try (Connection connection = townProvider.getConnectionProvider().getConnection();
+		try (Connection connection = provider.getConnectionProvider().getConnection();
 				PreparedStatement ps = connection.prepareStatement(QUERY))
 		{
 			ps.setInt(1, bankAccount.getId());
@@ -38,7 +38,7 @@ public class SetTownBankAccountQuery implements Query
 			System.out.println("Executing query " + ps);
 			ps.executeUpdate();
 
-			townProvider.invalidateCache(town);
+			provider.invalidateCache(town);
 		}
 	}
 }
