@@ -10,11 +10,11 @@ public interface HeavenCore
 {
 	ConnectionProviderFactory getConnectionProviderFactory();
 
+	void setReferencePlugin(ReferencePlugin reference);
+
 	HomeProvider getHomeProvider();
 
 	UserProvider<? extends UserWithHome> getUserProvider();
-
-	void setUserProvider(UserProvider<? extends UserWithHome> userProvider);
 
 	TaskManager getTaskManager();
 }

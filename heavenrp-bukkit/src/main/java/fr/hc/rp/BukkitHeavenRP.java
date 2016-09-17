@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 
 import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.HeavenCoreInstance;
+import fr.hc.core.ReferencePlugin;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.users.UsersListener;
@@ -22,7 +23,7 @@ import fr.hc.rp.db.warps.RPWarpProvider;
 import fr.hc.rp.warps.WarpCommandExecutor;
 import fr.hc.rp.warps.WarpSignListener;
 
-public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
+public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP, ReferencePlugin
 {
 	private ConnectionProvider connectionProvider;
 
@@ -54,7 +55,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP
 			userProvider = new RPUserProvider(connectionProvider);
 			warpProvider = new RPWarpProvider(connectionProvider);
 
-			HeavenCoreInstance.get().setUserProvider(userProvider);
+			HeavenCoreInstance.get().setReferencePlugin(this);
 			HeavenGuardInstance.get().setUserProvider(userProvider);
 			new UsersListener(this, userProvider);
 
