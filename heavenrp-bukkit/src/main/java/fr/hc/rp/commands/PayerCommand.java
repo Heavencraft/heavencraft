@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.exceptions.UserNotFoundException;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
@@ -18,7 +19,6 @@ import fr.hc.rp.db.towns.Town;
 import fr.hc.rp.db.users.RPUser;
 import fr.hc.rp.exceptions.CompanyNotFoundException;
 import fr.hc.rp.exceptions.TownNotFoundException;
-import fr.hc.rp.exceptions.UserNotFoundException;
 
 public class PayerCommand extends AbstractCommandExecutor
 {
