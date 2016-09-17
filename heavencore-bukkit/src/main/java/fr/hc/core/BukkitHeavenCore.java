@@ -33,12 +33,20 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 		super.onEnable();
 
 		taskManager = new TaskManager(new BukkitSyncTaskExecutor(), new AsyncTaskExecutor());
+
 		new CreacheatCommand(this);
 		new EndercheatCommand(this);
 		new HealCommand(this);
 		new InventoryCommand(this);
 		new RoucoupsCommand(this);
 		new SpectatorCommand(this);
+	}
+
+	@Override
+	public void setReferencePlugin(ReferencePlugin reference)
+	{
+		homeProvider = new HomeProvider(reference.getConnectionProvider());
+		userProvider = reference.getUserProvider();
 	}
 
 	@Override
@@ -57,12 +65,6 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 	public UserProvider<? extends UserWithHome> getUserProvider()
 	{
 		return userProvider;
-	}
-
-	@Override
-	public void setUserProvider(UserProvider<? extends UserWithHome> userProvider)
-	{
-		this.userProvider = userProvider;
 	}
 
 	@Override
