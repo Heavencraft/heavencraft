@@ -15,6 +15,7 @@ import fr.hc.core.db.users.User;
 import fr.hc.core.db.users.home.UserWithHome;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
+import fr.hc.core.utils.chat.ChatUtil;
 
 public class HomeCommand extends AbstractCommandExecutor
 {
@@ -30,21 +31,26 @@ public class HomeCommand extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		if (args.length != 1)
-		{
-			sendUsage(player);
-			return;
-		}
-
 		int number;
 
-		try
+		switch (args.length)
 		{
-			number = Integer.parseInt(args[0]);
-		}
-		catch (final NumberFormatException ex)
-		{
-			throw new HeavenException("Le nombre {%1$s} est incorrect.", args[2]);
+			case 0:
+				number = 1;
+				break;
+			case 1:
+				try
+				{
+					number = Integer.parseInt(args[0]);
+				}
+				catch (final NumberFormatException ex)
+				{
+					throw new HeavenException("Le nombre {%1$s} est incorrect.", args[0]);
+				}
+				break;
+			default:
+				sendUsage(player);
+				return;
 		}
 
 		final Optional<? extends UserWithHome> optUser = core.getUserProvider().getUserByUniqueId(player.getUniqueId());
@@ -52,12 +58,13 @@ public class HomeCommand extends AbstractCommandExecutor
 		final Optional<Home> optHome = core.getHomeProvider().getHomeByUserAndNumber(user, number);
 
 		if (!optHome.isPresent())
-			throw new HeavenException("Vous ne possédez pas le home demandé.");
+			throw new HeavenException("Vous ne possédez pas le home demandé. Faites {/buyhome} pour l'acquérir");
 
 		Location location = new Location(Bukkit.getWorld(optHome.get().getWorld()), optHome.get().getX(),
-				optHome.get().getY(), optHome.get().getZ());
+				optHome.get().getY(), optHome.get().getZ(), optHome.get().getYaw(), optHome.get().getPitch());
 
 		PlayerUtil.teleportPlayer(player, location);
+		ChatUtil.sendMessage(player, "Téléportation au home {%1$s} effectuée!", number);
 	}
 
 	@Override
