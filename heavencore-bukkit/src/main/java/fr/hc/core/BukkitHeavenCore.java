@@ -3,6 +3,7 @@ package fr.hc.core;
 import fr.hc.core.commands.CreacheatCommand;
 import fr.hc.core.commands.EndercheatCommand;
 import fr.hc.core.commands.HealCommand;
+import fr.hc.core.commands.HomeCommand;
 import fr.hc.core.commands.InventoryCommand;
 import fr.hc.core.commands.RoucoupsCommand;
 import fr.hc.core.commands.SpectatorCommand;
@@ -11,6 +12,8 @@ import fr.hc.core.connection.HikariConnectionProviderFactory;
 import fr.hc.core.db.homes.HomeProvider;
 import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.db.users.home.UserWithHome;
+import fr.hc.core.listeners.CookieSignListener;
+import fr.hc.core.listeners.RedstoneLampListener;
 import fr.hc.core.tasks.TaskManager;
 import fr.hc.core.tasks.async.AsyncTaskExecutor;
 import fr.hc.core.tasks.sync.BukkitSyncTaskExecutor;
@@ -33,7 +36,10 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 		super.onEnable();
 
 		taskManager = new TaskManager(new BukkitSyncTaskExecutor(), new AsyncTaskExecutor());
+		new CookieSignListener(this);
+		new RedstoneLampListener(this);
 
+		new HomeCommand(this);
 		new CreacheatCommand(this);
 		new EndercheatCommand(this);
 		new HealCommand(this);
