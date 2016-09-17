@@ -21,3 +21,6 @@ commands:
  spectator:
   usage: /spectator
   description: Active/Désactive le Gamemode 3
+ home:
+  usage: /home <nombre>
+  description: Téléporte à un home
