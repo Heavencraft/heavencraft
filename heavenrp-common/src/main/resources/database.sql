@@ -8,7 +8,7 @@ CREATE TABLE bank_accounts (
     PRIMARY KEY (id)
 );
 
-
+INSERT INTO bank_accounts (id, balance) VALUES ('1', '1000');
 
 --
 -- Companies
@@ -23,6 +23,8 @@ CREATE TABLE companies (
     UNIQUE (name),
     FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id)
 );
+
+INSERT INTO companies (id, name, bank_account_id) VALUES ('1', 'Heavencraft', '1');
 
 --
 -- Users
