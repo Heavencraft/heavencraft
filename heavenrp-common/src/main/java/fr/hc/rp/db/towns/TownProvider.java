@@ -16,6 +16,7 @@ import fr.hc.rp.exceptions.TownNotFoundException;
 public class TownProvider
 {
 	private static final String SELECT_TOWN_BY_NAME = "SELECT * FROM towns WHERE name = ? LIMIT 1;";
+	private static final String SELECT_MAYORS_BY_TOWN_ID = "SELECT user_id FROM towns_users WHERE town_id = ?;";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -46,6 +47,16 @@ public class TownProvider
 				throw new TownNotFoundException(name);
 
 			town = new Town(rs);
+
+			try (PreparedStatement ps2 = connection.prepareStatement(SELECT_MAYORS_BY_TOWN_ID))
+			{
+				ps2.setInt(1, town.getId());
+
+				final ResultSet rs2 = ps.executeQuery();
+				while (rs2.next())
+					town.addMayor(rs2.getInt("user_id"));
+			}
+
 			cache.addToCache(town);
 			return town;
 		}

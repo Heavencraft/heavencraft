@@ -8,25 +8,13 @@ CREATE TABLE bank_accounts (
     PRIMARY KEY (id)
 );
 
+
+
 --
 -- Companies
 --
 
 CREATE TABLE companies (
-    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(28)         NOT NULL,
-    bank_account_id MEDIUMINT UNSIGNED  NULL,
-
-    PRIMARY KEY (id),
-    UNIQUE (name),
-    FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id)
-);
-
---
--- Towns
---
-
-CREATE TABLE towns (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name            VARCHAR(28)         NOT NULL,
     bank_account_id MEDIUMINT UNSIGNED  NULL,
@@ -72,6 +60,29 @@ CREATE TABLE homes (
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
+--
+-- Towns
+--
+
+CREATE TABLE towns (
+    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(28)         NOT NULL,
+    bank_account_id MEDIUMINT UNSIGNED  NULL,
+
+    PRIMARY KEY (id),
+    UNIQUE (name),
+    FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id)
+);
+
+CREATE TABLE towns_users (
+    town_id         MEDIUMINT UNSIGNED  NOT NULL,
+    user_id         MEDIUMINT UNSIGNED  NOT NULL,
+
+    PRIMARY KEY (town_id, user_id),
+    FOREIGN KEY (town_id) REFERENCES towns (id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+    
 --
 -- Warps
 --
