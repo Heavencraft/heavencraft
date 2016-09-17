@@ -48,7 +48,7 @@ CREATE TABLE users (
 
 CREATE TABLE homes (
     user_id         MEDIUMINT UNSIGNED  NOT NULL,
-    home_nb         TINYINT UNSIGNED    NOT NULL,
+    home_number     TINYINT UNSIGNED    NOT NULL,
     world           VARCHAR(16)         NOT NULL,
     x               DOUBLE              NOT NULL,
     y               DOUBLE              NOT NULL,

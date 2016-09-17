@@ -20,9 +20,6 @@ public class HomeCommand extends AbstractCommandExecutor
 {
 
 	private final HeavenCore core;
-	private User user;
-	private int number;
-	private Home home;
 
 	public HomeCommand(BukkitHeavenCore plugin)
 	{
@@ -39,6 +36,8 @@ public class HomeCommand extends AbstractCommandExecutor
 			return;
 		}
 
+		int number;
+
 		try
 		{
 			number = Integer.parseInt(args[0]);
@@ -49,16 +48,14 @@ public class HomeCommand extends AbstractCommandExecutor
 		}
 
 		final Optional<? extends UserWithHome> optUser = core.getUserProvider().getUserByUniqueId(player.getUniqueId());
-		user = optUser.get();
-		System.out.println(core.toString());
-		System.out.println(user.toString());
+		final User user = optUser.get();
 		final Optional<Home> optHome = core.getHomeProvider().getHomeByUserAndNumber(user, number);
 
 		if (!optHome.isPresent())
 			throw new HeavenException("Vous ne possédez pas le home demandé.");
 
-		home = optHome.get();
-		Location location = new Location(Bukkit.getWorld(home.getWorld()), home.getX(), home.getY(), home.getZ());
+		Location location = new Location(Bukkit.getWorld(optHome.get().getWorld()), optHome.get().getX(),
+				optHome.get().getY(), optHome.get().getZ());
 
 		PlayerUtil.teleportPlayer(player, location);
 	}

@@ -17,7 +17,7 @@ public class Home
 	protected Home(ResultSet rs) throws SQLException
 	{
 		userId = rs.getInt("user_id");
-		homeNumber = rs.getInt("home_nb");
+		homeNumber = rs.getInt("home_number");
 		world = rs.getString("world");
 		x = rs.getDouble("x");
 		y = rs.getDouble("y");
