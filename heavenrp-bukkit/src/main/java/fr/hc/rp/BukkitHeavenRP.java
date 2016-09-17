@@ -20,6 +20,8 @@ import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
 import fr.hc.rp.db.warps.RPWarpProvider;
+import fr.hc.rp.listeners.FirstSpawnListener;
+import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
 import fr.hc.rp.warps.WarpSignListener;
 
@@ -58,6 +60,8 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP, Re
 			HeavenCoreInstance.get().setReferencePlugin(this);
 			HeavenGuardInstance.get().setUserProvider(userProvider);
 			new UsersListener(this, userProvider);
+			new FirstSpawnListener(this);
+			new RespawnListener(this);
 
 			new TestCommand(this);
 			new WarpCommandExecutor(this);
