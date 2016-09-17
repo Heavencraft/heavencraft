@@ -27,3 +27,6 @@ commands:
  sethome:
   usage: /sethome <id>
   description: Définie la position d'un home.
+ buyhome:
+  usage: /buyhome
+  description: Achète un home en plus.

@@ -15,7 +15,7 @@ public class IncrementHomeNumberQuery implements Query
 	private final UserWithHome user;
 	private final UserProvider<? extends UserWithHome> provider;
 
-	public IncrementHomeNumberQuery(UserWithHome user, UserProvider<UserWithHome> provider)
+	public IncrementHomeNumberQuery(UserWithHome user, UserProvider<? extends UserWithHome> provider)
 	{
 		this.user = user;
 		this.provider = provider;

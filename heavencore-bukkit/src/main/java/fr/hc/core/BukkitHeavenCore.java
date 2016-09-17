@@ -1,5 +1,6 @@
 package fr.hc.core;
 
+import fr.hc.core.commands.BuyHomeCommand;
 import fr.hc.core.commands.CreacheatCommand;
 import fr.hc.core.commands.EndercheatCommand;
 import fr.hc.core.commands.HealCommand;
@@ -42,6 +43,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 
 		new HomeCommand(this);
 		new SetHomeCommand(this);
+		new BuyHomeCommand(this);
 		new CreacheatCommand(this);
 		new EndercheatCommand(this);
 		new HealCommand(this);
