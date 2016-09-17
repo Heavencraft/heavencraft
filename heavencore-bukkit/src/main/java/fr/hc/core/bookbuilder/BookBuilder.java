@@ -1,4 +1,4 @@
-package api.bookbuilder;
+package fr.hc.core.bookbuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +43,8 @@ public class BookBuilder
 
 	public ItemStack build()
 	{
-		ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
-		BookMeta meta = (BookMeta) book.getItemMeta();
+		final ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+		final BookMeta meta = (BookMeta) book.getItemMeta();
 		if (title != null)
 			meta.setTitle(title);
 		meta.setAuthor(HEAVENCRAFT);

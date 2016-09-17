@@ -6,12 +6,11 @@ import java.util.Optional;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
+import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
-import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.bankaccounts.BankAccount;
 import fr.hc.rp.db.bankaccounts.BankAccountMoneyTransfertQuery;
 import fr.hc.rp.db.companies.Company;
@@ -23,11 +22,13 @@ import fr.hc.rp.exceptions.UserNotFoundException;
 
 public class PayerCommand extends AbstractCommandExecutor
 {
-	private final HeavenRP plugin = HeavenRPInstance.get();
+	private final HeavenRP plugin;;
 
-	public PayerCommand(AbstractBukkitPlugin plugin)
+	public PayerCommand(BukkitHeavenRP plugin)
 	{
 		super(plugin, "payer");
+
+		this.plugin = plugin;
 	}
 
 	@Override
@@ -115,7 +116,7 @@ public class PayerCommand extends AbstractCommandExecutor
 		{
 			new BankAccountMoneyTransfertQuery(fromBankAccount, toBankAccount, delta).executeQuery();
 		}
-		catch (SQLException e)
+		catch (final SQLException e)
 		{
 			throw new HeavenException(e.getMessage());
 		}

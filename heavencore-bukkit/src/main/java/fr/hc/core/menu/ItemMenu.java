@@ -1,4 +1,4 @@
-package api.menu;
+package fr.hc.core.menu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,12 +17,12 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.AbstractBukkitPlugin;
 
 public class ItemMenu extends AbstractBukkitListener
 {
-
 	private static HashMap<UUID, ItemMenu> activeMenus = new HashMap<>();
 
 	private final String title;
@@ -106,7 +106,7 @@ public class ItemMenu extends AbstractBukkitListener
 	 */
 	public void open(Player p)
 	{
-		Inventory inv = Bukkit.createInventory(p, this.size, this.title);
+		final Inventory inv = Bukkit.createInventory(p, this.size, this.title);
 		// Build menu
 		for (int i = 0; i < icons.size(); i++)
 		{
@@ -196,7 +196,7 @@ public class ItemMenu extends AbstractBukkitListener
 			return;
 
 		// Is it our inventory?
-		ItemMenu activeMenu = ItemMenu.activeMenus.get(p.getUniqueId());
+		final ItemMenu activeMenu = ItemMenu.activeMenus.get(p.getUniqueId());
 		if (activeMenu != null && activeMenu == this)
 		{
 			ItemMenu.activeMenus.remove(p.getUniqueId());
@@ -214,7 +214,7 @@ public class ItemMenu extends AbstractBukkitListener
 	 */
 	protected ItemStack setItemNameAndLore(ItemStack item, String name, String[] lore)
 	{
-		ItemMeta im = item.getItemMeta();
+		final ItemMeta im = item.getItemMeta();
 		im.setDisplayName(name);
 		im.setLore(Arrays.asList(lore));
 		item.setItemMeta(im);

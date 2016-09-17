@@ -31,7 +31,7 @@ public abstract class AbstractBankAccountSignListener extends AbstractSignListen
 	@Override
 	protected boolean onSignPlace(Player player, SignChangeEvent event) throws HeavenException
 	{
-		String line = event.getLine(1);
+		final String line = event.getLine(1);
 
 		if (line.equalsIgnoreCase(CONSULT))
 		{
@@ -62,7 +62,7 @@ public abstract class AbstractBankAccountSignListener extends AbstractSignListen
 	@Override
 	protected void onSignClick(Player player, Sign sign) throws HeavenException
 	{
-		String line = sign.getLine(1);
+		final String line = sign.getLine(1);
 
 		if (line.equals(BLUE_CONSULT))
 		{
@@ -95,5 +95,4 @@ public abstract class AbstractBankAccountSignListener extends AbstractSignListen
 	protected abstract void onWithdrawSignClick(Player player) throws HeavenException;
 
 	protected abstract void onStatementSignClick(Player player) throws HeavenException;
-
 }
