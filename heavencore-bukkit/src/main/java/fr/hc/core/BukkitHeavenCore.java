@@ -6,6 +6,7 @@ import fr.hc.core.commands.HealCommand;
 import fr.hc.core.commands.HomeCommand;
 import fr.hc.core.commands.InventoryCommand;
 import fr.hc.core.commands.RoucoupsCommand;
+import fr.hc.core.commands.SetHomeCommand;
 import fr.hc.core.commands.SpectatorCommand;
 import fr.hc.core.connection.ConnectionProviderFactory;
 import fr.hc.core.connection.HikariConnectionProviderFactory;
@@ -40,6 +41,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 		new RedstoneLampListener(this);
 
 		new HomeCommand(this);
+		new SetHomeCommand(this);
 		new CreacheatCommand(this);
 		new EndercheatCommand(this);
 		new HealCommand(this);

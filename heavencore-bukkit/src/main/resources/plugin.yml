@@ -24,3 +24,6 @@ commands:
  home:
   usage: /home <nombre>
   description: Téléporte à un home
+ sethome:
+  usage: /sethome <id>
+  description: Définie la position d'un home.
