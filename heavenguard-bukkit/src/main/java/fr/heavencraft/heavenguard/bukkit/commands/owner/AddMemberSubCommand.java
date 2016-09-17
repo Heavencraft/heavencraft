@@ -8,7 +8,6 @@ import fr.hc.core.db.users.User;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
 import fr.hc.guard.db.regions.AddMemberQuery;
 import fr.hc.guard.db.regions.Region;
@@ -16,9 +15,9 @@ import fr.hc.guard.exceptions.RegionNotFoundException;
 
 public class AddMemberSubCommand extends AbstractOwnerSubCommand
 {
-	public AddMemberSubCommand(BukkitHeavenGuard plugin)
+	public AddMemberSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.ADDMEMBER_COMMAND);
+		super(HeavenGuardPermissions.ADDMEMBER_COMMAND);
 	}
 
 	@Override

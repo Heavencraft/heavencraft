@@ -8,7 +8,8 @@ public class BankAccount
 	private final int id;
 	private final int balance;
 
-	public BankAccount(int generatedId)
+	// Available from package only
+	BankAccount(int generatedId)
 	{
 		id = generatedId;
 		balance = 0;

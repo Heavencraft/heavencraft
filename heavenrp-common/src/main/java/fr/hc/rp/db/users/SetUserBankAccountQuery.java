@@ -14,13 +14,13 @@ public class SetUserBankAccountQuery implements Query
 
 	private final RPUser user;
 	private final BankAccount bankAccount;
-	private final RPUserProvider userProvider;
+	private final RPUserProvider provider;
 
-	public SetUserBankAccountQuery(RPUser user, BankAccount bankAccount, RPUserProvider userProvider)
+	public SetUserBankAccountQuery(RPUser user, BankAccount bankAccount, RPUserProvider provider)
 	{
 		this.user = user;
 		this.bankAccount = bankAccount;
-		this.userProvider = userProvider;
+		this.provider = provider;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class SetUserBankAccountQuery implements Query
 		if (user.getBankAccountId() == bankAccount.getId())
 			return; // Nothing to do
 
-		try (Connection connection = userProvider.getConnectionProvider().getConnection();
+		try (Connection connection = provider.getConnectionProvider().getConnection();
 				PreparedStatement ps = connection.prepareStatement(QUERY))
 		{
 			ps.setInt(1, bankAccount.getId());
@@ -38,7 +38,7 @@ public class SetUserBankAccountQuery implements Query
 			System.out.println("Executing query " + ps);
 			ps.executeUpdate();
 
-			userProvider.invalidateCache(user);
+			provider.invalidateCache(user);
 		}
 	}
 }

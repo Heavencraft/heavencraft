@@ -6,17 +6,17 @@ import org.bukkit.command.CommandSender;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
 import fr.hc.guard.RegionUtil;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 import fr.hc.guard.db.regions.Region;
 import fr.hc.guard.exceptions.RegionNotFoundException;
 
-public class SavestateSubCommand extends AbstractSubCommand
+public class SavestateSubCommand extends HeavenGuardSubCommand
 {
-	public SavestateSubCommand(BukkitHeavenGuard plugin)
+	public SavestateSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.SAVESTATE_COMMAND);
+		super(HeavenGuardPermissions.SAVESTATE_COMMAND);
 	}
 
 	@Override

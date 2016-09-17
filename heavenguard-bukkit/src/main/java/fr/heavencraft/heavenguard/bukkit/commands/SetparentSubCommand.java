@@ -6,17 +6,17 @@ import org.bukkit.command.CommandSender;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 import fr.hc.guard.db.regions.Region;
 import fr.hc.guard.db.regions.SetParentQuery;
 import fr.hc.guard.exceptions.RegionNotFoundException;
 
-public class SetparentSubCommand extends AbstractSubCommand
+public class SetparentSubCommand extends HeavenGuardSubCommand
 {
-	public SetparentSubCommand(BukkitHeavenGuard plugin)
+	public SetparentSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.SETPARENT_COMMAND);
+		super(HeavenGuardPermissions.SETPARENT_COMMAND);
 	}
 
 	@Override

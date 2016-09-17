@@ -11,17 +11,17 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 import fr.hc.guard.db.regions.RedefineQuery;
 import fr.hc.guard.db.regions.Region;
 import fr.hc.guard.exceptions.RegionNotFoundException;
 
-public class RedefineSubCommand extends AbstractSubCommand
+public class RedefineSubCommand extends HeavenGuardSubCommand
 {
-	public RedefineSubCommand(BukkitHeavenGuard plugin)
+	public RedefineSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.REDEFINE_COMMAND);
+		super(HeavenGuardPermissions.REDEFINE_COMMAND);
 	}
 
 	@Override

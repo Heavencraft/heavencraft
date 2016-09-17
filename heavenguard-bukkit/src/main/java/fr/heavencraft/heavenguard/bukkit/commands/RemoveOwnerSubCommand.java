@@ -8,17 +8,17 @@ import fr.hc.core.db.users.User;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.guard.BukkitHeavenGuard;
 import fr.hc.guard.HeavenGuardPermissions;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 import fr.hc.guard.db.regions.Region;
 import fr.hc.guard.db.regions.RemoveMemberQuery;
 import fr.hc.guard.exceptions.RegionNotFoundException;
 
-public class RemoveOwnerSubCommand extends AbstractSubCommand
+public class RemoveOwnerSubCommand extends HeavenGuardSubCommand
 {
-	public RemoveOwnerSubCommand(BukkitHeavenGuard plugin)
+	public RemoveOwnerSubCommand()
 	{
-		super(plugin, HeavenGuardPermissions.REMOVEOWNER_COMMAND);
+		super(HeavenGuardPermissions.REMOVEOWNER_COMMAND);
 	}
 
 	@Override

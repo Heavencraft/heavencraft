@@ -8,15 +8,14 @@ import org.bukkit.entity.Player;
 
 import fr.hc.core.db.users.User;
 import fr.hc.core.exceptions.HeavenException;
-import fr.hc.guard.BukkitHeavenGuard;
+import fr.hc.guard.cmd.HeavenGuardSubCommand;
 import fr.hc.guard.db.regions.Region;
-import fr.heavencraft.heavenguard.bukkit.commands.AbstractSubCommand;
 
-abstract class AbstractOwnerSubCommand extends AbstractSubCommand
+abstract class AbstractOwnerSubCommand extends HeavenGuardSubCommand
 {
-	protected AbstractOwnerSubCommand(BukkitHeavenGuard plugin, String permission)
+	protected AbstractOwnerSubCommand(String permission)
 	{
-		super(plugin, permission);
+		super(permission);
 	}
 
 	@Override
