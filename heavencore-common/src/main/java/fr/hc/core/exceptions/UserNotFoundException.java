@@ -6,18 +6,20 @@ public class UserNotFoundException extends HeavenException
 {
 	private static final long serialVersionUID = 1L;
 
+	public static final String MESSAGE = "Le joueur {%1$s} n'existe pas.";
+
 	public UserNotFoundException(int id)
 	{
-		super("Le joueur {%1$s} n'existe pas.", id);
+		super(MESSAGE, id);
 	}
 
 	public UserNotFoundException(UUID uuid)
 	{
-		super("Le joueur {%1$s} n'existe pas.", uuid);
+		super(MESSAGE, uuid);
 	}
 
 	public UserNotFoundException(String name)
 	{
-		super("Le joueur {%1$s} n'existe pas.", name);
+		super(MESSAGE, name);
 	}
 }

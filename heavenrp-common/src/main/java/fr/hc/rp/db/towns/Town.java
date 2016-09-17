@@ -54,4 +54,9 @@ public class Town
 	{
 		return mayors.contains(user.getId());
 	}
+
+	public Collection<Integer> getMayors()
+	{
+		return mayors;
+	}
 }
