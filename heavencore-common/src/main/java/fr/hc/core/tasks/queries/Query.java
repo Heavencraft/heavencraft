@@ -15,7 +15,7 @@ public interface Query extends AsyncTask
 		{
 			executeQuery();
 		}
-		catch (SQLException ex)
+		catch (final SQLException ex)
 		{
 			ex.printStackTrace();
 			throw new DatabaseErrorException();

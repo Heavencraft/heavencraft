@@ -10,7 +10,7 @@ import fr.hc.rp.HeavenRPInstance;
 
 public class UpdateBankAccountBalanceQuery implements Query
 {
-	private static final String QUERY = "UPDATE bank_accounts SET balance = balance + ? WHERE id = ? AND balance + ? >= 0 LIMIT 1;";
+	private static final String QUERY = "UPDATE bank_accounts SET balance = balance + ? WHERE id = ? AND CAST(balance AS SIGNED) + ? >= 0 LIMIT 1;";
 
 	private final BankAccountProvider bankAccountProvider = HeavenRPInstance.get().getBankAccountProvider();
 
