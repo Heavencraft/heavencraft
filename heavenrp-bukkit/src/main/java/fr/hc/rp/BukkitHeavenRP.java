@@ -22,7 +22,8 @@ import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
 import fr.hc.rp.warps.WarpSignListener;
 import fr.hc.rp.worlds.PortalListener;
-import fr.hc.rp.worlds.WorldManager;
+import fr.hc.rp.worlds.WorldsListener;
+import fr.hc.rp.worlds.WorldsManager;
 
 public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements HeavenRP, ReferencePlugin
 {
@@ -53,7 +54,8 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		HeavenCoreInstance.get().setReferencePlugin(this);
 		HeavenGuardInstance.get().setUserProvider(userProvider);
 
-		WorldManager.init();
+		WorldsManager.init();
+		new WorldsListener(this);
 
 		new PortalListener(this);
 		new UsersListener(this, userProvider);

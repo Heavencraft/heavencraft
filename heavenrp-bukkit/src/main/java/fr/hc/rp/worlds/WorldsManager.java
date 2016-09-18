@@ -11,8 +11,10 @@ import org.bukkit.block.Biome;
 
 import fr.hc.core.utils.WorldUtils;
 
-public class WorldManager
+public class WorldsManager
 {
+	public static final int RESOURCES_SIZE = 5000;
+
 	private static Location _spawn;
 	private static Location _spawnNether;
 	private static Location _spawnTheEnd;

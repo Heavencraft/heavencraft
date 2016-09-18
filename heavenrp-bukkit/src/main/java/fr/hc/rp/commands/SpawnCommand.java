@@ -8,7 +8,7 @@ import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.rp.worlds.WorldManager;
+import fr.hc.rp.worlds.WorldsManager;
 
 public class SpawnCommand extends AbstractCommandExecutor
 {
@@ -28,7 +28,7 @@ public class SpawnCommand extends AbstractCommandExecutor
 			return;
 		}
 
-		PlayerUtil.teleportPlayer(player, WorldManager.getSpawn());
+		PlayerUtil.teleportPlayer(player, WorldsManager.getSpawn());
 		ChatUtil.sendMessage(player, SUCCESS_MESSAGE);
 	}
 
