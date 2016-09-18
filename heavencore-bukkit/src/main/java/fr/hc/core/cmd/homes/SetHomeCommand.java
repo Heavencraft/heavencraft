@@ -1,4 +1,4 @@
-package fr.hc.core.commands;
+package fr.hc.core.cmd.homes;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -18,7 +18,6 @@ import fr.hc.core.utils.chat.ChatUtil;
 
 public class SetHomeCommand extends AbstractCommandExecutor
 {
-
 	private final HeavenCore plugin;
 
 	public SetHomeCommand(BukkitHeavenCore plugin)
@@ -48,25 +47,24 @@ public class SetHomeCommand extends AbstractCommandExecutor
 		if (!optUser.isPresent())
 			throw new HeavenException("L'UUID n'est pas liée a un compte heavencraft. Contactez un administrateur.");
 
-		Location loc = player.getLocation();
+		final Location loc = player.getLocation();
 		try
 		{
 			new SetHomeQuery(optUser.get(), homeNumber, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),
 					loc.getYaw(), loc.getPitch(), plugin.getHomeProvider()).executeQuery();
 		}
-		catch (SQLException e)
+		catch (final SQLException e)
 		{
 			log.error(e.getMessage());
 			throw new DatabaseErrorException();
 		}
 		ChatUtil.sendMessage(player, "Vous avez bien défini votre home {%1$d}", homeNumber);
-		return;
 	}
 
 	@Override
 	protected void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-		ChatUtil.sendMessage(sender, "Cette commande n'est que utilisable en jeu");
+		notConsoleCommand(sender);
 	}
 
 	@Override
@@ -74,5 +72,4 @@ public class SetHomeCommand extends AbstractCommandExecutor
 	{
 		ChatUtil.sendMessage(sender, "/{sethome} <numéro du home>");
 	}
-
 }
