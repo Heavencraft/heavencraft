@@ -2,6 +2,7 @@ package fr.hc.core.utils;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Optional;
 
 import fr.hc.core.HeavenCoreInstance;
 import fr.hc.core.db.users.User;
@@ -52,7 +53,11 @@ public class InputUtil
 			final Iterator<Integer> it = userIds.iterator();
 			while (it.hasNext())
 			{
-				builder.append(provider.getUserById(it.next()));
+				final Optional<? extends User> optUser = provider.getUserById(it.next());
+				if (!optUser.isPresent())
+					continue;
+
+				builder.append(optUser.get());
 				if (it.hasNext())
 					builder.append(separator);
 			}

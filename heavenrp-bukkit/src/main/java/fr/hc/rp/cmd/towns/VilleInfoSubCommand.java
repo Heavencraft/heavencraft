@@ -12,7 +12,6 @@ import fr.hc.rp.db.towns.Town;
 
 public class VilleInfoSubCommand extends SubCommand
 {
-
 	@Override
 	public void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
