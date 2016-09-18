@@ -34,7 +34,7 @@ public class PortalListener extends AbstractBukkitListener
 		if (from.getBlock().getType() != Material.PORTAL && portalBlock.getType() == Material.PORTAL)
 		{
 			final Location destination;
-			switch (portalBlock.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN).getType())
+			switch (portalBlock.getRelative(BlockFace.DOWN).getType())
 			{
 				case RED_NETHER_BRICK:
 					destination = WorldManager.getSpawnNether();
