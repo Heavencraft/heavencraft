@@ -16,7 +16,7 @@ INSERT INTO bank_accounts (id, balance) VALUES ('1', '1000');
 
 CREATE TABLE companies (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(28)         NOT NULL,
+    name            VARCHAR(32)         NOT NULL,
     bank_account_id MEDIUMINT UNSIGNED  NULL,
 
     PRIMARY KEY (id),
@@ -68,7 +68,7 @@ CREATE TABLE homes (
 
 CREATE TABLE towns (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(28)         NOT NULL,
+    name            VARCHAR(32)         NOT NULL,
     bank_account_id MEDIUMINT UNSIGNED  NULL,
 
     PRIMARY KEY (id),
