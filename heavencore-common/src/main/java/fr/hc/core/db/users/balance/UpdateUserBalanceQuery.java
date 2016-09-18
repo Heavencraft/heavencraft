@@ -10,7 +10,7 @@ import fr.hc.core.tasks.queries.Query;
 
 public class UpdateUserBalanceQuery implements Query
 {
-	private static final String QUERY = "UPDATE users SET balance = balance + ? WHERE id = ? AND balance + ? >= 0 LIMIT 1;";
+	private static final String QUERY = "UPDATE users SET balance = balance + ? WHERE id = ? AND CAST(balance AS SIGNED) + ? >= 0 LIMIT 1;";
 
 	private final UserWithBalance user;
 	private final int delta;
