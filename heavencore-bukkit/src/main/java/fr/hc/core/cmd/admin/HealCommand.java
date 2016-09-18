@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.CorePermissions;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
@@ -11,10 +12,9 @@ import fr.hc.core.utils.chat.ChatUtil;
 
 public class HealCommand extends AbstractCommandExecutor
 {
-
 	public HealCommand(AbstractBukkitPlugin plugin)
 	{
-		super(plugin, "heal");
+		super(plugin, "heal", CorePermissions.HEAL_COMMAND);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class HealCommand extends AbstractCommandExecutor
 			return;
 		}
 
-		Player player = PlayerUtil.getPlayer(args[0]);
+		final Player player = PlayerUtil.getPlayer(args[0]);
 		if (PlayerUtil.getPlayer(args[0]) != null)
 		{
 			PlayerUtil.getPlayer(args[0]).setHealth(player.getMaxHealth());
