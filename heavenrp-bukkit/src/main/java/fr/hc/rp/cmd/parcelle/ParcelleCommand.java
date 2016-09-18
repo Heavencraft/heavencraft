@@ -11,7 +11,7 @@ public class ParcelleCommand extends SubCommandsCommand
 		super(plugin, "parcelle");
 
 		final SubCommand creerSubCommand = new ParcelleCreerSubCommnad();
-		addSubCommand("creer", creerSubCommand);
+		// addSubCommand("creer", creerSubCommand);
 		addSubCommand("créer", creerSubCommand);
 		addSubCommand("supprimer", new ParcelleSupprimerSubCommand());
 	}
