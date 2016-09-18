@@ -115,6 +115,7 @@ public class PayerCommand extends AbstractCommandExecutor
 		try
 		{
 			new BankAccountMoneyTransfertQuery(fromBankAccount, toBankAccount, delta).executeQuery();
+			ChatUtil.sendMessage(player, "Le virement a été effectué.");
 		}
 		catch (final SQLException e)
 		{
