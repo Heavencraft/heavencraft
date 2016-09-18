@@ -3,6 +3,7 @@ package fr.hc.rp.listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.hc.core.AbstractBukkitListener;
@@ -15,6 +16,7 @@ public class RespawnListener extends AbstractBukkitListener
 		super(plugin);
 	}
 
+	@EventHandler
 	public void onRespawn(PlayerRespawnEvent e)
 	{
 		final Player player = e.getPlayer();
