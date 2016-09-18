@@ -1,23 +1,25 @@
 package fr.hc.core.commands;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.BukkitHeavenCore;
 import fr.hc.core.HeavenCore;
 import fr.hc.core.cmd.AbstractCommandExecutor;
+import fr.hc.core.db.users.UserProvider;
+import fr.hc.core.db.users.balance.UpdateUserBalanceQuery;
 import fr.hc.core.db.users.home.IncrementHomeNumberQuery;
 import fr.hc.core.db.users.home.UserWithHome;
-import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.tasks.queries.BatchQuery;
 import fr.hc.core.utils.chat.ChatUtil;
 
 public class BuyHomeCommand extends AbstractCommandExecutor
 {
+	private static final String PRICE = "Votre home {%1$s} vous coûtera {%1$s} pièces d'or. Faites /buyhome valider pour confirmer l'achat.";
+	private static final String SUCCESS = "Vous venez d'acheter votre home {%1$s}.";
 
 	private final HeavenCore plugin;
 
@@ -30,40 +32,43 @@ public class BuyHomeCommand extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-
-		final Optional<? extends UserWithHome> optUser = plugin.getUserProvider()
-				.getUserByUniqueId(player.getUniqueId());
+		final UserProvider<? extends UserWithHome> userProvider = plugin.getUserProvider();
+		final Optional<? extends UserWithHome> optUser = userProvider.getUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 			throw new HeavenException("L'UUID n'est pas liée a un compte heavencraft. Contactez un administrateur.");
 
-		int price = 0;
-		if (optUser.get().getHomeNumber() >= 2)
-			price = 1000 * (optUser.get().getHomeNumber() - 2) + 1000;
+		final UserWithHome user = optUser.get();
 
-		// TODO implement the money withdrew, and transfer it to the Heavencraft Account.
-		throw new NotImplementedException();
-		// final Optional<? extends UserWithBalance> balencedUser = provider.getUserByUniqueId(player.getUniqueId());
-		//
-		// try
-		// {
-		// new UpdateUserBalanceQuery(balencedUser.get(), -price, provider).executeQuery();
-		// }
-		// catch (final SQLException e)
-		// {
-		// throw new HeavenException(e.getMessage());
-		// }
+		final int homeNumber = user.getHomeNumber() + 1;
+		final int price = getHomePrice(homeNumber);
 
-//		try
-//		{
-//			new IncrementHomeNumberQuery(optUser.get(), plugin.getUserProvider()).executeQuery();
-//		}
-//		catch (SQLException e)
-//		{
-//			log.error(e.getMessage());
-//			throw new DatabaseErrorException();
-//		}
-//		ChatUtil.sendMessage(player, "Vous venez d'acheter un nouveau home au prix de {%1$d} Po(s).", price);
-//		return;
+		if (args.length == 0 || !args[0].equalsIgnoreCase("valider"))
+		{
+			ChatUtil.sendMessage(player, PRICE, homeNumber, price);
+			return;
+		}
+
+		new BatchQuery(new UpdateUserBalanceQuery(user, -price, userProvider),
+				new IncrementHomeNumberQuery(user, userProvider))
+		{
+			@Override
+			public void onSuccess()
+			{
+				ChatUtil.sendMessage(player, SUCCESS, homeNumber);
+			}
+
+			@Override
+			public void onException(HeavenException ex)
+			{
+				ChatUtil.sendMessage(player, ex.getMessage());
+			}
+
+		}.schedule();
+	}
+
+	private static int getHomePrice(int homeNumber)
+	{
+		return (homeNumber - 3) * 1000 + 1000;
 	}
 
 	@Override
@@ -77,5 +82,4 @@ public class BuyHomeCommand extends AbstractCommandExecutor
 	{
 		ChatUtil.sendMessage(sender, "/{sethome} <numéro du home>");
 	}
-
 }
