@@ -125,7 +125,7 @@ public class PayerCommand extends AbstractCommandExecutor
 	@Override
 	protected void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-
+		notConsoleCommand(sender);
 	}
 
 	@Override

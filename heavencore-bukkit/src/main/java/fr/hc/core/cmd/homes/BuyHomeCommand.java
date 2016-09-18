@@ -1,4 +1,4 @@
-package fr.hc.core.commands;
+package fr.hc.core.cmd.homes;
 
 import java.util.Optional;
 
