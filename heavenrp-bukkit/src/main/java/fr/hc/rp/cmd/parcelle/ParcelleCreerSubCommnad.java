@@ -17,6 +17,7 @@ import fr.hc.core.exceptions.UnexpectedErrorException;
 import fr.hc.core.exceptions.UserNotFoundException;
 import fr.hc.core.tasks.queries.BatchQuery;
 import fr.hc.core.tasks.queries.Query;
+import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.core.utils.chat.ChatUtil;
@@ -39,10 +40,20 @@ public class ParcelleCreerSubCommnad extends SubCommand
 	@Override
 	public void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		if (args.length != 2)
+		int up, down;
+		switch (args.length)
 		{
-			sendUsage(player);
-			return;
+			case 2: // /parcelle ajouter <ville> <joueur>
+				up = 20;
+				down = 10;
+				break;
+			case 4: // /parcelle ajouter <ville> <joueur> <up> <down>
+				up = ConversionUtil.toUint(args[2]);
+				down = ConversionUtil.toUint(args[3]);
+				break;
+			default:
+				sendUsage(player);
+				return;
 		}
 
 		final String townName = args[0];
@@ -68,8 +79,8 @@ public class ParcelleCreerSubCommnad extends SubCommand
 		final Region parent = optParent.get();
 
 		final Selection selection = WorldEditUtil.getWESelection(player);
-		final Location min = selection.getMinimumPoint();
-		final Location max = selection.getMaximumPoint();
+		final Location min = selection.getMinimumPoint().add(0, -down, 0);
+		final Location max = selection.getMaximumPoint().add(0, up, 0);
 
 		if (!parent.contains(min.getWorld().getName(), min.getBlockX(), min.getBlockY(), min.getBlockZ())
 				|| !parent.contains(max.getWorld().getName(), max.getBlockX(), max.getBlockY(), max.getBlockZ()))
@@ -125,5 +136,6 @@ public class ParcelleCreerSubCommnad extends SubCommand
 	public void sendUsage(CommandSender sender)
 	{
 		ChatUtil.sendMessage(sender, "/{parcelle} créer <nom de la ville> <nom du joueur>");
+		ChatUtil.sendMessage(sender, "/{parcelle} créer <nom de la ville> <nom du joueur> <up> <down>");
 	}
 }
