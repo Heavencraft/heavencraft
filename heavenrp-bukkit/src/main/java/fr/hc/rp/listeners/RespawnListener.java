@@ -5,7 +5,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.AbstractBukkitPlugin;
-import fr.hc.rp.worlds.WorldManager;
+import fr.hc.rp.worlds.WorldsManager;
 
 public class RespawnListener extends AbstractBukkitListener
 {
@@ -17,6 +17,6 @@ public class RespawnListener extends AbstractBukkitListener
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event)
 	{
-		event.setRespawnLocation(WorldManager.getSpawn());
+		event.setRespawnLocation(WorldsManager.getSpawn());
 	}
 }

@@ -10,7 +10,7 @@ import org.bukkit.inventory.PlayerInventory;
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.utils.PlayerUtil;
-import fr.hc.rp.worlds.WorldManager;
+import fr.hc.rp.worlds.WorldsManager;
 
 public class FirstSpawnListener extends AbstractBukkitListener
 {
@@ -26,7 +26,7 @@ public class FirstSpawnListener extends AbstractBukkitListener
 		if (player.hasPlayedBefore())
 			return;
 
-		PlayerUtil.teleportPlayer(player, WorldManager.getSpawn());
+		PlayerUtil.teleportPlayer(player, WorldsManager.getSpawn());
 
 		final PlayerInventory inventory = player.getInventory();
 		inventory.addItem(new ItemStack(Material.IRON_SWORD), new ItemStack(Material.BREAD, 12));

@@ -26,7 +26,7 @@ public class PortalListener extends AbstractBukkitListener
 		final Location from = event.getFrom();
 		final Location to = event.getTo();
 
-		if (to.getWorld() != WorldManager.getWorld())
+		if (to.getWorld() != WorldsManager.getWorld())
 			return;
 
 		// Player enter into a portal
@@ -37,13 +37,13 @@ public class PortalListener extends AbstractBukkitListener
 			switch (portalBlock.getRelative(BlockFace.DOWN).getType())
 			{
 				case RED_NETHER_BRICK:
-					destination = WorldManager.getSpawnNether();
+					destination = WorldsManager.getSpawnNether();
 					break;
 				case ENDER_STONE:
-					destination = WorldManager.getSpawnTheEnd();
+					destination = WorldsManager.getSpawnTheEnd();
 					break;
 				case LOG:
-					destination = WorldManager.getResourcesSpawn();
+					destination = WorldsManager.getResourcesSpawn();
 					break;
 				default:
 					return;
