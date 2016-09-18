@@ -56,7 +56,7 @@ public class FlagSubCommand extends HeavenGuardSubCommand
 			throw new HeavenException("Le flag {%1$s} n'existe pas.", flagName);
 
 		final Optional<Region> optRegion = plugin.getRegionProvider().getRegionByName(regionName);
-		if (optRegion.isPresent())
+		if (!optRegion.isPresent())
 			throw new RegionNotFoundException(regionName);
 		final Region region = optRegion.get();
 

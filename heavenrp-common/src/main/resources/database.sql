@@ -116,7 +116,7 @@ CREATE TABLE warps (
 );
 
 ALTER TABLE warps
-    ADD FOREIGN KEY (creator) REFERENCES users (id)
+    ADD FOREIGN KEY (creator) REFERENCES users (id);
 
 --
 -- Insert global regions on HeavenGuard
@@ -126,4 +126,4 @@ INSERT INTO worlds (name, flag_pvp, flag_public) VALUES
 ("world", 0, 0),
 ("world_resources", 0, 1),
 ("world_nether", 1, 1),
-("world_the_end, 1, 1);
+("world_the_end", 1, 1);
