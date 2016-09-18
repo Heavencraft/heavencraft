@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.utils.PlayerUtil;
 import fr.hc.rp.worlds.WorldManager;
 
 public class RespawnListener extends AbstractBukkitListener
@@ -20,6 +21,6 @@ public class RespawnListener extends AbstractBukkitListener
 	{
 		final Player player = e.getPlayer();
 
-		player.teleport(WorldManager.getSpawn());
+		PlayerUtil.teleportPlayer(player, WorldManager.getSpawn());
 	}
 }
