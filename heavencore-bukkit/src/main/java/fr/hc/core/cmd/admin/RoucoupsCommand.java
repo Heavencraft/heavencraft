@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.CorePermissions;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
@@ -12,9 +13,10 @@ public class RoucoupsCommand extends AbstractCommandExecutor
 {
 	public RoucoupsCommand(AbstractBukkitPlugin plugin)
 	{
-		super(plugin, "roucoups");
+		super(plugin, "roucoups", CorePermissions.ROUCOUPS_COMMAND);
 	}
 
+	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
 		if (player.getAllowFlight())

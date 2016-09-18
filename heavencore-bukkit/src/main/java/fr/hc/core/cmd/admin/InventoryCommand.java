@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.CorePermissions;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
@@ -11,11 +12,9 @@ import fr.hc.core.utils.chat.ChatUtil;
 
 public class InventoryCommand extends AbstractCommandExecutor
 {
-
 	public InventoryCommand(AbstractBukkitPlugin plugin)
 	{
-		super(plugin, "inventory");
-		// TODO Auto-generated constructor stub
+		super(plugin, "inventory", CorePermissions.INVENTORY_COMMAND);
 	}
 
 	@Override
