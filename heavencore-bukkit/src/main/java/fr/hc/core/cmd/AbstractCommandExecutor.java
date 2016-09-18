@@ -66,6 +66,11 @@ public abstract class AbstractCommandExecutor implements CommandExecutor
 		return true;
 	}
 
+	protected void notConsoleCommand(CommandSender sender)
+	{
+		ChatUtil.sendMessage(sender, "Cette commande n'est pas utilisable depuis la console.");
+	}
+
 	protected abstract void onPlayerCommand(Player player, String[] args) throws HeavenException;
 
 	protected abstract void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException;
