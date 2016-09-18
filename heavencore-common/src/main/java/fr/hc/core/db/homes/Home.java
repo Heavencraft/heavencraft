@@ -11,8 +11,8 @@ public class Home
 	private final double x;
 	private final double y;
 	private final double z;
-	private final float pitch;
 	private final float yaw;
+	private final float pitch;
 
 	protected Home(ResultSet rs) throws SQLException
 	{
@@ -22,8 +22,8 @@ public class Home
 		x = rs.getDouble("x");
 		y = rs.getDouble("y");
 		z = rs.getDouble("z");
-		pitch = rs.getFloat("pitch");
 		yaw = rs.getFloat("yaw");
+		pitch = rs.getFloat("pitch");
 	}
 
 	public int getUserId()
@@ -56,13 +56,13 @@ public class Home
 		return z;
 	}
 
-	public float getPitch()
-	{
-		return pitch;
-	}
-
 	public float getYaw()
 	{
 		return yaw;
+	}
+
+	public float getPitch()
+	{
+		return pitch;
 	}
 }

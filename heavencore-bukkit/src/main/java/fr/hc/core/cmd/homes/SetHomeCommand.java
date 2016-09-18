@@ -1,64 +1,74 @@
 package fr.hc.core.cmd.homes;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import fr.hc.core.BukkitHeavenCore;
+import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.HeavenCore;
+import fr.hc.core.HeavenCoreInstance;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.db.homes.SetHomeQuery;
 import fr.hc.core.db.users.home.UserWithHome;
-import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.exceptions.UnexpectedErrorException;
+import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 
 public class SetHomeCommand extends AbstractCommandExecutor
 {
-	private final HeavenCore plugin;
+	private final HeavenCore plugin = HeavenCoreInstance.get();
 
-	public SetHomeCommand(BukkitHeavenCore plugin)
+	public SetHomeCommand(AbstractBukkitPlugin plugin)
 	{
 		super(plugin, "sethome");
-		this.plugin = plugin;
 	}
 
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		int homeNumber = 1;
-		if (args.length == 1)
+		final int homeNumber;
+
+		switch (args.length)
 		{
-			try
-			{
-				homeNumber = Integer.parseInt(args[0]);
-			}
-			catch (final NumberFormatException ex)
-			{
-				throw new HeavenException("Le nombre {%1$s} est incorrect.", args[0]);
-			}
+			case 0:
+				homeNumber = 1;
+				break;
+
+			case 1:
+				homeNumber = ConversionUtil.toUint(args[0]);
+				break;
+
+			default:
+				sendUsage(player);
+				return;
 		}
 
 		final Optional<? extends UserWithHome> optUser = plugin.getUserProvider()
 				.getUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
-			throw new HeavenException("L'UUID n'est pas liée a un compte heavencraft. Contactez un administrateur.");
+			throw new UnexpectedErrorException();
 
+		final UserWithHome user = optUser.get();
 		final Location loc = player.getLocation();
-		try
+
+		new SetHomeQuery(user, homeNumber, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(),
+				loc.getPitch(), plugin.getHomeProvider())
 		{
-			new SetHomeQuery(optUser.get(), homeNumber, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),
-					loc.getYaw(), loc.getPitch(), plugin.getHomeProvider()).executeQuery();
-		}
-		catch (final SQLException e)
-		{
-			log.error(e.getMessage());
-			throw new DatabaseErrorException();
-		}
-		ChatUtil.sendMessage(player, "Vous avez bien défini votre home {%1$d}", homeNumber);
+			@Override
+			public void onSuccess()
+			{
+				ChatUtil.sendMessage(player, "Vous avez bien défini votre home {%1$d}", homeNumber);
+			}
+
+			@Override
+			public void onException(HeavenException ex)
+			{
+				ChatUtil.sendMessage(player, ex.getMessage());
+			}
+		}.schedule();
 	}
 
 	@Override
