@@ -15,6 +15,9 @@ commands:
  bourse:
    description: Informe du solde du porte-monnaie
    usage: /bourse
+ parcelle:
+   description: Permet aux maires de gérer leurs parcelles
+   usage: /parcelle
  payer:
    description: Permet de payer un joueur, une ville ou une entreprise.
    usage: /payer <ville/joueur/entreprise> <nom> <montant>

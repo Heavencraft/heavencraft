@@ -1,6 +1,5 @@
 package fr.hc.guard;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.guard.db.Flag;
 import fr.hc.guard.db.RegionProvider;
 import fr.hc.guard.db.regions.Region;
@@ -59,7 +59,7 @@ public class RemoveRegionTask extends BukkitRunnable
 						log.info("Region {} removed.", regionName);
 					}
 				}
-				catch (final HeavenException | IOException ex)
+				catch (final HeavenException ex)
 				{
 					ex.printStackTrace();
 				}

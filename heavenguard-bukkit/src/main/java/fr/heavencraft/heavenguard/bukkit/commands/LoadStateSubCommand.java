@@ -28,7 +28,7 @@ public class LoadStateSubCommand extends HeavenGuardSubCommand
 		final Region region = optRegion.get();
 
 		ChatUtil.sendMessage(sender, "Restauration de la protection {%1$s}...", region.getName());
-		RegionUtil.saveState(region);
+		RegionUtil.loadState(region);
 		ChatUtil.sendMessage(sender, "La protection {%1$s} a bien été restaurée.", region.getName());
 	}
 

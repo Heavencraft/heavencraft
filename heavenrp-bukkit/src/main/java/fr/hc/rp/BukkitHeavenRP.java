@@ -10,6 +10,7 @@ import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.users.UsersListener;
 import fr.hc.guard.HeavenGuardInstance;
 import fr.hc.rp.banks.LivretSignListener;
+import fr.hc.rp.cmd.parcelle.ParcelleCommand;
 import fr.hc.rp.cmd.towns.VilleCommand;
 import fr.hc.rp.commands.BourseCommand;
 import fr.hc.rp.commands.PayerCommand;
@@ -73,6 +74,7 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP, Re
 			new WarpCommandExecutor(this);
 			new SpawnCommand(this);
 			new BourseCommand(this);
+			new ParcelleCommand(this);
 			new PayerCommand(this);
 			new VilleCommand(this);
 
