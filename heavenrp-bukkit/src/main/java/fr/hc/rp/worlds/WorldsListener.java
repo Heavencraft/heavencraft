@@ -4,6 +4,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 import fr.hc.core.AbstractBukkitListener;
@@ -65,4 +66,12 @@ public class WorldsListener extends AbstractBukkitListener
 			return;
 		}
 	}
+
+	@EventHandler(ignoreCancelled = true)
+	private void onWeatherChange(WeatherChangeEvent event)
+	{
+		if (event.toWeatherState())
+			event.setCancelled(true);
+	}
+
 }
