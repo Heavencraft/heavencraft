@@ -69,9 +69,7 @@ public abstract class AbstractDatabaseBukkitPlugin extends AbstractBukkitPlugin
 			String line;
 			while ((line = reader.readLine()) != null)
 			{
-				line = line.trim();
-
-				if (line.isEmpty() || line.startsWith("--"))
+				if (line.trim().isEmpty() || line.trim().startsWith("--"))
 					continue;
 
 				queries += line;
