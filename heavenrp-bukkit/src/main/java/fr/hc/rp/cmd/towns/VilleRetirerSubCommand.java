@@ -45,10 +45,12 @@ public class VilleRetirerSubCommand extends SubCommand
 			sendUsage(sender);
 			return;
 		}
+
+		final String townName = args[0];
+
 		final RPUserProvider userProvider = plugin.getUserProvider();
 		final TownProvider townProvider = plugin.getTownProvider();
 
-		final String townName = args[0];
 		final Town town = HeavenRPInstance.get().getTownProvider().getTownByName(townName);
 
 		for (int i = 1; i != args.length; i++)
@@ -82,6 +84,6 @@ public class VilleRetirerSubCommand extends SubCommand
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "/{ville} retirer <nom du maire>");
+		ChatUtil.sendMessage(sender, "/{ville} retirer <ville> <nom du maire>");
 	}
 }
