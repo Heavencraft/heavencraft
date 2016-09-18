@@ -15,7 +15,6 @@ public abstract class Warp
 	private final double z;
 	private final float yaw;
 	private final float pitch;
-	private final int price;
 	
 	
 	protected Warp(ResultSet rs) throws SQLException
@@ -29,7 +28,6 @@ public abstract class Warp
 		this.z = rs.getDouble("z");
 		this.yaw = rs.getFloat("yaw");
 		this.pitch = rs.getFloat("pitch");
-		this.price = rs.getInt("price");
 	}
 	
 
@@ -71,11 +69,6 @@ public abstract class Warp
 	public float getPitch()
 	{
 		return pitch;
-	}
-
-	public int getPrice()
-	{
-		return price;
 	}
 
 	public String getWorldName()
