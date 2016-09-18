@@ -28,7 +28,7 @@ public class SavestateSubCommand extends HeavenGuardSubCommand
 		final Region region = optRegion.get();
 
 		ChatUtil.sendMessage(sender, "Sauvegarde de la protection {%1$s}...", region.getName());
-		RegionUtil.loadState(region);
+		RegionUtil.saveState(region);
 		ChatUtil.sendMessage(sender, "La protection {%1$s} a bien été sauvegardée.", region.getName());
 	}
 
