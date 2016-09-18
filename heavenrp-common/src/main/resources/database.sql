@@ -64,7 +64,7 @@ CREATE TABLE homes (
     PRIMARY KEY (user_id, home_number)
 );
 
-ALTER TABLE users
+ALTER TABLE homes
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
 --
