@@ -1,12 +1,8 @@
 package fr.hc.rp;
 
-import org.bukkit.Bukkit;
-
-import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.AbstractDatabaseBukkitPlugin;
 import fr.hc.core.HeavenCoreInstance;
 import fr.hc.core.ReferencePlugin;
-import fr.hc.core.connection.ConnectionProvider;
-import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.users.UsersListener;
 import fr.hc.guard.HeavenGuardInstance;
 import fr.hc.rp.banks.LivretSignListener;
@@ -28,10 +24,8 @@ import fr.hc.rp.warps.WarpSignListener;
 import fr.hc.rp.worlds.PortalListener;
 import fr.hc.rp.worlds.WorldManager;
 
-public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP, ReferencePlugin
+public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements HeavenRP, ReferencePlugin
 {
-	private ConnectionProvider connectionProvider;
-
 	private BankAccountProvider bankAccountProvider;
 	private CompanyProvider companyProvider;
 	private TownProvider townProvider;
@@ -40,61 +34,45 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP, Re
 
 	public BukkitHeavenRP()
 	{
+		super("SELECT * FROM users LIMIT 1");
 		HeavenRPInstance.set(this);
 	}
 
 	@Override
 	public void onEnable()
 	{
-		try
-		{
-			super.onEnable();
-			saveDefaultConfig();
+		super.onEnable();
+		saveDefaultConfig();
 
-			connectionProvider = createConnectionProvider(getConfig());
-			initDatabaseIfNeeded(connectionProvider, "SELECT * FROM users LIMIT 1");
+		bankAccountProvider = new BankAccountProvider();
+		companyProvider = new CompanyProvider(connectionProvider);
+		townProvider = new TownProvider(connectionProvider);
+		userProvider = new RPUserProvider(connectionProvider);
+		warpProvider = new RPWarpProvider(connectionProvider);
 
-			bankAccountProvider = new BankAccountProvider();
-			companyProvider = new CompanyProvider(connectionProvider);
-			townProvider = new TownProvider(connectionProvider);
-			userProvider = new RPUserProvider(connectionProvider);
-			warpProvider = new RPWarpProvider(connectionProvider);
+		HeavenCoreInstance.get().setReferencePlugin(this);
+		HeavenGuardInstance.get().setUserProvider(userProvider);
 
-			HeavenCoreInstance.get().setReferencePlugin(this);
-			HeavenGuardInstance.get().setUserProvider(userProvider);
+		WorldManager.init();
 
-			WorldManager.init();
+		new PortalListener(this);
+		new UsersListener(this, userProvider);
+		new FirstSpawnListener(this);
+		new RespawnListener(this);
 
-			new PortalListener(this);
-			new UsersListener(this, userProvider);
-			new FirstSpawnListener(this);
-			new RespawnListener(this);
+		new TestCommand(this);
+		new WarpCommandExecutor(this);
+		new SpawnCommand(this);
+		new BourseCommand(this);
+		new ParcelleCommand(this);
+		new PayerCommand(this);
+		new VilleCommand(this);
 
-			new TestCommand(this);
-			new WarpCommandExecutor(this);
-			new SpawnCommand(this);
-			new BourseCommand(this);
-			new ParcelleCommand(this);
-			new PayerCommand(this);
-			new VilleCommand(this);
+		// Bank
+		new LivretSignListener(this);
 
-			// Bank
-			new LivretSignListener(this);
-
-			// Warps
-			new WarpSignListener(this);
-		}
-		catch (final StopServerException ex)
-		{
-			ex.printStackTrace();
-			Bukkit.shutdown();
-		}
-	}
-
-	@Override
-	public ConnectionProvider getConnectionProvider()
-	{
-		return connectionProvider;
+		// Warps
+		new WarpSignListener(this);
 	}
 
 	@Override
