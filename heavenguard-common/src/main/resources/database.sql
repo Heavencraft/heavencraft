@@ -1,7 +1,7 @@
 
 CREATE TABLE regions (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(16)         NOT NULL,
+    name            VARCHAR(64)         NOT NULL,
     parent_id       INT UNSIGNED        DEFAULT NULL,
     world           VARCHAR(16)         NOT NULL,
     min_x           INT                 NOT NULL,
