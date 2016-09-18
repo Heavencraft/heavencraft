@@ -23,7 +23,7 @@ public class SavestateSubCommand extends HeavenGuardSubCommand
 	public void execute(CommandSender sender, String regionName, String[] args) throws HeavenException
 	{
 		final Optional<Region> optRegion = plugin.getRegionProvider().getRegionByName(regionName);
-		if (optRegion.isPresent())
+		if (!optRegion.isPresent())
 			throw new RegionNotFoundException(regionName);
 		final Region region = optRegion.get();
 
