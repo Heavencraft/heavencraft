@@ -1,7 +1,5 @@
 package fr.hc.rp.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,12 +8,11 @@ import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
+import fr.hc.rp.worlds.WorldManager;
 
 public class SpawnCommand extends AbstractCommandExecutor
 {
 	private static final String SUCCESS_MESSAGE = "Vous avez été téléporté au spawn.";
-
-	private final Location spawnLocation = new Location(Bukkit.getWorld("world"), -159, 64, 152);
 
 	public SpawnCommand(AbstractBukkitPlugin plugin)
 	{
@@ -31,7 +28,7 @@ public class SpawnCommand extends AbstractCommandExecutor
 			return;
 		}
 
-		PlayerUtil.teleportPlayer(player, spawnLocation);
+		PlayerUtil.teleportPlayer(player, WorldManager.getSpawn());
 		ChatUtil.sendMessage(player, SUCCESS_MESSAGE);
 	}
 
