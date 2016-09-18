@@ -18,7 +18,7 @@ import fr.hc.core.utils.chat.ChatUtil;
 
 public class BuyHomeCommand extends AbstractCommandExecutor
 {
-	private static final String PRICE = "Votre home {%1$s} vous coûtera {%1$s} pièces d'or. Faites /buyhome valider pour confirmer l'achat.";
+	private static final String PRICE = "Votre home {%1$s} vous coûtera {%2$s} pièces d'or. Faites /buyhome valider pour confirmer l'achat.";
 	private static final String SUCCESS = "Vous venez d'acheter votre home {%1$s}.";
 
 	private final HeavenCore plugin;
