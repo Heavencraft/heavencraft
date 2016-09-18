@@ -10,7 +10,7 @@ import fr.hc.core.tasks.queries.Query;
 
 public class SetHomeQuery implements Query
 {
-	private static final String QUERY = "REPLACE INTO homes SET user_id = ?, home_number = ?, world = ?, x = ?, y = ?, z = ?, pitch = ?, yaw = ?;";
+	private static final String QUERY = "REPLACE INTO homes SET user_id = ?, home_number = ?, world = ?, x = ?, y = ?, z = ?, yaw = ?, pitch = ?;";
 
 	private final UserWithHome user;
 	private final int homeNumber;
@@ -18,12 +18,12 @@ public class SetHomeQuery implements Query
 	private final double x;
 	private final double y;
 	private final double z;
-	private final float pitch;
 	private final float yaw;
+	private final float pitch;
 	private final HomeProvider homeProvider;
 
-	public SetHomeQuery(UserWithHome user, int homeNumber, String world, double x, double y, double z, float pitch,
-			float yaw, HomeProvider homeProvider)
+	public SetHomeQuery(UserWithHome user, int homeNumber, String world, double x, double y, double z, float yaw,
+			float pitch, HomeProvider homeProvider)
 	{
 		this.user = user;
 		this.homeNumber = homeNumber;
@@ -31,8 +31,8 @@ public class SetHomeQuery implements Query
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.pitch = pitch;
 		this.yaw = yaw;
+		this.pitch = pitch;
 		this.homeProvider = homeProvider;
 	}
 
@@ -52,8 +52,8 @@ public class SetHomeQuery implements Query
 			ps.setDouble(4, x);
 			ps.setDouble(5, y);
 			ps.setDouble(6, z);
-			ps.setFloat(7, pitch);
-			ps.setDouble(8, yaw);
+			ps.setFloat(7, yaw);
+			ps.setFloat(8, pitch);
 
 			System.out.println("Executing query " + ps);
 			if (ps.executeUpdate() == 0)
