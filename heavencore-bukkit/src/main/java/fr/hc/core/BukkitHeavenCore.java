@@ -93,10 +93,6 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 		{
 			for (final Entry<ConnectionProvider, Collection<String>> entry : createTableQueries.asMap().entrySet())
 			{
-				log.info("Entry {}", entry);
-				final ConnectionProvider cp = entry.getKey();
-				log.info("ConnectionProvider {}", cp);
-
 				try (final Connection connection = entry.getKey().getConnection();
 						final Statement statement = connection.createStatement())
 				{
