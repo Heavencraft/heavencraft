@@ -1,14 +1,14 @@
 package fr.hc.core;
 
+import fr.hc.core.cmd.admin.CreacheatCommand;
+import fr.hc.core.cmd.admin.EndercheatCommand;
+import fr.hc.core.cmd.admin.HealCommand;
+import fr.hc.core.cmd.admin.InventoryCommand;
+import fr.hc.core.cmd.admin.RoucoupsCommand;
+import fr.hc.core.cmd.admin.SpectatorCommand;
 import fr.hc.core.cmd.homes.BuyHomeCommand;
 import fr.hc.core.cmd.homes.HomeCommand;
 import fr.hc.core.cmd.homes.SetHomeCommand;
-import fr.hc.core.commands.CreacheatCommand;
-import fr.hc.core.commands.EndercheatCommand;
-import fr.hc.core.commands.HealCommand;
-import fr.hc.core.commands.InventoryCommand;
-import fr.hc.core.commands.RoucoupsCommand;
-import fr.hc.core.commands.SpectatorCommand;
 import fr.hc.core.connection.ConnectionProviderFactory;
 import fr.hc.core.connection.HikariConnectionProviderFactory;
 import fr.hc.core.db.homes.HomeProvider;

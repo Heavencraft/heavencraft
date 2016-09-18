@@ -1,4 +1,4 @@
-package fr.hc.core.commands;
+package fr.hc.core.cmd.admin;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
