@@ -1,4 +1,3 @@
-
 CREATE TABLE regions (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     name            VARCHAR(64)         NOT NULL,
@@ -16,19 +15,25 @@ CREATE TABLE regions (
     flag_state      MEDIUMBLOB          DEFAULT NULL,
 
     PRIMARY KEY (id),
-    UNIQUE (name),
-    FOREIGN KEY (parent_id) REFERENCES regions (id) ON DELETE SET NULL
+    UNIQUE (name)
 );
+
+ALTER TABLE regions
+    ADD FOREIGN KEY (parent_id) REFERENCES regions (id) ON DELETE SET NULL;
 
 CREATE TABLE regions_members (
     region_id       INT UNSIGNED        NOT NULL,
     user_id         MEDIUMINT UNSIGNED  NOT NULL,
     owner           BOOLEAN             NOT NULL DEFAULT 0,
 
-    PRIMARY KEY (region_id, user_id),
-    FOREIGN KEY (region_id) REFERENCES regions (id),
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    PRIMARY KEY (region_id, user_id)
 );
+
+ALTER TABLE regions_members
+    ADD FOREIGN KEY (region_id) REFERENCES regions (id);
+
+ALTER TABLE regions_members
+    ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
 CREATE TABLE worlds (
     name            VARCHAR(32)         NOT NULL,
