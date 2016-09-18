@@ -19,7 +19,7 @@ public abstract class UserProvider<U extends User>
 	private static final String SELECT_USER_BY_ID = "SELECT * FROM users WHERE id = ? LIMIT 1;";
 	private static final String SELECT_USER_BY_UUID = "SELECT * FROM users WHERE uuid = ? LIMIT 1;";
 	private static final String SELECT_USER_BY_NAME = "SELECT * FROM users WHERE name = ? LIMIT 1;";
-	private static final String INSERT_USER = "INSERT INTO users (uuid, name) VALUES (?, ?);";
+	private static final String INSERT_USER = "INSERT INTO users (uuid, name, balance) VALUES (?, ?, 200);";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
