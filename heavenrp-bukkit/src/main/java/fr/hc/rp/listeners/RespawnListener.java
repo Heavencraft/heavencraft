@@ -1,12 +1,10 @@
 package fr.hc.rp.listeners;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.AbstractBukkitPlugin;
-import fr.hc.core.utils.PlayerUtil;
 import fr.hc.rp.worlds.WorldManager;
 
 public class RespawnListener extends AbstractBukkitListener
@@ -17,10 +15,8 @@ public class RespawnListener extends AbstractBukkitListener
 	}
 
 	@EventHandler
-	public void onRespawn(PlayerRespawnEvent e)
+	public void onRespawn(PlayerRespawnEvent event)
 	{
-		final Player player = e.getPlayer();
-
-		PlayerUtil.teleportPlayer(player, WorldManager.getSpawn());
+		event.setRespawnLocation(WorldManager.getSpawn());
 	}
 }
