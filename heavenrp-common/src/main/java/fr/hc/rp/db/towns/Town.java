@@ -30,6 +30,12 @@ public class Town
 		mayors.add(userId);
 	}
 
+	@Override
+	public String toString()
+	{
+		return name;
+	}
+
 	public int getId()
 	{
 		return id;
