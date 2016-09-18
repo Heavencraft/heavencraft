@@ -7,11 +7,18 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.utils.PlayerUtil;
 
-public class PortalListener
+public class PortalListener extends AbstractBukkitListener
 {
+	public PortalListener(JavaPlugin plugin)
+	{
+		super(plugin);
+	}
+
 	// Passage dans un portail
 	@EventHandler
 	public void onEntityPortalEnter(PlayerMoveEvent event)
@@ -44,7 +51,7 @@ public class PortalListener
 			PlayerUtil.teleportPlayer(event.getPlayer(), destination);
 		}
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockPhysics(BlockPhysicsEvent event)
 	{

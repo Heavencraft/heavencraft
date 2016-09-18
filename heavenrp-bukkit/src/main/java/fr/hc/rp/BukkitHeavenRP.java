@@ -61,10 +61,10 @@ public class BukkitHeavenRP extends AbstractBukkitPlugin implements HeavenRP, Re
 
 			HeavenCoreInstance.get().setReferencePlugin(this);
 			HeavenGuardInstance.get().setUserProvider(userProvider);
-			
-			new WorldManager();
-			
-			new PortalListener();
+
+			WorldManager.init();
+
+			new PortalListener(this);
 			new UsersListener(this, userProvider);
 			new FirstSpawnListener(this);
 			new RespawnListener(this);
