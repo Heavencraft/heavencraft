@@ -26,7 +26,7 @@ public class ParcelleSupprimerSubCommand extends SubCommand
 	@Override
 	public void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		if (args.length != 1)
+		if (args.length != 2)
 		{
 			sendUsage(player);
 			return;
