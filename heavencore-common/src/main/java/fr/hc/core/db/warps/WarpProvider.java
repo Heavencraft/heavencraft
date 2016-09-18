@@ -21,11 +21,11 @@ public abstract class WarpProvider<W extends Warp>
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private static final String SELECT_WARP_BY_NAME = "SELECT warps.id, warps.name, warps.price, warps.world, warps.x, warps.y, warps.z, warps.yaw, warps.pitch, "
+	private static final String SELECT_WARP_BY_NAME = "SELECT warps.id, warps.name, warps.world, warps.x, warps.y, warps.z, warps.yaw, warps.pitch, "
 			+ "users.name AS creator FROM warps JOIN users ON warps.creator = users.id WHERE warps.name = ? LIMIT 1";
-	private static final String SELECT_WARPS = "SELECT warps.id, warps.name, warps.price, warps.world, warps.x, warps.y, warps.z, warps.yaw, warps.pitch, "
+	private static final String SELECT_WARPS = "SELECT warps.id, warps.name, warps.world, warps.x, warps.y, warps.z, warps.yaw, warps.pitch, "
 			+ "users.name AS creator FROM warps JOIN users ON warps.creator = users.id";
-	private static final String INSERT_WARP = "INSERT INTO `warps`(`name`, `creator`, `price`, `world`, `x`, `y`, `z`, `yaw`, `pitch`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String INSERT_WARP = "INSERT INTO `warps`(`name`, `creator`, `world`, `x`, `y`, `z`, `yaw`, `pitch`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETE_WARP = "DELETE FROM `warps` WHERE `name` = ? LIMIT 1";
 
 	private final ConnectionProvider connectionProvider;
@@ -104,7 +104,6 @@ public abstract class WarpProvider<W extends Warp>
 	 * @param name
 	 * @param creator
 	 * @param world
-	 * @param price
 	 * @param x
 	 * @param y
 	 * @param z
@@ -112,7 +111,7 @@ public abstract class WarpProvider<W extends Warp>
 	 * @param pitch
 	 * @throws HeavenException
 	 */
-	public void createWarp(String name, User creator, String world, int price, double x, double y, double z, float yaw,
+	public void createWarp(String name, User creator, String world, double x, double y, double z, float yaw,
 			float pitch) throws HeavenException
 	{
 		try (Connection connection = connectionProvider.getConnection();
@@ -120,13 +119,12 @@ public abstract class WarpProvider<W extends Warp>
 		{
 			ps.setString(1, name);
 			ps.setInt(2, creator.getId());
-			ps.setInt(3, price);
-			ps.setString(4, world);
-			ps.setDouble(5, x);
-			ps.setDouble(6, y);
-			ps.setDouble(7, z);
-			ps.setFloat(8, yaw);
-			ps.setFloat(9, pitch);
+			ps.setString(3, world);
+			ps.setDouble(4, x);
+			ps.setDouble(5, y);
+			ps.setDouble(6, z);
+			ps.setFloat(7, yaw);
+			ps.setFloat(8, pitch);
 			ps.executeUpdate();
 
 		}
