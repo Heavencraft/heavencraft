@@ -128,7 +128,6 @@ CREATE TABLE warps (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name            VARCHAR(32)         NOT NULL,
     creator         MEDIUMINT UNSIGNED  NOT NULL,
-    price           INTEGER             NOT NULL,
     world           VARCHAR(16)         NOT NULL,
     x               DOUBLE              NOT NULL,
     y               DOUBLE              NOT NULL,
