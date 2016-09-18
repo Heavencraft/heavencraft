@@ -67,11 +67,15 @@ public class ParcelleCreerSubCommnad extends SubCommand
 			throw new RegionNotFoundException(town.getName());
 		final Region parent = optParent.get();
 
-		final String regionName = createRegionName(parent, user);
-
 		final Selection selection = WorldEditUtil.getWESelection(player);
 		final Location min = selection.getMinimumPoint();
 		final Location max = selection.getMaximumPoint();
+
+		if (!parent.contains(min.getWorld().getName(), min.getBlockX(), min.getBlockY(), min.getBlockZ())
+				|| !parent.contains(max.getWorld().getName(), max.getBlockX(), max.getBlockY(), max.getBlockZ()))
+			throw new HeavenException("La parcelle sort de la ville.");
+
+		final String regionName = createRegionName(parent, user);
 
 		// Create the region
 		final Region region = guard.getRegionProvider().createRegion(regionName, selection.getWorld().getName(), //
