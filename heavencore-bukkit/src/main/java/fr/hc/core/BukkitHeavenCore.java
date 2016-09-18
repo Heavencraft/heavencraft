@@ -15,6 +15,7 @@ import fr.hc.core.db.homes.HomeProvider;
 import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.db.users.home.UserWithHome;
 import fr.hc.core.listeners.CookieSignListener;
+import fr.hc.core.listeners.NoChatListener;
 import fr.hc.core.listeners.RedstoneLampListener;
 import fr.hc.core.tasks.TaskManager;
 import fr.hc.core.tasks.async.AsyncTaskExecutor;
@@ -40,6 +41,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 		taskManager = new TaskManager(new BukkitSyncTaskExecutor(), new AsyncTaskExecutor());
 		new CookieSignListener(this);
 		new RedstoneLampListener(this);
+		new NoChatListener(this);
 
 		new HomeCommand(this);
 		new SetHomeCommand(this);
