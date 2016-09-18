@@ -1,4 +1,4 @@
-package fr.hc.core.commands;
+package fr.hc.core.cmd.admin;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -6,27 +6,28 @@ import org.bukkit.entity.Player;
 import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 
-public class RoucoupsCommand extends AbstractCommandExecutor
+public class InventoryCommand extends AbstractCommandExecutor
 {
-	public RoucoupsCommand(AbstractBukkitPlugin plugin)
+
+	public InventoryCommand(AbstractBukkitPlugin plugin)
 	{
-		super(plugin, "roucoups");
+		super(plugin, "inventory");
+		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		if (player.getAllowFlight())
+		if (args.length != 1)
 		{
-			player.setAllowFlight(false);
-			ChatUtil.sendMessage(player, "Vous venez de descendre de {Roucoups}.");
+			sendUsage(player);
+			return;
 		}
-		else
-		{
-			player.setAllowFlight(true);
-			ChatUtil.sendMessage(player, "{Roucoups} utilise vol.");
-		}
+
+		player.openInventory(PlayerUtil.getPlayer(args[0]).getInventory());
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class RoucoupsCommand extends AbstractCommandExecutor
 	@Override
 	protected void sendUsage(CommandSender sender)
 	{
-		// TODO Auto-generated method stub
+		ChatUtil.sendMessage(sender, "{/inventory} <joueur>");
 	}
 
 }

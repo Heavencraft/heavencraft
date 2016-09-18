@@ -1,4 +1,4 @@
-package fr.hc.core.commands;
+package fr.hc.core.cmd.admin;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,13 +9,12 @@ import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 
-public class InventoryCommand extends AbstractCommandExecutor
+public class EndercheatCommand extends AbstractCommandExecutor
 {
 
-	public InventoryCommand(AbstractBukkitPlugin plugin)
+	public EndercheatCommand(AbstractBukkitPlugin plugin)
 	{
-		super(plugin, "inventory");
-		// TODO Auto-generated constructor stub
+		super(plugin, "endercheat");
 	}
 
 	@Override
@@ -27,19 +26,19 @@ public class InventoryCommand extends AbstractCommandExecutor
 			return;
 		}
 
-		player.openInventory(PlayerUtil.getPlayer(args[0]).getInventory());
+		player.openInventory(PlayerUtil.getPlayer(args[0]).getEnderChest());
 	}
 
 	@Override
 	protected void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-		ChatUtil.sendMessage(sender, "Cette commande ne peut pas être utilisée depuis la {console}.");
+		ChatUtil.sendMessage(sender, "Cette commande n'est pas utilisable depuis la console.");
 	}
 
 	@Override
 	protected void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "{/inventory} <joueur>");
+		ChatUtil.sendMessage(sender, "/{endercheat} <joueur>");
 	}
 
 }

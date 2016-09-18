@@ -14,38 +14,27 @@ import fr.hc.core.AbstractBukkitPlugin;
 
 public class FirstSpawnListener extends AbstractBukkitListener
 {
-
 	public FirstSpawnListener(AbstractBukkitPlugin plugin)
 	{
 		super(plugin);
 	}
 
 	@EventHandler
-	public void onFirstTimeSpawning(PlayerJoinEvent e)
+	public void onPlayerJoin(PlayerJoinEvent event)
 	{
-		final Player player = e.getPlayer();
+		final Player player = event.getPlayer();
+		if (player.hasPlayedBefore())
+			return;
+
 		final Location spawn = new Location(Bukkit.getWorld("world"), 351, 83, 1041, 90, 0);
-		final ItemStack sword, helmet, chestplate, leggings, boots;
 
-		if (!player.hasPlayedBefore())
-		{
-			player.teleport(spawn);
+		player.teleport(spawn);
 
-			sword = new ItemStack(Material.IRON_SWORD);
-			helmet = new ItemStack(Material.IRON_HELMET);
-			chestplate = new ItemStack(Material.IRON_CHESTPLATE);
-			leggings = new ItemStack(Material.IRON_LEGGINGS);
-			boots = new ItemStack(Material.IRON_BOOTS);
-
-			final ItemStack[] items = new ItemStack[] { sword, new ItemStack(Material.BREAD, 12) };
-
-			final PlayerInventory inventory = player.getInventory();
-			inventory.addItem(items);
-			inventory.setHelmet(helmet);
-			inventory.setChestplate(chestplate);
-			inventory.setLeggings(leggings);
-			inventory.setBoots(boots);
-		}
+		final PlayerInventory inventory = player.getInventory();
+		inventory.addItem(new ItemStack(Material.IRON_SWORD), new ItemStack(Material.BREAD, 12));
+		inventory.setHelmet(new ItemStack(Material.IRON_HELMET));
+		inventory.setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
+		inventory.setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+		inventory.setBoots(new ItemStack(Material.IRON_BOOTS));
 	}
-
 }
