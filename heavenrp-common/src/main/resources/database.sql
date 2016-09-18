@@ -58,7 +58,7 @@ CREATE TABLE homes (
     pitch           FLOAT               NOT NULL,
     yaw             FLOAT               NOT NULL,
 
-    PRIMARY KEY (user_id, home_nb),
+    PRIMARY KEY (user_id, home_number),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
