@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.exceptions.UnexpectedErrorException;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
@@ -33,11 +34,17 @@ public class BourseCommand extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
+		if (args.length != 0)
+		{
+			sendUsage(player);
+			return;
+		}
+
 		ChatUtil.sendMessage(player, PURSE_MESSAGE);
 
 		final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
 		if (!user.isPresent())
-			throw new HeavenException("Un problème inattendu s'est produit, merci de contacter un administrateur.");
+			throw new UnexpectedErrorException();
 
 		final int balance = user.get().getBalance();
 		if (balance == 0)
@@ -71,10 +78,12 @@ public class BourseCommand extends AbstractCommandExecutor
 	@Override
 	protected void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
+		notConsoleCommand(sender);
 	}
 
 	@Override
 	protected void sendUsage(CommandSender sender)
 	{
+		ChatUtil.sendMessage(sender, "Tu crois que je ne te vois pas ? À jouer avec tes bourses dans ton coin..");
 	}
 }

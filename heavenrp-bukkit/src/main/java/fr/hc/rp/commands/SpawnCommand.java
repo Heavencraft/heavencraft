@@ -13,10 +13,9 @@ import fr.hc.core.utils.chat.ChatUtil;
 
 public class SpawnCommand extends AbstractCommandExecutor
 {
-
 	private static final String SUCCESS_MESSAGE = "Vous avez été téléporté au spawn.";
 
-	private Location spawnLocation = new Location(Bukkit.getWorld("world"), -159, 64, 152);
+	private final Location spawnLocation = new Location(Bukkit.getWorld("world"), -159, 64, 152);
 
 	public SpawnCommand(AbstractBukkitPlugin plugin)
 	{
@@ -26,6 +25,12 @@ public class SpawnCommand extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
+		if (args.length != 0)
+		{
+			sendUsage(player);
+			return;
+		}
+
 		PlayerUtil.teleportPlayer(player, spawnLocation);
 		ChatUtil.sendMessage(player, SUCCESS_MESSAGE);
 	}
@@ -33,13 +38,12 @@ public class SpawnCommand extends AbstractCommandExecutor
 	@Override
 	protected void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-		ChatUtil.sendMessage(sender, "Cette commande n'est pas utilisable depuis la console.");
+		notConsoleCommand(sender);
 	}
 
 	@Override
 	protected void sendUsage(CommandSender sender)
 	{
-		// TODO Auto-generated method stub
-
+		ChatUtil.sendMessage(sender, "C'est si compliqué de faire /spawn !?");
 	}
 }
