@@ -52,7 +52,7 @@ public class TownProvider
 			{
 				ps2.setInt(1, town.getId());
 
-				final ResultSet rs2 = ps.executeQuery();
+				final ResultSet rs2 = ps2.executeQuery();
 				while (rs2.next())
 					town.addMayor(rs2.getInt("user_id"));
 			}
