@@ -2,6 +2,7 @@ package fr.heavencraft.heavenguard.bukkit.listeners;
 
 import java.util.Iterator;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
@@ -10,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
@@ -124,6 +126,16 @@ public class ProtectionEnvironmentListener extends AbstractBukkitListener
 			if (isProtected(it.next()))
 				it.remove();
 		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	private void onCreatureSpawn(CreatureSpawnEvent event)
+	{
+		final Location location = event.getLocation();
+
+		if (!plugin.getRegionManager().canMobSpawn(location.getWorld().getName(), location.getBlockX(),
+				location.getBlockY(), location.getBlockZ()))
+			event.setCancelled(true);
 	}
 
 	private boolean isProtected(Block block)
