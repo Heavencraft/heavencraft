@@ -1,7 +1,9 @@
 package fr.hc.core.cmd;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +16,8 @@ import fr.hc.core.exceptions.HeavenException;
 // TODO: Change name
 public class SubCommandsCommand extends AbstractCommandExecutor
 {
-	private final Map<String, SubCommand> subCommands = new HashMap<String, SubCommand>();
+	private final Collection<SubCommand> subCommands = new HashSet<SubCommand>();
+	private final Map<String, SubCommand> subCommandsByName = new HashMap<String, SubCommand>();
 
 	public SubCommandsCommand(AbstractBukkitPlugin plugin, String name)
 	{
@@ -28,7 +31,8 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 
 	public void addSubCommand(String name, SubCommand subCommand)
 	{
-		subCommands.put(name, subCommand);
+		subCommands.add(subCommand);
+		subCommandsByName.put(name, subCommand);
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 			return;
 		}
 
-		final SubCommand subCommand = subCommands.get(args[0].toLowerCase());
+		final SubCommand subCommand = subCommandsByName.get(args[0].toLowerCase());
 		if (subCommand == null || !subCommand.canExecute(player))
 		{
 			sendUsage(player);
@@ -59,7 +63,7 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 			return;
 		}
 
-		final SubCommand subCommand = subCommands.get(args[0].toLowerCase());
+		final SubCommand subCommand = subCommandsByName.get(args[0].toLowerCase());
 		if (subCommand == null || !subCommand.canExecute(sender))
 		{
 			sendUsage(sender);
@@ -72,7 +76,7 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 	@Override
 	protected void sendUsage(CommandSender sender)
 	{
-		for (final SubCommand subCommand : subCommands.values())
+		for (final SubCommand subCommand : subCommands)
 			if (subCommand.canExecute(sender))
 				subCommand.sendUsage(sender);
 	}
