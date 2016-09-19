@@ -79,7 +79,7 @@ public class InfoSubCommand extends AbstractOwnerSubCommand
 		{
 			final StringBuilder str = new StringBuilder();
 
-			for (final Iterator<User> it = owners.iterator(); it.hasNext();)
+			for (final Iterator<User> it = members.iterator(); it.hasNext();)
 			{
 				str.append(it.next());
 
