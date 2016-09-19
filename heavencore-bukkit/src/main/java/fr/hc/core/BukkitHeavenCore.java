@@ -23,6 +23,7 @@ import fr.hc.core.cmd.admin.SpectatorCommand;
 import fr.hc.core.cmd.homes.BuyHomeCommand;
 import fr.hc.core.cmd.homes.HomeCommand;
 import fr.hc.core.cmd.homes.SetHomeCommand;
+import fr.hc.core.cmd.homes.TphomeCommand;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.connection.ConnectionProviderFactory;
 import fr.hc.core.connection.HikariConnectionProviderFactory;
@@ -144,9 +145,12 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			new RedstoneLampListener(this);
 			new NoChatListener(this);
 
+			// Home feature
 			new HomeCommand(this);
 			new SetHomeCommand(this);
 			new BuyHomeCommand(this);
+			new TphomeCommand(this);
+
 			new CreacheatCommand(this);
 			new EndercheatCommand(this);
 			new HealCommand(this);

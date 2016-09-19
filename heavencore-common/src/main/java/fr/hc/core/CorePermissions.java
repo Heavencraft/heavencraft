@@ -8,4 +8,5 @@ public class CorePermissions
 	public static final String INVENTORY_COMMAND = "heavencore.commands.inventory";
 	public static final String ROUCOUPS_COMMAND = "heavencore.commands.roucoups";
 	public static final String SPECTATOR_COMMAND = "heavencore.commands.spectator";
+	public static final String TPHOME_COMMAND = "heavencore.commands.tphome";
 }

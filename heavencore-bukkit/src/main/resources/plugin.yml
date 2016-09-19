@@ -30,3 +30,6 @@ commands:
  buyhome:
   usage: /buyhome
   description: Achète un home en plus.
+ endercheat:
+  usage: /tphome <joueur> <numéro>
+  description: Permet de se téléporter au home d'un joueur
