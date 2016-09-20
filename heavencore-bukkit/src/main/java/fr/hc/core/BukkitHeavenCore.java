@@ -31,6 +31,8 @@ import fr.hc.core.db.homes.HomeProvider;
 import fr.hc.core.db.users.UserProvider;
 import fr.hc.core.db.users.home.UserWithHome;
 import fr.hc.core.exceptions.StopServerException;
+import fr.hc.core.horses.ChevalCommand;
+import fr.hc.core.horses.HorsesListener;
 import fr.hc.core.listeners.CookieSignListener;
 import fr.hc.core.listeners.NoChatListener;
 import fr.hc.core.listeners.RedstoneLampListener;
@@ -150,6 +152,9 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			new SetHomeCommand(this);
 			new BuyHomeCommand(this);
 			new TphomeCommand(this);
+			// Horse feature
+			new HorsesListener(this);
+			new ChevalCommand(this);
 
 			new CreacheatCommand(this);
 			new EndercheatCommand(this);

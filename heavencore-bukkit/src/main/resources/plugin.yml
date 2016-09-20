@@ -33,3 +33,6 @@ commands:
  tphome:
   usage: /tphome <joueur> <numéro>
   description: Permet de se téléporter au home d'un joueur
+ cheval:
+  usage: /cheval
+  description: Gère la propriété d'un cheval
