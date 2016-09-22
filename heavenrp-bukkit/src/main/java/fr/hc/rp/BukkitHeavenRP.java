@@ -8,8 +8,10 @@ import fr.hc.guard.HeavenGuardInstance;
 import fr.hc.rp.banks.LivretSignListener;
 import fr.hc.rp.cmd.parcelle.ParcelleCommand;
 import fr.hc.rp.cmd.towns.VilleCommand;
+import fr.hc.rp.commands.AccepterCommand;
 import fr.hc.rp.commands.BourseCommand;
 import fr.hc.rp.commands.PayerCommand;
+import fr.hc.rp.commands.RejoindreCommand;
 import fr.hc.rp.commands.SpawnCommand;
 import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
@@ -69,6 +71,8 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		new ParcelleCommand(this);
 		new PayerCommand(this);
 		new VilleCommand(this);
+		new RejoindreCommand(this);
+		new AccepterCommand(this);
 
 		// Bank
 		new LivretSignListener(this);

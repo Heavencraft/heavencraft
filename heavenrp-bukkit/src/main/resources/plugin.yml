@@ -24,4 +24,10 @@ commands:
  ville:
    description: Afficher les informations d'une ville
    usage: /ville
+ rejoindre:
+   description: Rejoindre un joueur
+   usage: /rejoindre <joueur>
+ accepter:
+   description: Accepter la téléportation d'un joueur
+   usage: /accepter <joueur>
     
