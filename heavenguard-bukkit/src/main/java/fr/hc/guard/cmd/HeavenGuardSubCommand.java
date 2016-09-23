@@ -17,11 +17,6 @@ public abstract class HeavenGuardSubCommand extends SubCommand
 		super(permission);
 	}
 
-	public boolean canExecute(CommandSender sender, String regionName)
-	{
-		return canExecute(sender);
-	}
-
 	@Override
 	public void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
