@@ -45,13 +45,20 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 		}
 
 		final SubCommand subCommand = subCommandsByName.get(args[0].toLowerCase());
-		if (subCommand == null || !subCommand.canExecute(player))
+		if (subCommand == null)
 		{
 			sendUsage(player);
 			return;
 		}
 
-		subCommand.onPlayerCommand(player, Arrays.copyOfRange(args, 1, args.length));
+		final String[] args2 = Arrays.copyOfRange(args, 1, args.length);
+		if (!subCommand.canExecute(player, args2))
+		{
+			sendUsage(player);
+			return;
+		}
+
+		subCommand.onPlayerCommand(player, args2);
 	}
 
 	@Override
@@ -64,20 +71,27 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 		}
 
 		final SubCommand subCommand = subCommandsByName.get(args[0].toLowerCase());
-		if (subCommand == null || !subCommand.canExecute(sender))
+		if (subCommand == null)
 		{
 			sendUsage(sender);
 			return;
 		}
 
-		subCommand.onConsoleCommand(sender, Arrays.copyOfRange(args, 1, args.length));
+		final String[] args2 = Arrays.copyOfRange(args, 1, args.length);
+		if (!subCommand.canExecute(sender, args2))
+		{
+			sendUsage(sender);
+			return;
+		}
+
+		subCommand.onConsoleCommand(sender, args2);
 	}
 
 	@Override
 	protected void sendUsage(CommandSender sender)
 	{
 		for (final SubCommand subCommand : subCommands)
-			if (subCommand.canExecute(sender))
+			if (subCommand.canExecute(sender, null))
 				subCommand.sendUsage(sender);
 	}
 }
