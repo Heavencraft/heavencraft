@@ -11,6 +11,7 @@ import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
+import fr.hc.rp.worlds.WorldsManager;
 
 public class RejoindreCommand extends AbstractCommandExecutor
 {
@@ -31,7 +32,7 @@ public class RejoindreCommand extends AbstractCommandExecutor
 		}
 
 		final Player destination = PlayerUtil.getPlayer(args[0]);
-		if ((player.getWorld().toString() != "world_resources") || player.getWorld() != destination.getWorld())
+		if ((player.getWorld() != WorldsManager.getResources()) || player.getWorld() != destination.getWorld())
 			throw new HeavenException("Vous devez être tous les deux en map ressource pour utiliser cette commande.");
 
 		ChatUtil.sendMessage(destination, "{%1$s} souhaite vous rejoindre. Tapez /accepter {%1$s} pour accepter.",
