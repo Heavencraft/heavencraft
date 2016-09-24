@@ -41,6 +41,7 @@ import fr.hc.core.optim.AntiLagListener;
 import fr.hc.core.tasks.TaskManager;
 import fr.hc.core.tasks.async.AsyncTaskExecutor;
 import fr.hc.core.tasks.sync.BukkitSyncTaskExecutor;
+import fr.hc.core.worlds.WorldSaveTask;
 
 public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 {
@@ -166,6 +167,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			// Optim
 			new AntiLagListener(this);
 			new AntiCheatListener(this);
+			new WorldSaveTask(this);
 		}
 		catch (final StopServerException e)
 		{
