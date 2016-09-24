@@ -53,13 +53,19 @@ public class WorldsListener extends AbstractBukkitListener
 		}
 	}
 
-	@EventHandler
+	private static final int VIEW_DISTANCE = 7;
+
+	// Do not unload spawn chunks
+	@EventHandler(ignoreCancelled = true)
 	public void onChunkUnload(ChunkUnloadEvent event)
 	{
 		final Chunk spawnChunk = WorldsManager.getSpawn().getChunk();
-		// If is spawn chunk, do not unload
-		if (event.getChunk().getWorld().getName().equals(spawnChunk.getWorld().getName())
-				&& event.getChunk().getX() == spawnChunk.getX() && event.getChunk().getZ() == spawnChunk.getZ())
+
+		if (!event.getWorld().equals(spawnChunk.getWorld()))
+			return;
+
+		if (Math.abs(event.getChunk().getX() - spawnChunk.getX()) <= VIEW_DISTANCE
+				&& Math.abs(event.getChunk().getZ() - spawnChunk.getZ()) <= VIEW_DISTANCE)
 		{
 			event.setCancelled(true);
 			return;
