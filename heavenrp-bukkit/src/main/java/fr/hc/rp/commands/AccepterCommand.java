@@ -30,8 +30,8 @@ public class AccepterCommand extends AbstractCommandExecutor
 			throw new HeavenException(
 					"Vous devez être tous les deux dans le même monde pour que vous puissiez accepter.");
 
-		// if (!RejoindreCommand.acceptRequest(toTeleport.getName(), player.getName()))
-		// throw new HeavenException("{%1$s} n'a pas demandé à vous rejoindre.", toTeleport.getName());
+		if (!RejoindreCommand.acceptRequest(toTeleport.getName(), player.getName()))
+			throw new HeavenException("{%1$s} n'a pas demandé à vous rejoindre.", toTeleport.getName());
 
 		// toTeleport.teleport(player);
 
