@@ -223,6 +223,6 @@ public class Region
 
 	void applyRemoveMember(User user, boolean owner)
 	{
-		(owner ? owners : members).remove(user);
+		(owner ? owners : members).remove(user.getId());
 	}
 }
