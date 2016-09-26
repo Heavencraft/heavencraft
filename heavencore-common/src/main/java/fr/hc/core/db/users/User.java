@@ -1,5 +1,6 @@
 package fr.hc.core.db.users;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public interface User
@@ -9,4 +10,6 @@ public interface User
 	UUID getUniqueId();
 
 	String getName();
+
+	Timestamp getLastLogin();
 }

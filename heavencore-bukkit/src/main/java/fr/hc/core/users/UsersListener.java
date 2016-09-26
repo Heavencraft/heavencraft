@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.hc.core.AbstractBukkitListener;
+import fr.hc.core.db.users.UpdateUserLastLoginQuery;
 import fr.hc.core.db.users.UpdateUserNameQuery;
 import fr.hc.core.db.users.User;
 import fr.hc.core.db.users.UserProvider;
@@ -48,6 +49,8 @@ public class UsersListener extends AbstractBukkitListener
 			{
 				new UpdateUserNameQuery(user, name, userProvider).schedule();
 			}
+
+			new UpdateUserLastLoginQuery(user, userProvider);
 		}
 		catch (final HeavenException ex)
 		{
