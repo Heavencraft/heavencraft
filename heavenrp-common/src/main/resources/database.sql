@@ -36,7 +36,7 @@ CREATE TABLE users (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     uuid            CHAR(36)            NOT NULL,
     name            VARCHAR(16)         NOT NULL,
-    last_login      TIMESTAMP			DEFAULT "0000-00-00 00:00:00",
+    last_login      TIMESTAMP			NOT NULL DEFAULT "0000-00-00 00:00:00",
     balance         MEDIUMINT UNSIGNED  NOT NULL DEFAULT 200,
     home_number     TINYINT UNSIGNED    NOT NULL DEFAULT 2,
     bank_account_id MEDIUMINT UNSIGNED  NULL,
