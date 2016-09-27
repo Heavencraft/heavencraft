@@ -36,3 +36,12 @@ commands:
  cheval:
   usage: /cheval
   description: Gère la propriété d'un cheval
+ tp:
+  usage: /tp <joueur>
+  description: Téléporte à un joueur.
+ tphere:
+  usage: /tphere <joueur>
+  description: Téléporte un joueur à soi.
+ tppos:
+  usage: /tppos <x> <y> <z>
+  description: Téléporte à des coordonnées.
