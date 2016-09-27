@@ -19,6 +19,9 @@ import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
 import fr.hc.rp.db.warps.RPWarpProvider;
+import fr.hc.rp.economy.EconomyListener;
+import fr.hc.rp.economy.GoldDropListener;
+import fr.hc.rp.economy.MoneyTask;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
@@ -73,6 +76,11 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		new VilleCommand(this);
 		new RejoindreCommand(this);
 		new AccepterCommand(this);
+
+		// Economy
+		new EconomyListener(this);
+		new GoldDropListener(this);
+		new MoneyTask(this);
 
 		// Bank
 		new LivretSignListener(this);
