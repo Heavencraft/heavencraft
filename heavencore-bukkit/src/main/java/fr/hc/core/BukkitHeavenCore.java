@@ -20,6 +20,9 @@ import fr.hc.core.cmd.admin.HealCommand;
 import fr.hc.core.cmd.admin.InventoryCommand;
 import fr.hc.core.cmd.admin.RoucoupsCommand;
 import fr.hc.core.cmd.admin.SpectatorCommand;
+import fr.hc.core.cmd.admin.TpCommand;
+import fr.hc.core.cmd.admin.TphereCommand;
+import fr.hc.core.cmd.admin.TpposCommand;
 import fr.hc.core.cmd.homes.BuyHomeCommand;
 import fr.hc.core.cmd.homes.HomeCommand;
 import fr.hc.core.cmd.homes.SetHomeCommand;
@@ -162,6 +165,9 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			new InventoryCommand(this);
 			new RoucoupsCommand(this);
 			new SpectatorCommand(this);
+			new TpCommand(this);
+			new TphereCommand(this);
+			new TpposCommand(this);
 
 			// Optim
 			new AntiLagListener(this);
