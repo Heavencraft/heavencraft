@@ -32,6 +32,7 @@ public class TpCommand extends AbstractCommandExecutor
 					throw new HeavenException("Le joueur {%1$s} n'est pas connecté ou n'existe pas.", args[0]);
 
 				player.teleport(toPlayer);
+				ChatUtil.sendMessage(player, "Vous venez de vous téléporter sur {%1$s}", args[0]);
 				break;
 
 			case 2:
@@ -43,6 +44,8 @@ public class TpCommand extends AbstractCommandExecutor
 							args[0], args[1]);
 
 				fromPlayer.teleport(toPlayer);
+				ChatUtil.sendMessage(fromPlayer, "Vous venez de vous téléporter sur {%1$s}", args[1]);
+				ChatUtil.sendMessage(toPlayer, "{%1$s} a été téléporté sur vous.", args[0]);
 				break;
 			default:
 				sendUsage(player);
@@ -64,6 +67,7 @@ public class TpCommand extends AbstractCommandExecutor
 							args[0], args[1]);
 
 				fromPlayer.teleport(toPlayer);
+				ChatUtil.sendMessage(sender, "{%1$s} a été téléporté sur {%2$s}", args[0], args[1]);
 				break;
 			default:
 				sendUsage(sender);
