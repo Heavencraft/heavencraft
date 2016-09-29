@@ -2,6 +2,9 @@ package fr.hc.core;
 
 public class CorePermissions
 {
+	public static final String ACCEPTER_COMMAND = "heavencore.commands.accepter";
+	public static final String REJOINDRE_COMMAND = "heavencore.commands.rejoindre";
+
 	public static final String CREACHEAT_COMMAND = "heavencore.commands.creacheat";
 	public static final String ENDERCHEAT_COMMAND = "heavencore.commands.endercheat";
 	public static final String HEAL_COMMAND = "heavencore.commands.heal";

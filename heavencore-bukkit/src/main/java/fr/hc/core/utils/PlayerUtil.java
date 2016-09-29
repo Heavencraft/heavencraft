@@ -3,6 +3,7 @@ package fr.hc.core.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.exceptions.PlayerNotConnectedException;
@@ -42,6 +43,11 @@ public class PlayerUtil
 		{
 			return Bukkit.getOfflinePlayer(playerName);
 		}
+	}
+
+	public static void teleportPlayer(Player player, Entity entity)
+	{
+		teleportPlayer(player, entity.getLocation());
 	}
 
 	public static void teleportPlayer(Player player, Location location)
