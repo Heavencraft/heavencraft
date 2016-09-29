@@ -5,25 +5,25 @@ depend: [WorldEdit]
 commands:
  creacheat:
   usage: /creacheat
-  description: Active/désactive le Gamemode 1
+  description: Active/désactive le Gamemode 1.
  endercheat:
   usage: /endercheat <joueur>
-  description: Ouvre l'endercheat du joueur concerné
+  description: Ouvre l'endercheat du joueur concerné.
  heal:
   usage: /heal [<joueur>]
-  description: Soigne le joueur
+  description: Soigne le joueur.
  inventory:
   usage: /inventory <joueur>
-  description: Ouvre l'inventaire du joueur
+  description: Ouvre l'inventaire du joueur.
  roucoups:
   usage: /roucoups
-  description: Donne le fly au joueur
+  description: Donne le fly au joueur.
  spectator:
   usage: /spectator
-  description: Active/Désactive le Gamemode 3
+  description: Active/Désactive le Gamemode 3.
  home:
   usage: /home <nombre>
-  description: Téléporte à un home
+  description: Téléporte à un home.
  sethome:
   usage: /sethome <id>
   description: Définie la position d'un home.
@@ -32,10 +32,10 @@ commands:
   description: Achète un home en plus.
  tphome:
   usage: /tphome <joueur> <numéro>
-  description: Permet de se téléporter au home d'un joueur
+  description: Permet de se téléporter au home d'un joueur.
  cheval:
   usage: /cheval
-  description: Gère la propriété d'un cheval
+  description: Gère la propriété d'un cheval.
  tp:
   usage: /tp <joueur>
   description: Téléporte à un joueur.
@@ -45,3 +45,6 @@ commands:
  tppos:
   usage: /tppos <x> <y> <z>
   description: Téléporte à des coordonnées.
+ poof:
+  usage: /poof
+  description: Rend l'utilisateur invisible.
