@@ -7,11 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.AbstractBukkitPlugin;
+import fr.hc.core.CorePermissions;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.rp.worlds.WorldsManager;
 
 public class RejoindreCommand extends AbstractCommandExecutor
 {
@@ -32,8 +32,15 @@ public class RejoindreCommand extends AbstractCommandExecutor
 		}
 
 		final Player destination = PlayerUtil.getPlayer(args[0]);
-		if ((player.getWorld() != WorldsManager.getResources()) || player.getWorld() != destination.getWorld())
-			throw new HeavenException("Vous devez être tous les deux en map ressource pour utiliser cette commande.");
+
+		if (!player.hasPermission(CorePermissions.REJOINDRE_COMMAND))
+			throw new HeavenException("Vous n'avez pas actuellement la permission d'utiliser /rejoindre.");
+
+		if (!destination.hasPermission(CorePermissions.ACCEPTER_COMMAND))
+			throw new HeavenException("{%1$s} n'a pas actuellement la permission de faire /accepter.",
+					destination.getName());
+
+		addRequest(player.getName(), destination.getName());
 
 		ChatUtil.sendMessage(destination, "{%1$s} souhaite vous rejoindre. Tapez /accepter {%1$s} pour accepter.",
 				player.getName());
@@ -44,7 +51,7 @@ public class RejoindreCommand extends AbstractCommandExecutor
 	@Override
 	protected void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-		ChatUtil.sendMessage(sender, "Cette commande n'est pas utilisable depuis la console.");
+		notConsoleCommand(sender);
 	}
 
 	@Override
