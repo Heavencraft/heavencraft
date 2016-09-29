@@ -18,6 +18,7 @@ import fr.hc.core.cmd.admin.CreacheatCommand;
 import fr.hc.core.cmd.admin.EndercheatCommand;
 import fr.hc.core.cmd.admin.HealCommand;
 import fr.hc.core.cmd.admin.InventoryCommand;
+import fr.hc.core.cmd.admin.PoofCommand;
 import fr.hc.core.cmd.admin.RoucoupsCommand;
 import fr.hc.core.cmd.admin.SpectatorCommand;
 import fr.hc.core.cmd.admin.TpCommand;
@@ -37,6 +38,7 @@ import fr.hc.core.exceptions.StopServerException;
 import fr.hc.core.horses.ChevalCommand;
 import fr.hc.core.horses.HorsesListener;
 import fr.hc.core.listeners.CookieSignListener;
+import fr.hc.core.listeners.HiddenPlayerListener;
 import fr.hc.core.listeners.NoChatListener;
 import fr.hc.core.listeners.RedstoneLampListener;
 import fr.hc.core.optim.AntiCheatListener;
@@ -149,6 +151,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			new CookieSignListener(this);
 			new RedstoneLampListener(this);
 			new NoChatListener(this);
+			new HiddenPlayerListener(this);
 
 			// Home feature
 			new HomeCommand(this);
@@ -168,6 +171,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			new TpCommand(this);
 			new TphereCommand(this);
 			new TpposCommand(this);
+			new PoofCommand(this);
 
 			// Optim
 			new AntiLagListener(this);
