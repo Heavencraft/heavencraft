@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import fr.hc.core.db.users.balance.UpdateUserBalanceQuery;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
+import fr.hc.core.utils.ConversionUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.db.users.RPUser;
@@ -33,23 +34,22 @@ public class MoneyTask extends BukkitRunnable
 	@Override
 	public void run()
 	{
+		final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+		if (players.isEmpty())
+			return;
+
+		final int amount = getAmount();
+		log.info("Giving {} po to [{}]", amount, ConversionUtil.toString(players));
+
 		try
 		{
-			final Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-			final int amount = getAmount();
-
-			log.info("[MoneyTask] giving {} po to {} players", amount, players.size());
-
 			for (final Player player : players)
 			{
-				// if (!player.hasPermission(RPPermissions.PRIVILEGES_LOSS))
-				// {
 				final Optional<RPUser> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
 				if (!optUser.isPresent())
 					throw new UserNotFoundException(player.getUniqueId());
 
 				new UpdateUserBalanceQuery(optUser.get(), amount, plugin.getUserProvider()).schedule();
-				// }
 			}
 		}
 		catch (final HeavenException ex)
