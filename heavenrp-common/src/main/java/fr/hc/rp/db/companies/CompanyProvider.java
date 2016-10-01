@@ -15,6 +15,7 @@ import fr.hc.rp.exceptions.CompanyNotFoundException;
 
 public class CompanyProvider
 {
+	private static final String SELECT_COMPANY_BY_ID = "SELECT * FROM companies WHERE id = ? LIMIT 1;";
 	private static final String SELECT_COMPANY_BY_NAME = "SELECT * FROM companies WHERE name = ? LIMIT 1;";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
@@ -25,6 +26,35 @@ public class CompanyProvider
 	public CompanyProvider(ConnectionProvider connectionProvider)
 	{
 		this.connectionProvider = connectionProvider;
+	}
+
+	public Company getCompanyById(int id) throws HeavenException
+	{
+		// Try to get bank account from cache
+		Company company = cache.getCompanyById(id);
+		if (company != null)
+			return company;
+
+		// Get user from database
+		try (Connection connection = connectionProvider.getConnection();
+				PreparedStatement ps = connection.prepareStatement(SELECT_COMPANY_BY_ID))
+		{
+			ps.setInt(1, id);
+
+			final ResultSet rs = ps.executeQuery();
+
+			if (!rs.next())
+				throw new CompanyNotFoundException(id);
+
+			company = new Company(rs);
+			cache.addToCache(company);
+			return company;
+		}
+		catch (final SQLException ex)
+		{
+			log.error("Error while executing SQL query '{}'", SELECT_COMPANY_BY_ID, ex);
+			throw new DatabaseErrorException();
+		}
 	}
 
 	public Company getCompanyByName(String name) throws HeavenException
