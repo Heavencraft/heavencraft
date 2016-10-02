@@ -104,7 +104,10 @@ public class StockProvider
 
 			final ResultSet generatedKeys = ps.getGeneratedKeys();
 			generatedKeys.next();
-			return new Stock(generatedKeys.getInt(1), company, name, world, x, y, z);
+			final Stock stock = new Stock(generatedKeys.getInt(1), company, name, world, x, y, z);
+			cache.addToCache(stock);
+			// TODO: Update Stores once done to link to the chest
+			return stock;
 		}
 		catch (final SQLException ex)
 		{
