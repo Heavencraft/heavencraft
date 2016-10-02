@@ -128,3 +128,24 @@ INSERT INTO worlds (name, flag_pvp, flag_public) VALUES
 ("world_resources", 0, 1),
 ("world_nether", 1, 1),
 ("world_the_end", 1, 1);
+
+
+--
+-- Stocks
+--
+
+CREATE TABLE stocks (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+    company_id      MEDIUMINT UNSIGNED  NOT NULL,
+    name            VARCHAR(16)         NOT NULL,
+    world           VARCHAR(16)         NOT NULL,
+    x               INT                 NOT NULL,
+    y               TINYINT UNSIGNED    NOT NULL,
+    z               INT                 NOT NULL,
+
+    PRIMARY KEY (id),
+    UNIQUE (name, company_id)
+);
+
+ALTER TABLE stocks
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
