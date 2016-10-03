@@ -149,3 +149,32 @@ CREATE TABLE stocks (
 
 ALTER TABLE stocks
     ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
+
+--
+-- Stores
+--
+
+CREATE TABLE stores (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+
+    stock_id        INT UNSIGNED        NOT NULL,
+    company_id      MEDIUMINT UNSIGNED  NOT NULL,
+    name            VARCHAR(16)         NOT NULL,
+
+    quantity        SMALLINT UNSIGNED   NOT NULL,
+    price           SMALLINT UNSIGNED   NOT NULL,
+    isBuyer         BOOLEAN             NOT NULL,
+
+    world           VARCHAR(16)         NOT NULL,
+    x               INT                 NOT NULL,
+    y               TINYINT             NOT NULL,
+    z               INT                 NOT NULL,
+    
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE stores
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
+    
+ALTER TABLE stores
+    ADD FOREIGN KEY (stock_id) REFERENCES stocks (id) ON DELETE SET NULL;
