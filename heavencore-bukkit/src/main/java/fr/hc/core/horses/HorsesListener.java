@@ -74,7 +74,7 @@ public class HorsesListener extends AbstractBukkitListener
 		if (!HorsesManager.canUse(horse, player))
 		{
 			if (horse.getOwner() != null)
-				log.info("%1$s tried to damage %2$s's horse", player.getName(), horse.getOwner().getName());
+				log.info("{} tried to damage {}'s horse", player.getName(), horse.getOwner().getName());
 
 			event.setCancelled(true);
 		}

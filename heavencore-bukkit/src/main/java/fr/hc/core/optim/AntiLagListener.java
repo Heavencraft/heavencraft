@@ -59,7 +59,7 @@ public class AntiLagListener extends AbstractBukkitListener
 
 			if (count > limit)
 			{
-				log.info("Chunk %1$s,%2$s,%3$s already contains %4$s %5$s", chunk.getWorld().getName(), chunk.getX(),
+				log.info("Chunk {},{},{} already contains {} {}", chunk.getWorld().getName(), chunk.getX(),
 						chunk.getZ(), count, clazz.getSimpleName());
 			}
 		}
