@@ -16,6 +16,8 @@ import fr.hc.rp.commands.SpawnCommand;
 import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
+import fr.hc.rp.db.stocks.StockProvider;
+import fr.hc.rp.db.stores.StoreProvider;
 import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
 import fr.hc.rp.db.warps.RPWarpProvider;
@@ -37,6 +39,8 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	private TownProvider townProvider;
 	private RPUserProvider userProvider;
 	private RPWarpProvider warpProvider;
+	private StoreProvider storeProvider;
+	private StockProvider stockProvider;
 
 	public BukkitHeavenRP()
 	{
@@ -55,6 +59,8 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		townProvider = new TownProvider(connectionProvider);
 		userProvider = new RPUserProvider(connectionProvider);
 		warpProvider = new RPWarpProvider(connectionProvider);
+		storeProvider = new StoreProvider(connectionProvider);
+		stockProvider = new StockProvider(connectionProvider);
 
 		HeavenCoreInstance.get().setReferencePlugin(this);
 		HeavenGuardInstance.get().setUserProvider(userProvider);
@@ -117,5 +123,17 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	public RPWarpProvider getWarpProvider()
 	{
 		return warpProvider;
+	}
+
+	@Override
+	public StoreProvider getStoreProvider()
+	{
+		return storeProvider;
+	}
+
+	@Override
+	public StockProvider getStockProvider()
+	{
+		return stockProvider;
 	}
 }

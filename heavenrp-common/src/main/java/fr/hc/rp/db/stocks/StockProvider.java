@@ -9,10 +9,10 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
-import fr.hc.rp.db.companies.Company;
 
 public class StockProvider
 {
@@ -59,10 +59,10 @@ public class StockProvider
 		}
 	}
 
-	public Stock getStockByCompanyAndName(Company company, String name) throws HeavenException
+	public Stock getStockByCompanyAndName(CompanyIdAndStockName companyIdAndStockName) throws HeavenException
 	{
 		// Try to get stock from cache
-		Stock stock = cache.getStockByCompanyAndName(company, name);
+		Stock stock = cache.getStockByCompanyAndName(companyIdAndStockName);
 		if (stock != null)
 			return stock;
 
@@ -70,13 +70,13 @@ public class StockProvider
 		try (Connection connection = connectionProvider.getConnection();
 				PreparedStatement ps = connection.prepareStatement(SELECT_STOCK_BY_COMPANY_AND_NAME))
 		{
-			ps.setInt(1, company.getId());
-			ps.setString(2, name);
+			ps.setInt(1, companyIdAndStockName.getCompanyId());
+			ps.setString(2, companyIdAndStockName.getStockName());
 
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new StockNotFoundException(company, name);
+				throw new StockNotFoundException(companyIdAndStockName);
 
 			stock = new Stock(rs);
 			cache.addToCache(stock);
@@ -89,22 +89,23 @@ public class StockProvider
 		}
 	}
 
-	public Stock createStock(Company company, String name, String world, int x, int y, int z) throws HeavenException
+	public Stock createStock(CompanyIdAndStockName companyIdAndStockName, HeavenBlockLocation location)
+			throws HeavenException
 	{
 		try (Connection connection = connectionProvider.getConnection();
 				PreparedStatement ps = connection.prepareStatement(INSERT_STOCK, Statement.RETURN_GENERATED_KEYS))
 		{
-			ps.setInt(1, company.getId());
-			ps.setString(2, name);
-			ps.setString(3, world);
-			ps.setInt(4, x);
-			ps.setInt(5, y);
-			ps.setInt(6, z);
+			ps.setInt(1, companyIdAndStockName.getCompanyId());
+			ps.setString(2, companyIdAndStockName.getStockName());
+			ps.setString(3, location.getWorld());
+			ps.setInt(4, location.getX());
+			ps.setInt(5, location.getY());
+			ps.setInt(6, location.getZ());
 			ps.executeUpdate();
 
 			final ResultSet generatedKeys = ps.getGeneratedKeys();
 			generatedKeys.next();
-			final Stock stock = new Stock(generatedKeys.getInt(1), company, name, world, x, y, z);
+			final Stock stock = new Stock(generatedKeys.getInt(1), companyIdAndStockName, location);
 			cache.addToCache(stock);
 			// TODO: Update Stores once done to link to the chest
 			return stock;
