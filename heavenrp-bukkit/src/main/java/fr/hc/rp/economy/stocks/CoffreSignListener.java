@@ -2,6 +2,9 @@ package fr.hc.rp.economy.stocks;
 
 import java.util.Optional;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
@@ -36,6 +39,15 @@ public class CoffreSignListener extends AbstractSignListener
 	@Override
 	protected boolean onSignPlace(Player player, SignChangeEvent event) throws HeavenException
 	{
+		if (event.getBlock().getType() != Material.WALL_SIGN)
+			return false;
+
+		final Sign sign = (Sign) event.getBlock().getState();
+
+		final Block chestBlock = getChestBlock(sign);
+		if (chestBlock == null)
+			return false;
+
 		final String companyName = event.getLine(COMPANY_LINE);
 
 		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
@@ -50,7 +62,8 @@ public class CoffreSignListener extends AbstractSignListener
 
 		final String stockName = event.getLine(NAME_LINE);
 		plugin.getStockProvider().createStock(new CompanyIdAndStockName(company.getId(), stockName),
-				ConversionUtil.toHeavenBlockLocation(event.getBlock().getLocation()));
+				ConversionUtil.toHeavenBlockLocation(event.getBlock().getLocation()),
+				ConversionUtil.toHeavenBlockLocation(chestBlock.getLocation()));
 		return true;
 	}
 
@@ -64,7 +77,7 @@ public class CoffreSignListener extends AbstractSignListener
 	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
 	{
 		final Stock stock = plugin.getStockProvider()
-				.getStockByLocation(ConversionUtil.toHeavenBlockLocation(sign.getLocation()));
+				.getStockBySignLocation(ConversionUtil.toHeavenBlockLocation(sign.getLocation()));
 
 		new RemoveStockQuery(stock, plugin.getStockProvider())
 		{
@@ -76,5 +89,32 @@ public class CoffreSignListener extends AbstractSignListener
 		}.schedule();
 
 		return true;
+	}
+
+	private static Block getChestBlock(Sign signBlock)
+	{
+		final BlockFace attachedFace = ((org.bukkit.material.Sign) signBlock.getData()).getAttachedFace();
+
+		final Block attachedBlock = signBlock.getBlock().getRelative(attachedFace);
+		if (isChest(attachedBlock.getType()))
+			return attachedBlock;
+
+		final Block underBlock = signBlock.getBlock().getRelative(BlockFace.DOWN);
+		if (isChest(underBlock.getType()))
+			return underBlock;
+
+		return null;
+	}
+
+	private static boolean isChest(Material type)
+	{
+		switch (type)
+		{
+			case CHEST:
+			case TRAPPED_CHEST:
+				return true;
+			default:
+				return false;
+		}
 	}
 }

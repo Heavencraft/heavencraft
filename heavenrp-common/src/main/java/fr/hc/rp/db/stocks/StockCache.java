@@ -15,7 +15,8 @@ class StockCache
 
 	private final Map<Integer, Stock> stocksById = new ConcurrentHashMap<Integer, Stock>();
 	private final Map<CompanyIdAndStockName, Stock> stocksByNameByCompanyId = new ConcurrentHashMap<CompanyIdAndStockName, Stock>();
-	private final Map<HeavenBlockLocation, Stock> stocksByLocation = new ConcurrentHashMap<HeavenBlockLocation, Stock>();
+	private final Map<HeavenBlockLocation, Stock> stocksBySignLocation = new ConcurrentHashMap<HeavenBlockLocation, Stock>();
+	private final Map<HeavenBlockLocation, Stock> stocksByChestLocation = new ConcurrentHashMap<HeavenBlockLocation, Stock>();
 
 	public Stock getStockById(int id)
 	{
@@ -27,23 +28,30 @@ class StockCache
 		return stocksByNameByCompanyId.get(companyIdAndStockName);
 	}
 
-	public Stock getStockByLocation(HeavenBlockLocation location)
+	public Stock getStockBySignLocation(HeavenBlockLocation signLocation)
 	{
-		return stocksByLocation.get(location);
+		return stocksBySignLocation.get(signLocation);
+	}
+
+	public Stock getStockByChestLocation(HeavenBlockLocation chestLocation)
+	{
+		return stocksByChestLocation.get(chestLocation);
 	}
 
 	public void addToCache(Stock stock)
 	{
 		stocksById.put(stock.getId(), stock);
 		stocksByNameByCompanyId.put(stock.getCompanyIdAndStockName(), stock);
-		stocksByLocation.put(stock.getLocation(), stock);
+		stocksBySignLocation.put(stock.getSignLocation(), stock);
+		stocksByChestLocation.put(stock.getChestLocation(), stock);
 	}
 
 	public void invalidateCache(Stock stock)
 	{
 		stocksById.remove(stock.getId());
 		stocksByNameByCompanyId.remove(stock.getCompanyIdAndStockName());
-		stocksByLocation.remove(stock.getLocation());
+		stocksBySignLocation.remove(stock.getSignLocation());
+		stocksByChestLocation.remove(stock.getChestLocation());
 
 		log.info("Invalidated stock cache for {}", stock);
 	}

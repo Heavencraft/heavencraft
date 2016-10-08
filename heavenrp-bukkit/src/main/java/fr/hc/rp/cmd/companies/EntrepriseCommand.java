@@ -14,6 +14,10 @@ public class EntrepriseCommand extends SubCommandsCommand
 		addSubCommand("ajouterEmployeur", new EntrepriseAjouterEmployeurSubCommand());
 		addSubCommand("retirerEmployeur", new RetirerEmployeurSubCommand());
 
+		final EntrepriseCreerSubCommand creer = new EntrepriseCreerSubCommand();
+		addSubCommand("créer", creer);
+		addSubCommand("creer", creer);
+
 		final SubCommand ajouterEmploye = new EntrepriseAjouterEmployeSubCommand();
 		addSubCommand("ajouterEmployé", ajouterEmploye);
 		addSubCommand("ajouterEmploye", ajouterEmploye);
