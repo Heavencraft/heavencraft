@@ -19,7 +19,7 @@ public class CompanyProvider
 	private static final String SELECT_COMPANY_BY_ID = "SELECT * FROM companies WHERE id = ? LIMIT 1;";
 	private static final String SELECT_COMPANY_BY_TAG = "SELECT * FROM companies WHERE tag = ? LIMIT 1;";
 	private static final String SELECT_MEMBERS_BY_COMPANY_ID = "SELECT user_id, employer FROM companies_users WHERE company_id = ?;";
-	private static final String INSERT_COMPANY = "INSERT INTO company (name, tag) VALUES (?, ?);";
+	private static final String INSERT_COMPANY = "INSERT INTO companies (name, tag) VALUES (?, ?);";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 

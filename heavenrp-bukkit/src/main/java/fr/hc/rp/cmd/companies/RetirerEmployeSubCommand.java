@@ -40,13 +40,13 @@ public class RetirerEmployeSubCommand extends AbstractEmployerSubCommand
 		final String userName = args[1];
 
 		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByName(userName);
-		if (optUser.isPresent())
+		if (!optUser.isPresent())
 			throw new UserNotFoundException(userName);
 		final User user = optUser.get();
 
 		final Company company = plugin.getCompanyProvider().getCompanyByTag(companyTag);
 
-		new RemoveCompanyMemberQuery(company, user, true, plugin.getCompanyProvider())
+		new RemoveCompanyMemberQuery(company, user, false, plugin.getCompanyProvider())
 		{
 			@Override
 			public void onSuccess()
@@ -61,12 +61,11 @@ public class RetirerEmployeSubCommand extends AbstractEmployerSubCommand
 				ChatUtil.sendMessage(sender, ex.getMessage());
 			}
 		}.schedule();
-
 	}
 
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "/{entreprise} retirerEmployé <tag de l'entreprise> <nom du joueur>");
+		ChatUtil.sendMessage(sender, "/{entreprise} retirerEmployé <entreprise> <joueur>");
 	}
 }

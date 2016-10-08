@@ -34,6 +34,7 @@ public class EntrepriseInfoSubCommand extends SubCommand
 		final Company company = plugin.getCompanyProvider().getCompanyByTag(companyName);
 
 		ChatUtil.sendMessage(sender, "Nom : %1$s", company.getName());
+		ChatUtil.sendMessage(sender, "Tag : %1$s", company.getTag());
 		ChatUtil.sendMessage(sender, "Employeurs : %1$s", InputUtil.userIdsToString(company.getEmployers(), ", "));
 		ChatUtil.sendMessage(sender, "Employés : %1$s", InputUtil.userIdsToString(company.getEmployees(), ", "));
 	}
@@ -41,6 +42,6 @@ public class EntrepriseInfoSubCommand extends SubCommand
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "/{entreprise} info <nom de l'entreprise>");
+		ChatUtil.sendMessage(sender, "/{entreprise} info <entreprise>");
 	}
 }

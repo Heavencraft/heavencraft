@@ -9,14 +9,17 @@ public class Stock
 {
 	private final int id;
 	private final CompanyIdAndStockName companyIdAndStockName;
-	private final HeavenBlockLocation location;
+	private final HeavenBlockLocation signLocation;
+	private final HeavenBlockLocation chestLocation;
 
 	// Available from package only
-	Stock(int id, CompanyIdAndStockName companyIdAndStockName, HeavenBlockLocation location)
+	Stock(int id, CompanyIdAndStockName companyIdAndStockName, HeavenBlockLocation signLocation,
+			HeavenBlockLocation chestLocation)
 	{
 		this.id = id;
 		this.companyIdAndStockName = companyIdAndStockName;
-		this.location = location;
+		this.signLocation = signLocation;
+		this.chestLocation = chestLocation;
 	}
 
 	// Available from package only
@@ -24,7 +27,8 @@ public class Stock
 	{
 		this.id = rs.getInt("id");
 		this.companyIdAndStockName = new CompanyIdAndStockName("company_id", "name", rs);
-		this.location = new HeavenBlockLocation("world", "x", "y", "z", rs);
+		this.signLocation = new HeavenBlockLocation("world", "sign_x", "sign_y", "sign_z", rs);
+		this.chestLocation = new HeavenBlockLocation("world", "chest_x", "chest_y", "chest_z", rs);
 	}
 
 	public int getId()
@@ -37,8 +41,13 @@ public class Stock
 		return companyIdAndStockName;
 	}
 
-	public HeavenBlockLocation getLocation()
+	public HeavenBlockLocation getSignLocation()
 	{
-		return location;
+		return signLocation;
+	}
+
+	public HeavenBlockLocation getChestLocation()
+	{
+		return chestLocation;
 	}
 }

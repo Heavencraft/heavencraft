@@ -117,7 +117,7 @@ ALTER TABLE companies_users
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
 
-INSERT INTO companies (name, bank_account_id) VALUES ('Heavencraft', 'Heavencraft', '1');
+INSERT INTO companies (name, tag, bank_account_id) VALUES ('Heavencraft', 'Heavencraft', 1);
 
 
 
@@ -162,12 +162,17 @@ CREATE TABLE stocks (
     company_id      MEDIUMINT UNSIGNED  NOT NULL,
     name            VARCHAR(16)         NOT NULL,
     world           VARCHAR(16)         NOT NULL,
-    x               INT                 NOT NULL,
-    y               TINYINT UNSIGNED    NOT NULL,
-    z               INT                 NOT NULL,
+    sign_x          INT                 NOT NULL,
+    sign_y          TINYINT UNSIGNED    NOT NULL,
+    sign_z          INT                 NOT NULL,
+    chest_x         INT                 NOT NULL,
+    chest_y         TINYINT UNSIGNED    NOT NULL,
+    chest_z         INT                 NOT NULL,
 
     PRIMARY KEY (id),
-    UNIQUE (name, company_id)
+    UNIQUE (name, company_id),
+    UNIQUE (world, sign_x, sign_y, sign_z),
+    UNIQUE (world, chest_x, chest_y, chest_z)
 );
 
 ALTER TABLE stocks
@@ -180,7 +185,7 @@ ALTER TABLE stocks
 CREATE TABLE stores (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
 
-    stock_id        INT UNSIGNED        NOT NULL,
+    stock_id        INT UNSIGNED        NULL,
     company_id      MEDIUMINT UNSIGNED  NOT NULL,
     name            VARCHAR(16)         NOT NULL,
 

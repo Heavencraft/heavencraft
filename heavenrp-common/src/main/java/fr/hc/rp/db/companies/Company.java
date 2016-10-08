@@ -49,6 +49,12 @@ public class Company
 		employees.add(userId);
 	}
 
+	@Override
+	public String toString()
+	{
+		return name;
+	}
+
 	public int getId()
 	{
 		return id;

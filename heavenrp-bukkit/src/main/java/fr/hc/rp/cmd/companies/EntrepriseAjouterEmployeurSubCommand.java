@@ -40,13 +40,13 @@ public class EntrepriseAjouterEmployeurSubCommand extends AbstractEmployerSubCom
 		final String userName = args[1];
 
 		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByName(userName);
-		if (optUser.isPresent())
+		if (!optUser.isPresent())
 			throw new UserNotFoundException(userName);
 		final User user = optUser.get();
 
 		final Company company = plugin.getCompanyProvider().getCompanyByTag(companyTag);
 
-		new AddCompanyMemberQuery(company, user, false, plugin.getCompanyProvider())
+		new AddCompanyMemberQuery(company, user, true, plugin.getCompanyProvider())
 		{
 			@Override
 			public void onSuccess()
@@ -61,12 +61,11 @@ public class EntrepriseAjouterEmployeurSubCommand extends AbstractEmployerSubCom
 				ChatUtil.sendMessage(sender, ex.getMessage());
 			}
 		}.schedule();
-
 	}
 
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "/{entreprise} ajouterEmployeur <tag de l'entreprise> <nom du joueur>");
+		ChatUtil.sendMessage(sender, "/{entreprise} ajouterEmployeur <entreprise> <joueur>");
 	}
 }
