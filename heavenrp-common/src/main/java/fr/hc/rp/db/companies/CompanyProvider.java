@@ -18,6 +18,7 @@ public class CompanyProvider
 {
 	private static final String SELECT_COMPANY_BY_ID = "SELECT * FROM companies WHERE id = ? LIMIT 1;";
 	private static final String SELECT_COMPANY_BY_TAG = "SELECT * FROM companies WHERE tag = ? LIMIT 1;";
+	private static final String SELECT_MEMBERS_BY_COMPANY_ID = "SELECT user_id, employer FROM companies_users WHERE company_id = ?;";
 	private static final String INSERT_COMPANY = "INSERT INTO company (name, tag) VALUES (?, ?);";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
@@ -49,6 +50,7 @@ public class CompanyProvider
 				throw new CompanyNotFoundException(id);
 
 			company = new Company(rs);
+			loadMembers(company, connection);
 			cache.addToCache(company);
 			return company;
 		}
@@ -78,6 +80,7 @@ public class CompanyProvider
 				throw new CompanyNotFoundException(tag);
 
 			company = new Company(rs);
+			loadMembers(company, connection);
 			cache.addToCache(company);
 			return company;
 		}
@@ -85,6 +88,21 @@ public class CompanyProvider
 		{
 			log.error("Error while executing SQL query '{}'", SELECT_COMPANY_BY_TAG, ex);
 			throw new DatabaseErrorException();
+		}
+	}
+
+	private void loadMembers(Company company, Connection connection) throws SQLException
+	{
+		try (PreparedStatement ps = connection.prepareStatement(SELECT_MEMBERS_BY_COMPANY_ID))
+		{
+			ps.setInt(1, company.getId());
+
+			final ResultSet rs = ps.executeQuery();
+			while (rs.next())
+				if (rs.getBoolean("employer"))
+					company.addEmployer(rs.getInt("user_id"));
+				else
+					company.addEmployee(rs.getInt("user_id"));
 		}
 	}
 
