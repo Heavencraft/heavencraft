@@ -10,23 +10,6 @@ CREATE TABLE bank_accounts (
 
 INSERT INTO bank_accounts (id, balance) VALUES ('1', '1000');
 
---
--- Companies
---
-
-CREATE TABLE companies (
-    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(32)         NOT NULL,
-    bank_account_id MEDIUMINT UNSIGNED  NULL,
-
-    PRIMARY KEY (id),
-    UNIQUE (name)
-);
-
-ALTER TABLE companies
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
-
-INSERT INTO companies (id, name, bank_account_id) VALUES ('1', 'Heavencraft', '1');
 
 --
 -- Users
@@ -48,6 +31,8 @@ CREATE TABLE users (
 
 ALTER TABLE users
     ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+
+
 --
 -- Homes
 --
@@ -67,6 +52,7 @@ CREATE TABLE homes (
 
 ALTER TABLE homes
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
+
 
 --
 -- Towns
@@ -96,7 +82,44 @@ ALTER TABLE towns_users
 
 ALTER TABLE towns_users
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
-    
+
+
+--
+-- Companies
+--
+
+CREATE TABLE companies (
+    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(32)         NOT NULL,
+    tag             VARCHAR(14)         NOT NULL,
+    bank_account_id MEDIUMINT UNSIGNED  NULL,
+
+    PRIMARY KEY (id),
+    UNIQUE (name),
+    UNIQUE (tag)
+);
+
+ALTER TABLE companies
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+
+CREATE TABLE companies_users (
+    company_id      MEDIUMINT UNSIGNED  NOT NULL,
+    user_id         MEDIUMINT UNSIGNED  NOT NULL,
+    employer        BOOLEAN             NOT NULL,
+
+    PRIMARY KEY (company_id, user_id)
+);
+
+ALTER TABLE companies_users
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id);
+
+ALTER TABLE companies_users
+    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+
+
+INSERT INTO companies (name, bank_account_id) VALUES ('Heavencraft', 'Heavencraft', '1');
+
+
 
 --
 -- Warps

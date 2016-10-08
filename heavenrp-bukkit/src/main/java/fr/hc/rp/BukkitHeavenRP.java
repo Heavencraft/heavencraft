@@ -6,6 +6,7 @@ import fr.hc.core.ReferencePlugin;
 import fr.hc.core.users.UsersListener;
 import fr.hc.guard.HeavenGuardInstance;
 import fr.hc.rp.banks.LivretSignListener;
+import fr.hc.rp.cmd.companies.EntrepriseCommand;
 import fr.hc.rp.cmd.parcelle.ParcelleCommand;
 import fr.hc.rp.cmd.towns.VilleCommand;
 import fr.hc.rp.commands.AccepterCommand;
@@ -82,6 +83,9 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		new VilleCommand(this);
 		new RejoindreCommand(this);
 		new AccepterCommand(this);
+
+		// Company
+		new EntrepriseCommand(this);
 
 		// Economy
 		new EconomyListener(this);
