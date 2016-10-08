@@ -95,7 +95,7 @@ public class PayerCommand extends AbstractCommandExecutor
 				break;
 
 			case "entreprise":
-				toCompany = plugin.getCompanyProvider().getCompanyByName(args[1]);
+				toCompany = plugin.getCompanyProvider().getCompanyByTag(args[1]);
 
 				if (toCompany != null)
 				{

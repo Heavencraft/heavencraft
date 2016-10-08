@@ -12,28 +12,28 @@ class CompanyCache
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private final Map<Integer, Company> companiesById = new ConcurrentHashMap<Integer, Company>();
-	private final Map<String, Company> companiesByName = new ConcurrentHashMap<String, Company>();
+	private final Map<String, Company> companiesByTag = new ConcurrentHashMap<String, Company>();
 
 	public Company getCompanyById(int id)
 	{
 		return companiesById.get(id);
 	}
 
-	public Company getCompanyByName(String name)
+	public Company getCompanyByTag(String name)
 	{
-		return companiesByName.get(name);
+		return companiesByTag.get(name);
 	}
 
 	public void addToCache(Company company)
 	{
 		companiesById.put(company.getId(), company);
-		companiesByName.put(company.getName(), company);
+		companiesByTag.put(company.getTag(), company);
 	}
 
 	public void invalidateCache(Company company)
 	{
 		companiesById.remove(company.getId());
-		companiesByName.remove(company.getName());
+		companiesByTag.remove(company.getTag());
 
 		log.info("Invalidated company cache for {}", company);
 	}
