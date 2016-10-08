@@ -10,8 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 
 import fr.hc.core.AbstractSignListener;
+import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
+import fr.hc.core.utils.BukkitUtil;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
@@ -76,10 +78,13 @@ public class CoffreSignListener extends AbstractSignListener
 	@Override
 	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
 	{
-		final Stock stock = plugin.getStockProvider()
-				.getStockBySignLocation(ConversionUtil.toHeavenBlockLocation(sign.getLocation()));
+		final HeavenBlockLocation signLocation = ConversionUtil.toHeavenBlockLocation(sign.getLocation());
 
-		new RemoveStockQuery(stock, plugin.getStockProvider())
+		final Optional<Stock> optStock = plugin.getStockProvider().getOptionalStockBySignLocation(signLocation);
+		if (!optStock.isPresent())
+			return true;
+
+		new RemoveStockQuery(optStock.get(), plugin.getStockProvider())
 		{
 			@Override
 			public void onException(HeavenException ex)
@@ -96,25 +101,14 @@ public class CoffreSignListener extends AbstractSignListener
 		final BlockFace attachedFace = ((org.bukkit.material.Sign) signBlock.getData()).getAttachedFace();
 
 		final Block attachedBlock = signBlock.getBlock().getRelative(attachedFace);
-		if (isChest(attachedBlock.getType()))
+		if (BukkitUtil.isChest(attachedBlock.getType()))
 			return attachedBlock;
 
 		final Block underBlock = signBlock.getBlock().getRelative(BlockFace.DOWN);
-		if (isChest(underBlock.getType()))
+		if (BukkitUtil.isChest(underBlock.getType()))
 			return underBlock;
 
 		return null;
 	}
 
-	private static boolean isChest(Material type)
-	{
-		switch (type)
-		{
-			case CHEST:
-			case TRAPPED_CHEST:
-				return true;
-			default:
-				return false;
-		}
-	}
 }

@@ -54,6 +54,11 @@ public class ConversionUtil
 				home.getYaw(), home.getPitch());
 	}
 
+	public static Location toLocation(HeavenBlockLocation l)
+	{
+		return new Location(Bukkit.getWorld(l.getWorld()), l.getX(), l.getY(), l.getZ());
+	}
+
 	public static HeavenBlockLocation toHeavenBlockLocation(Location l)
 	{
 		return new HeavenBlockLocation(l.getWorld().getName(), l.getBlockX(), l.getBlockY(), l.getBlockZ());

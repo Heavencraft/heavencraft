@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
-import fr.hc.rp.db.stores.StoreNotFoundException;
 
 public class StockProvider
 {
@@ -94,10 +94,18 @@ public class StockProvider
 
 	public Stock getStockBySignLocation(HeavenBlockLocation signLocation) throws HeavenException
 	{
+		final Optional<Stock> optStock = getOptionalStockBySignLocation(signLocation);
+		if (!optStock.isPresent())
+			throw new StockNotFoundException(signLocation);
+		return optStock.get();
+	}
+
+	public Optional<Stock> getOptionalStockBySignLocation(HeavenBlockLocation signLocation) throws HeavenException
+	{
 		// Try to get stock from cache
 		Stock stock = cache.getStockBySignLocation(signLocation);
 		if (stock != null)
-			return stock;
+			return Optional.of(stock);
 
 		// Get stock from database
 		try (Connection connection = connectionProvider.getConnection();
@@ -111,11 +119,11 @@ public class StockProvider
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new StoreNotFoundException(signLocation);
+				return Optional.empty();
 
 			stock = new Stock(rs);
 			cache.addToCache(stock);
-			return stock;
+			return Optional.of(stock);
 		}
 		catch (final SQLException ex)
 		{
@@ -126,10 +134,19 @@ public class StockProvider
 
 	public Stock getStockByChestLocation(HeavenBlockLocation chestLocation) throws HeavenException
 	{
+		final Optional<Stock> optStock = getOptionalStockByChestLocation(chestLocation);
+		if (!optStock.isPresent())
+			throw new StockNotFoundException(chestLocation);
+		return optStock.get();
+	}
+
+	public Optional<Stock> getOptionalStockByChestLocation(HeavenBlockLocation chestLocation)
+			throws DatabaseErrorException
+	{
 		// Try to get stock from cache
 		Stock stock = cache.getStockByChestLocation(chestLocation);
 		if (stock != null)
-			return stock;
+			return Optional.of(stock);
 
 		// Get stock from database
 		try (Connection connection = connectionProvider.getConnection();
@@ -143,11 +160,11 @@ public class StockProvider
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new StoreNotFoundException(chestLocation);
+				return Optional.empty();
 
 			stock = new Stock(rs);
 			cache.addToCache(stock);
-			return stock;
+			return Optional.of(stock);
 		}
 		catch (final SQLException ex)
 		{

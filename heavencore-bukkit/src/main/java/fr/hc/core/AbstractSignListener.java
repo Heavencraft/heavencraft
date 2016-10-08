@@ -65,7 +65,7 @@ public abstract class AbstractSignListener
 		}
 
 		@EventHandler(ignoreCancelled = true)
-		public void onPlayerInteract(PlayerInteractEvent event)
+		private void onPlayerInteract(PlayerInteractEvent event)
 		{
 			if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
 				return;
@@ -99,7 +99,7 @@ public abstract class AbstractSignListener
 			final Block block = event.getBlock();
 
 			final Material type = block.getType();
-			if (type != Material.SIGN && type != Material.SIGN_POST)
+			if (type != Material.WALL_SIGN && type != Material.SIGN_POST)
 				return;
 
 			final Sign sign = (Sign) block.getState();

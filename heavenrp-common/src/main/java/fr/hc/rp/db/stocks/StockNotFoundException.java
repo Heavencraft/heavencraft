@@ -1,5 +1,6 @@
 package fr.hc.rp.db.stocks;
 
+import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
 
 public class StockNotFoundException extends HeavenException
@@ -16,5 +17,10 @@ public class StockNotFoundException extends HeavenException
 	public StockNotFoundException(CompanyIdAndStockName companyIdAndStockName)
 	{
 		super(MESSAGE, companyIdAndStockName);
+	}
+
+	public StockNotFoundException(HeavenBlockLocation location)
+	{
+		super(MESSAGE, location);
 	}
 }

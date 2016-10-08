@@ -31,6 +31,12 @@ public class Stock
 		this.chestLocation = new HeavenBlockLocation("world", "chest_x", "chest_y", "chest_z", rs);
 	}
 
+	@Override
+	public String toString()
+	{
+		return companyIdAndStockName.toString();
+	}
+
 	public int getId()
 	{
 		return id;

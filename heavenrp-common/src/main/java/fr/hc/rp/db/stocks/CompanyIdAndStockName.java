@@ -24,6 +24,12 @@ public class CompanyIdAndStockName
 	}
 
 	@Override
+	public String toString()
+	{
+		return companyId + "-" + stockName;
+	}
+
+	@Override
 	public boolean equals(Object obj)
 	{
 		if (obj == null || !(obj instanceof CompanyIdAndStockName))
