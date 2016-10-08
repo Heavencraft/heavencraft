@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.db.homes.Home;
 import fr.hc.core.exceptions.HeavenException;
 
@@ -51,6 +52,11 @@ public class ConversionUtil
 		return new Location(Bukkit.getWorld(home.getWorld()), //
 				home.getX(), home.getY(), home.getZ(), //
 				home.getYaw(), home.getPitch());
+	}
+
+	public static HeavenBlockLocation toHeavenBlockLocation(Location l)
+	{
+		return new HeavenBlockLocation(l.getWorld().getName(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
 	}
 
 	public static int toInt(String s) throws HeavenException

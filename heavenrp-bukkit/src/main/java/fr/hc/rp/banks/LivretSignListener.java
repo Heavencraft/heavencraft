@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,11 +35,11 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 	@Override
 	protected void onConsultSignClick(Player player) throws HeavenException
 	{
-		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
 		if (!user.isPresent())
 			throw new HeavenException(
 					"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
-		BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
+		final BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
 
 		ChatUtil.sendMessage(player, "{Trésorier} : Vous avez {%1$d} pièces d'or sur votre livret.",
 				account.getBalance());
@@ -61,11 +62,11 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 	@Override
 	protected void onStatementSignClick(Player player) throws HeavenException
 	{
-		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
 		if (!user.isPresent())
 			throw new HeavenException(
 					"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
-		BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
+		final BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
 
 		player.getInventory().addItem(createLastTransactionsBook(account, 2));
 	}
@@ -79,7 +80,7 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent event)
 	{
 		final Player player = event.getPlayer();
-		String playerName = player.getName();
+		final String playerName = player.getName();
 		boolean isDepot = false;
 
 		if (deposants.contains(playerName))
@@ -102,16 +103,16 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 
 		try
 		{
-			int delta = Integer.parseInt(event.getMessage());
+			final int delta = Integer.parseInt(event.getMessage());
 			if (delta <= 0)
 				throw new HeavenException("Le nombre {%1$s} doit être positif.", delta);
 
-			Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(event.getPlayer().getUniqueId());
+			final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(event.getPlayer().getUniqueId());
 			if (!user.isPresent())
 				throw new HeavenException(
 						"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
 
-			BankAccount bank = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
+			final BankAccount bank = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
 
 			try
 			{
@@ -122,14 +123,20 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 
 				ChatUtil.sendMessage(player, "{Trésorier} : L'opération a bien été effectuée.");
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				throw new HeavenException(e.getMessage());
 			}
 		}
-		catch (HeavenException ex)
+		catch (final HeavenException ex)
 		{
 			ChatUtil.sendMessage(player, ex.getMessage());
 		}
+	}
+
+	@Override
+	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
+	{
+		return true;
 	}
 }
