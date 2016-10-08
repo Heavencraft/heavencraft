@@ -13,11 +13,13 @@ import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.rp.db.stores.StoreNotFoundException;
 
 public class StockProvider
 {
 	private static final String SELECT_STOCK_BY_ID = "SELECT * FROM stocks WHERE id = ? LIMIT 1;";
 	private static final String SELECT_STOCK_BY_COMPANY_AND_NAME = "SELECT * FROM stocks WHERE company_id = ? AND name = ? LIMIT 1;";
+	private static final String SELECT_STOCK_BY_LOCATION = "SELECT * FROM stocks WHERE world = ? AND x = ? AND y = ? AND z = ? LIMIT 1;";
 	private static final String INSERT_STOCK = "INSERT INTO stocks (company_id, name, world, x, y, z) VALUES (?, ?, ?, ?, ?, ?);";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
@@ -85,6 +87,38 @@ public class StockProvider
 		catch (final SQLException ex)
 		{
 			log.error("Error while executing SQL query '{}'", SELECT_STOCK_BY_COMPANY_AND_NAME, ex);
+			throw new DatabaseErrorException();
+		}
+	}
+
+	public Stock getStockByLocation(HeavenBlockLocation location) throws HeavenException
+	{
+		// Try to get stock from cache
+		Stock stock = cache.getStockByLocation(location);
+		if (stock != null)
+			return stock;
+
+		// Get stock from database
+		try (Connection connection = connectionProvider.getConnection();
+				PreparedStatement ps = connection.prepareStatement(SELECT_STOCK_BY_LOCATION))
+		{
+			ps.setString(1, location.getWorld());
+			ps.setInt(2, location.getX());
+			ps.setInt(3, location.getY());
+			ps.setInt(4, location.getZ());
+
+			final ResultSet rs = ps.executeQuery();
+
+			if (!rs.next())
+				throw new StoreNotFoundException(location);
+
+			stock = new Stock(rs);
+			cache.addToCache(stock);
+			return stock;
+		}
+		catch (final SQLException ex)
+		{
+			log.error("Error while executing SQL query '{}'", SELECT_STOCK_BY_LOCATION, ex);
 			throw new DatabaseErrorException();
 		}
 	}
