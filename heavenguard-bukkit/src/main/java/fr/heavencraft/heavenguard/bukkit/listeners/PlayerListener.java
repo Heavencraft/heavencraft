@@ -80,7 +80,7 @@ public class PlayerListener extends AbstractBukkitListener
 			ChatUtil.sendMessage(player, str.toString());
 		}
 
-		final User user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId()).get();
+		final User user = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get();
 
 		final StringBuilder canYouBuild = new StringBuilder("Pouvez-vous construire ? ");
 		canYouBuild.append(plugin.getRegionManager().canBuildAt(user, world, x, y, z) ? "Oui." : "Non.");

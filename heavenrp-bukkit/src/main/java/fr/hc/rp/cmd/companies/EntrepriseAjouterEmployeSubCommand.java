@@ -39,7 +39,7 @@ public class EntrepriseAjouterEmployeSubCommand extends AbstractEmployerSubComma
 		final String companyTag = args[0];
 		final String userName = args[1];
 
-		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByName(userName);
+		final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByName(userName);
 		if (!optUser.isPresent())
 			throw new UserNotFoundException(userName);
 		final User user = optUser.get();

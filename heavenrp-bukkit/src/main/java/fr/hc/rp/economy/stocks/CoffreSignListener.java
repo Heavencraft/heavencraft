@@ -19,8 +19,8 @@ import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.db.companies.Company;
 import fr.hc.rp.db.stocks.CompanyIdAndStockName;
+import fr.hc.rp.db.stocks.RemoveStockQuery;
 import fr.hc.rp.db.stocks.Stock;
-import fr.hc.rp.db.stores.RemoveStockQuery;
 import fr.hc.rp.db.users.RPUser;
 
 public class CoffreSignListener extends AbstractSignListener
@@ -52,7 +52,7 @@ public class CoffreSignListener extends AbstractSignListener
 
 		final String companyName = event.getLine(COMPANY_LINE);
 
-		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 			throw new UserNotFoundException(player.getUniqueId());
 		final RPUser user = optUser.get();

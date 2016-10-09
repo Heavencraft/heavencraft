@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.exceptions.UserNotFoundException;
 
 public abstract class UserProvider<U extends User>
 {
@@ -33,7 +34,15 @@ public abstract class UserProvider<U extends User>
 		this.factory = factory;
 	}
 
-	public Optional<U> getUserById(int id) throws HeavenException
+	public U getUserById(int id) throws HeavenException
+	{
+		final Optional<U> optUser = getOptionalUserById(id);
+		if (!optUser.isPresent())
+			throw new UserNotFoundException(id);
+		return optUser.get();
+	}
+
+	public Optional<U> getOptionalUserById(int id) throws DatabaseErrorException
 	{
 		// Try to get user from cache
 		U user = cache.getUserById(id);
@@ -62,7 +71,15 @@ public abstract class UserProvider<U extends User>
 		}
 	}
 
-	public Optional<U> getUserByUniqueId(UUID uniqueId) throws HeavenException
+	public U getUserByUniqueId(UUID uniqueId) throws HeavenException
+	{
+		final Optional<U> optUser = getOptionalUserByUniqueId(uniqueId);
+		if (!optUser.isPresent())
+			throw new UserNotFoundException(uniqueId);
+		return optUser.get();
+	}
+
+	public Optional<U> getOptionalUserByUniqueId(UUID uniqueId) throws DatabaseErrorException
 	{
 		// Try to get user from cache
 		U user = cache.getUserByUniqueId(uniqueId);
@@ -91,7 +108,15 @@ public abstract class UserProvider<U extends User>
 		}
 	}
 
-	public Optional<U> getUserByName(String name) throws HeavenException
+	public U getUserByName(String name) throws HeavenException
+	{
+		final Optional<U> optUser = getOptionalUserByName(name);
+		if (!optUser.isPresent())
+			throw new UserNotFoundException(name);
+		return optUser.get();
+	}
+
+	public Optional<U> getOptionalUserByName(String name) throws DatabaseErrorException
 	{
 		// Try to get user from cache
 		U user = cache.getUserByName(name);

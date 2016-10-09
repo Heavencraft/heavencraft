@@ -53,7 +53,7 @@ public class InputUtil
 			final Iterator<Integer> it = userIds.iterator();
 			while (it.hasNext())
 			{
-				final Optional<? extends User> optUser = provider.getUserById(it.next());
+				final Optional<? extends User> optUser = provider.getOptionalUserById(it.next());
 				if (!optUser.isPresent())
 					continue;
 

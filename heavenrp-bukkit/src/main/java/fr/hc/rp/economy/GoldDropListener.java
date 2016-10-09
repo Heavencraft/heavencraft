@@ -54,7 +54,7 @@ public class GoldDropListener extends AbstractBukkitListener
 			event.getItem().remove();
 			event.setCancelled(true);
 
-			final Optional<RPUser> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+			final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 			if (!optUser.isPresent())
 			{
 				ChatUtil.sendMessage(player, UnexpectedErrorException.MESSAGE);
@@ -111,7 +111,7 @@ public class GoldDropListener extends AbstractBukkitListener
 	private void onPlayerDeath(PlayerDeathEvent event) throws HeavenException
 	{
 		final Player player = event.getEntity();
-		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 		{
 			ChatUtil.sendMessage(player, UnexpectedErrorException.MESSAGE);

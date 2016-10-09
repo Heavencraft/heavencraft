@@ -34,7 +34,7 @@ public class PayerCommand extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		final RPUser fromUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId()).get();
+		final RPUser fromUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get();
 		final BankAccount fromBankAccount = plugin.getBankAccountProvider().getBankAccountByUser(fromUser);
 		BankAccount toBankAccount = null;
 		final Town toTown;
@@ -80,7 +80,7 @@ public class PayerCommand extends AbstractCommandExecutor
 				break;
 
 			case "joueur":
-				final Optional<RPUser> optUser = plugin.getUserProvider().getUserByName(args[1]);
+				final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByName(args[1]);
 
 				if (!optUser.isPresent())
 				{

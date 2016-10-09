@@ -15,8 +15,8 @@ import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.db.stocks.RemoveStockQuery;
 import fr.hc.rp.db.stocks.Stock;
-import fr.hc.rp.db.stores.RemoveStockQuery;
 
 public class StockListener extends AbstractBukkitListener
 {
