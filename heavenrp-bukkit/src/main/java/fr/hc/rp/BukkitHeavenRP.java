@@ -8,8 +8,10 @@ import fr.hc.guard.HeavenGuardInstance;
 import fr.hc.rp.banks.LivretSignListener;
 import fr.hc.rp.cmd.parcelle.ParcelleCommand;
 import fr.hc.rp.cmd.towns.VilleCommand;
+import fr.hc.rp.commands.AccepterCommand;
 import fr.hc.rp.commands.BourseCommand;
 import fr.hc.rp.commands.PayerCommand;
+import fr.hc.rp.commands.RejoindreCommand;
 import fr.hc.rp.commands.SpawnCommand;
 import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
@@ -17,6 +19,9 @@ import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
 import fr.hc.rp.db.warps.RPWarpProvider;
+import fr.hc.rp.economy.EconomyListener;
+import fr.hc.rp.economy.GoldDropListener;
+import fr.hc.rp.economy.MoneyTask;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
@@ -69,6 +74,13 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		new ParcelleCommand(this);
 		new PayerCommand(this);
 		new VilleCommand(this);
+		new RejoindreCommand(this);
+		new AccepterCommand(this);
+
+		// Economy
+		new EconomyListener(this);
+		new GoldDropListener(this);
+		new MoneyTask(this);
 
 		// Bank
 		new LivretSignListener(this);

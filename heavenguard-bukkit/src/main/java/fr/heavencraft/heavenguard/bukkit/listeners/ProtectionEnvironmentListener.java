@@ -2,14 +2,21 @@ package fr.heavencraft.heavenguard.bukkit.listeners;
 
 import java.util.Iterator;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Ghast;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Shulker;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
@@ -124,6 +131,27 @@ public class ProtectionEnvironmentListener extends AbstractBukkitListener
 			if (isProtected(it.next()))
 				it.remove();
 		}
+	}
+
+	private static boolean isAggressive(Entity entity)
+	{
+		return entity instanceof Monster //
+				|| entity instanceof Slime //
+				|| entity instanceof Ghast //
+				|| entity instanceof Shulker;
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	private void onCreatureSpawn(CreatureSpawnEvent event)
+	{
+		final Location location = event.getLocation();
+
+		if (!isAggressive(event.getEntity()))
+			return;
+
+		if (!plugin.getRegionManager().canMobSpawn(location.getWorld().getName(), location.getBlockX(),
+				location.getBlockY(), location.getBlockZ()))
+			event.setCancelled(true);
 	}
 
 	private boolean isProtected(Block block)

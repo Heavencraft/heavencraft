@@ -11,6 +11,7 @@ CREATE TABLE regions (
     max_z           INT                 NOT NULL,
     flag_pvp        BOOLEAN             DEFAULT NULL,
     flag_public     BOOLEAN             DEFAULT NULL,
+    flag_mobspawning     BOOLEAN             DEFAULT NULL,
     flag_remove_timestamp TIMESTAMP     NULL DEFAULT NULL,
     flag_state      MEDIUMBLOB          DEFAULT NULL,
 
