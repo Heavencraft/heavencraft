@@ -19,11 +19,19 @@ abstract class AbstractOwnerSubCommand extends HeavenGuardSubCommand
 	}
 
 	@Override
-	public boolean canExecute(CommandSender sender, String regionName)
+	public boolean canExecute(CommandSender sender, String[] args)
 	{
-		if (super.canExecute(sender, regionName))
+		if (super.canExecute(sender, args))
 			return true;
 
+		if (args == null || args.length == 0)
+			return false;
+
+		return canExecute(sender, args[0]);
+	}
+
+	public boolean canExecute(CommandSender sender, String regionName)
+	{
 		if (sender instanceof Player)
 		{
 			final UUID uuid = ((Player) sender).getUniqueId();

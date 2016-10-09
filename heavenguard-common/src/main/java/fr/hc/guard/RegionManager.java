@@ -125,4 +125,34 @@ public class RegionManager
 		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PVP);
 	}
 
+	public boolean canMobSpawn(String world, int x, int y, int z)
+	{
+		final Collection<Region> regions = getRegionsAtLocationWithoutParents(world, x, y, z);
+
+		// If there are regions here
+		if (regions.size() != 0)
+		{
+			boolean mobSpawningEnabled = false;
+			boolean mobSpawningDisabled = false;
+
+			for (final Region region : regions)
+			{
+				final Boolean mobSpawning = region.getFlagHandler().getBooleanFlag(Flag.MOBSPAWNING);
+
+				if (mobSpawning == null)
+					continue;
+
+				if (mobSpawning)
+					mobSpawningEnabled = true;
+				else
+					mobSpawningDisabled = true;
+
+				if (mobSpawningEnabled || mobSpawningDisabled)
+					return !mobSpawningDisabled && mobSpawningEnabled;
+			}
+		}
+
+		// MobSpawning enabled by default
+		return true;
+	}
 }

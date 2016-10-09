@@ -9,6 +9,7 @@ public class Flag
 
 	public static final Flag PVP = new Flag("pvp", FlagType.BOOLEAN);
 	public static final Flag PUBLIC = new Flag("public", FlagType.BOOLEAN);
+	public static final Flag MOBSPAWNING = new Flag("mobspawning", FlagType.BOOLEAN);
 	public static final Flag REMOVE_TIMESTAMP = new Flag("remove_timestamp", FlagType.TIMESTAMP);
 	public static final Flag STATE = new Flag("state", FlagType.BYTE_ARRAY);
 

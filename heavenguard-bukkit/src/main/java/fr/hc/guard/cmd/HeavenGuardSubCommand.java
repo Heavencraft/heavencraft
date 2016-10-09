@@ -17,11 +17,6 @@ public abstract class HeavenGuardSubCommand extends SubCommand
 		super(permission);
 	}
 
-	public boolean canExecute(CommandSender sender, String regionName)
-	{
-		return canExecute(sender);
-	}
-
 	@Override
 	public void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
@@ -31,6 +26,12 @@ public abstract class HeavenGuardSubCommand extends SubCommand
 	@Override
 	public void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
+		if (args.length == 0)
+		{
+			sendUsage(sender);
+			return;
+		}
+
 		final String regionName = args[0].toLowerCase();
 
 		final String[] args2 = new String[args.length - 1];
