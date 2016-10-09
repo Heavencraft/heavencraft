@@ -45,7 +45,7 @@ public class MoneyTask extends BukkitRunnable
 		{
 			for (final Player player : players)
 			{
-				final Optional<RPUser> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+				final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 				if (!optUser.isPresent())
 					throw new UserNotFoundException(player.getUniqueId());
 

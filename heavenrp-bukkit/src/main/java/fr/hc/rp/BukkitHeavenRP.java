@@ -27,6 +27,7 @@ import fr.hc.rp.economy.GoldDropListener;
 import fr.hc.rp.economy.MoneyTask;
 import fr.hc.rp.economy.stocks.CoffreSignListener;
 import fr.hc.rp.economy.stocks.StockListener;
+import fr.hc.rp.economy.stores.MagasinSignListener;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
@@ -96,6 +97,8 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		// Economy/Stocks
 		new CoffreSignListener(this);
 		new StockListener(this);
+		// Economy/Stores
+		new MagasinSignListener(this);
 
 		// Bank
 		new LivretSignListener(this);

@@ -15,7 +15,7 @@ public class ConversionUtil
 {
 	private static final String SEPARATOR = ", ";
 
-	private static final ThreadLocal<StringBuilder> localBuilder = new ThreadLocal<StringBuilder>()
+	public static final ThreadLocal<StringBuilder> localBuilder = new ThreadLocal<StringBuilder>()
 	{
 		@Override
 		protected StringBuilder initialValue()

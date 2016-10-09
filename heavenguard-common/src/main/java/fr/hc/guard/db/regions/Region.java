@@ -163,7 +163,7 @@ public class Region
 
 		for (final int userId : (owner ? owners : members))
 		{
-			final Optional<? extends User> optUser = userProvider.getUserById(userId);
+			final Optional<? extends User> optUser = userProvider.getOptionalUserById(userId);
 			if (!optUser.isPresent())
 				throw new UserNotFoundException(userId);
 

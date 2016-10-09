@@ -35,7 +35,7 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 	@Override
 	protected void onConsultSignClick(Player player) throws HeavenException
 	{
-		final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> user = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!user.isPresent())
 			throw new HeavenException(
 					"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
@@ -62,7 +62,7 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 	@Override
 	protected void onStatementSignClick(Player player) throws HeavenException
 	{
-		final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> user = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!user.isPresent())
 			throw new HeavenException(
 					"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
@@ -107,7 +107,7 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 			if (delta <= 0)
 				throw new HeavenException("Le nombre {%1$s} doit être positif.", delta);
 
-			final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(event.getPlayer().getUniqueId());
+			final Optional<RPUser> user = plugin.getUserProvider().getOptionalUserByUniqueId(event.getPlayer().getUniqueId());
 			if (!user.isPresent())
 				throw new HeavenException(
 						"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");

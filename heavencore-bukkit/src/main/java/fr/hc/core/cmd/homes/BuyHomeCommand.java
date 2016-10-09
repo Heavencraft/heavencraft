@@ -33,7 +33,7 @@ public class BuyHomeCommand extends AbstractCommandExecutor
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
 		final UserProvider<? extends UserWithHome> userProvider = plugin.getUserProvider();
-		final Optional<? extends UserWithHome> optUser = userProvider.getUserByUniqueId(player.getUniqueId());
+		final Optional<? extends UserWithHome> optUser = userProvider.getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 			throw new HeavenException("L'UUID n'est pas liée a un compte heavencraft. Contactez un administrateur.");
 

@@ -160,7 +160,7 @@ INSERT INTO worlds (name, flag_pvp, flag_public) VALUES
 CREATE TABLE stocks (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     company_id      MEDIUMINT UNSIGNED  NOT NULL,
-    name            VARCHAR(16)         NOT NULL,
+    name            VARCHAR(14)         NOT NULL,
     world           VARCHAR(16)         NOT NULL,
     sign_x          INT                 NOT NULL,
     sign_y          TINYINT UNSIGNED    NOT NULL,
@@ -187,18 +187,19 @@ CREATE TABLE stores (
 
     stock_id        INT UNSIGNED        NULL,
     company_id      MEDIUMINT UNSIGNED  NOT NULL,
-    name            VARCHAR(16)         NOT NULL,
+    stock_name      VARCHAR(14)         NOT NULL,
 
     quantity        SMALLINT UNSIGNED   NOT NULL,
     price           SMALLINT UNSIGNED   NOT NULL,
-    isBuyer         BOOLEAN             NOT NULL,
+    is_buyer        BOOLEAN             NOT NULL,
 
     world           VARCHAR(16)         NOT NULL,
     x               INT                 NOT NULL,
     y               TINYINT             NOT NULL,
     z               INT                 NOT NULL,
     
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (world, x, y, z)
 );
 
 ALTER TABLE stores

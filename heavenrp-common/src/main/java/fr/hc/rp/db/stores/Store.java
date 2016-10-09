@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import fr.hc.core.HeavenBlockLocation;
 import fr.hc.rp.db.stocks.CompanyIdAndStockName;
+import fr.hc.rp.db.stocks.Stock;
 
 public class Store
 {
@@ -25,22 +26,22 @@ public class Store
 	{
 		this.id = rs.getInt("id");
 		this.stockId = rs.getInt("stock_id");
-		this.hasStockId = rs.wasNull();
+		this.hasStockId = !rs.wasNull();
 		this.companyIdAndStockName = new CompanyIdAndStockName("company_id", "stock_name", rs);
 		this.quantity = rs.getInt("quantity");
 		this.price = rs.getInt("price");
-		this.isBuyer = rs.getBoolean("isBuyer");
+		this.isBuyer = rs.getBoolean("is_buyer");
 
 		this.location = new HeavenBlockLocation("world", "x", "y", "z", rs);
 	}
 
 	// Available from package only
-	Store(int id, CompanyIdAndStockName companyIdAndStockName, int quantity, int price, boolean isBuyer,
+	Store(int id, Stock stock, CompanyIdAndStockName companyIdAndStockName, int quantity, int price, boolean isBuyer,
 			HeavenBlockLocation location)
 	{
 		this.id = id;
-		this.stockId = 0;
-		this.hasStockId = false;
+		this.stockId = stock != null ? stock.getId() : 0;
+		this.hasStockId = stock != null;
 		this.companyIdAndStockName = companyIdAndStockName;
 		this.quantity = quantity;
 		this.price = price;

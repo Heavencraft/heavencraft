@@ -14,6 +14,9 @@ import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.db.stores.Store;
+import fr.hc.rp.db.stores.UpdateStoreStockIdQuery;
 
 public class StockProvider
 {
@@ -35,10 +38,18 @@ public class StockProvider
 
 	public Stock getStockById(int id) throws HeavenException
 	{
+		final Optional<Stock> optStock = getOptionalStockById(id);
+		if (!optStock.isPresent())
+			throw new StockNotFoundException(id);
+		return optStock.get();
+	}
+
+	public Optional<Stock> getOptionalStockById(int id) throws DatabaseErrorException
+	{
 		// Try to get stock from cache
 		Stock stock = cache.getStockById(id);
 		if (stock != null)
-			return stock;
+			return Optional.of(stock);
 
 		// Get stock from database
 		try (Connection connection = connectionProvider.getConnection();
@@ -49,11 +60,11 @@ public class StockProvider
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new StockNotFoundException(id);
+				return Optional.empty();
 
 			stock = new Stock(rs);
 			cache.addToCache(stock);
-			return stock;
+			return Optional.of(stock);
 		}
 		catch (final SQLException ex)
 		{
@@ -64,10 +75,19 @@ public class StockProvider
 
 	public Stock getStockByCompanyAndName(CompanyIdAndStockName companyIdAndStockName) throws HeavenException
 	{
+		final Optional<Stock> optStock = getOptionalStockByCompanyAndName(companyIdAndStockName);
+		if (!optStock.isPresent())
+			throw new StockNotFoundException(companyIdAndStockName);
+		return optStock.get();
+	}
+
+	public Optional<Stock> getOptionalStockByCompanyAndName(CompanyIdAndStockName companyIdAndStockName)
+			throws DatabaseErrorException
+	{
 		// Try to get stock from cache
 		Stock stock = cache.getStockByCompanyAndName(companyIdAndStockName);
 		if (stock != null)
-			return stock;
+			return Optional.of(stock);
 
 		// Get stock from database
 		try (Connection connection = connectionProvider.getConnection();
@@ -79,11 +99,11 @@ public class StockProvider
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new StockNotFoundException(companyIdAndStockName);
+				return Optional.empty();
 
 			stock = new Stock(rs);
 			cache.addToCache(stock);
-			return stock;
+			return Optional.of(stock);
 		}
 		catch (final SQLException ex)
 		{
@@ -194,7 +214,14 @@ public class StockProvider
 			generatedKeys.next();
 			final Stock stock = new Stock(generatedKeys.getInt(1), companyIdAndStockName, signLocation, chestLocation);
 			cache.addToCache(stock);
-			// TODO: Update Stores once done to link to the chest
+
+			// Update Stores once done to link to the chest
+			for (final Store store : HeavenRPInstance.get().getStoreProvider()
+					.getStoresByCompanyAndName(companyIdAndStockName))
+			{
+				new UpdateStoreStockIdQuery(store, stock, HeavenRPInstance.get().getStoreProvider()).schedule();
+			}
+
 			return stock;
 		}
 		catch (final SQLException ex)

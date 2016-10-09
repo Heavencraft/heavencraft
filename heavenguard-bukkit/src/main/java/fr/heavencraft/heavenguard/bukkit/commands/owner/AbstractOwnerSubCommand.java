@@ -38,7 +38,7 @@ abstract class AbstractOwnerSubCommand extends HeavenGuardSubCommand
 
 			try
 			{
-				final Optional<? extends User> optUser = plugin.getUserProvider().getUserByUniqueId(uuid);
+				final Optional<? extends User> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(uuid);
 				if (!optUser.isPresent())
 					return false;
 

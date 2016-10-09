@@ -390,7 +390,7 @@ public class ProtectionPlayerListener extends AbstractBukkitListener
 
 		try
 		{
-			final boolean result = canBuildAt(plugin.getUserProvider().getUserByUniqueId(player.getUniqueId()).get(),
+			final boolean result = canBuildAt(plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get(),
 					block);
 			if (!result)
 				ChatUtil.sendMessage(player, "Cet endroit est protégé.");
