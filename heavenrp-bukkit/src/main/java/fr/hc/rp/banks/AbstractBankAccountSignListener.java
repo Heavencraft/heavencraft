@@ -8,8 +8,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.hc.core.AbstractSignListener;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.listeners.sign.AbstractSignListener;
 import fr.hc.rp.db.bankaccounts.BankAccount;
 
 public abstract class AbstractBankAccountSignListener extends AbstractSignListener

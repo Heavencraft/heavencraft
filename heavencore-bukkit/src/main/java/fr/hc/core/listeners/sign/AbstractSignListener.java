@@ -1,4 +1,4 @@
-package fr.hc.core;
+package fr.hc.core.listeners.sign;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,6 +41,9 @@ public abstract class AbstractSignListener
 		@EventHandler(ignoreCancelled = true)
 		private void onSignChange(SignChangeEvent event)
 		{
+			if (event.getBlock().getType() != Material.WALL_SIGN)
+				return;
+
 			final Player player = event.getPlayer();
 
 			if (player == null || !player.hasPermission(permission) || !event.getLine(0).equalsIgnoreCase(tag))
@@ -72,7 +75,7 @@ public abstract class AbstractSignListener
 
 			final Block block = event.getClickedBlock();
 
-			if (block.getType() != Material.SIGN_POST && block.getType() != Material.WALL_SIGN)
+			if (block.getType() != Material.WALL_SIGN)
 				return;
 
 			final Sign sign = (Sign) block.getState();
@@ -98,8 +101,7 @@ public abstract class AbstractSignListener
 		{
 			final Block block = event.getBlock();
 
-			final Material type = block.getType();
-			if (type != Material.WALL_SIGN && type != Material.SIGN_POST)
+			if (block.getType() != Material.WALL_SIGN)
 				return;
 
 			final Sign sign = (Sign) block.getState();
