@@ -190,7 +190,7 @@ CREATE TABLE stores (
     stock_name      VARCHAR(14)         NOT NULL,
 
     quantity        SMALLINT UNSIGNED   NOT NULL,
-    price           SMALLINT UNSIGNED   NOT NULL,
+    price           MEDIUMINT UNSIGNED  NOT NULL,
     is_buyer        BOOLEAN             NOT NULL,
 
     world           VARCHAR(16)         NOT NULL,

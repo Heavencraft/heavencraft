@@ -8,6 +8,7 @@ import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.tasks.async.AsyncTaskExecutor;
 import fr.hc.core.tasks.queries.Query;
+import fr.hc.rp.HeavenRPInstance;
 
 public class RemoveStockQuery extends AsyncTaskExecutor implements Query
 {
@@ -35,6 +36,7 @@ public class RemoveStockQuery extends AsyncTaskExecutor implements Query
 				throw new DatabaseErrorException();
 
 			provider.invalidateCache(stock);
+			HeavenRPInstance.get().getStoreProvider().invalidateCache(stock);
 		}
 	}
 }

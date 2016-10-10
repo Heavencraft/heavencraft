@@ -49,6 +49,12 @@ public class Store
 		this.location = location;
 	}
 
+	@Override
+	public String toString()
+	{
+		return companyIdAndStockName.toString();
+	}
+
 	public int getId()
 	{
 		return id;

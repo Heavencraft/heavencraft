@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.Optional;
 
@@ -223,6 +224,10 @@ public class StockProvider
 			}
 
 			return stock;
+		}
+		catch (final SQLIntegrityConstraintViolationException ex)
+		{
+			throw new HeavenException("Le coffre {%1$s} existe déja.", companyIdAndStockName);
 		}
 		catch (final SQLException ex)
 		{

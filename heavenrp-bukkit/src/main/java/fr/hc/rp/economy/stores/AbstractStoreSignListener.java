@@ -48,8 +48,13 @@ public abstract class AbstractStoreSignListener extends AbstractSignWithConfirma
 
 		final String quantityPrice = event.getLine(QUANTITY_PRICE_LINE);
 		final int indexOfSeparator = quantityPrice.indexOf(QUANTITY_PRICE_SEPARATOR);
-		final int quantity = ConversionUtil.toUint(quantityPrice.substring(0, indexOfSeparator));
-		final int price = ConversionUtil.toUint(quantityPrice.substring(indexOfSeparator + 1));
+		if (indexOfSeparator == -1)
+			throw new HeavenException("Format de la ligne quantité@prix incorrecte.");
+
+		final int quantity = ConversionUtil.toUint(quantityPrice.substring(0, indexOfSeparator),
+				ConversionUtil.SMALLINT_MAXVALUE);
+		final int price = ConversionUtil.toUint(quantityPrice.substring(indexOfSeparator + 1),
+				ConversionUtil.MEDIUMINT_MAXVALUE);
 
 		final String stockName = event.getLine(NAME_LINE);
 		final CompanyIdAndStockName companyIdAndStockName = new CompanyIdAndStockName(company.getId(), stockName);
