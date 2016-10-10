@@ -9,10 +9,10 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 
-import fr.hc.core.AbstractSignListener;
 import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
+import fr.hc.core.listeners.sign.AbstractSignListener;
 import fr.hc.core.utils.BukkitUtil;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;

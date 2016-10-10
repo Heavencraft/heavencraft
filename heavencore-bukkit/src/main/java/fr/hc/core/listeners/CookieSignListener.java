@@ -9,9 +9,9 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.hc.core.AbstractSignListener;
 import fr.hc.core.BukkitHeavenCore;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.listeners.sign.AbstractSignListener;
 
 public class CookieSignListener extends AbstractSignListener
 {

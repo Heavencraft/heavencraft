@@ -6,8 +6,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 
-import fr.hc.core.AbstractSignListener;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.listeners.sign.AbstractSignListener;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
