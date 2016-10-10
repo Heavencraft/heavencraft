@@ -64,6 +64,14 @@ public class ConversionUtil
 		return new HeavenBlockLocation(l.getWorld().getName(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
 	}
 
+	private static final int TINYINT_BYTES = 1;
+	private static final int SMALLINT_BYTES = 2;
+	private static final int MEDIUMINT_BYTES = 3;
+
+	public static final int TINYINT_MAXVALUE = (1 << (TINYINT_BYTES * 8)) - 1;
+	public static final int SMALLINT_MAXVALUE = (1 << (SMALLINT_BYTES * 8)) - 1;
+	public static final int MEDIUMINT_MAXVALUE = (1 << (MEDIUMINT_BYTES * 8)) - 1;
+
 	public static int toInt(String s) throws HeavenException
 	{
 		try
@@ -81,6 +89,16 @@ public class ConversionUtil
 		final int i = toInt(s);
 
 		if (i < 0)
+			throw new HeavenException("Le nombre {%1$s} est incorrect.", s);
+
+		return i;
+	}
+
+	public static int toUint(String s, int maxValue) throws HeavenException
+	{
+		final int i = toUint(s);
+
+		if (i > maxValue)
 			throw new HeavenException("Le nombre {%1$s} est incorrect.", s);
 
 		return i;

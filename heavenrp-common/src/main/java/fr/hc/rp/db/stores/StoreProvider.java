@@ -182,4 +182,9 @@ public class StoreProvider
 	{
 		cache.invalidateCache(store);
 	}
+
+	public void invalidateCache(Stock stock)
+	{
+		cache.invalidateCache(stock);
+	}
 }

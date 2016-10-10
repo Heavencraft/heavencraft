@@ -1,5 +1,7 @@
 package fr.hc.rp.db.stores;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -7,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.hc.core.HeavenBlockLocation;
-import fr.hc.rp.db.stocks.CompanyIdAndStockName;
+import fr.hc.rp.db.stocks.Stock;
 
 // Available from package only
 class StoreCache
@@ -16,7 +18,6 @@ class StoreCache
 
 	private final Map<Integer, Store> storesById = new ConcurrentHashMap<Integer, Store>();
 	private final Map<HeavenBlockLocation, Store> storesByLocation = new ConcurrentHashMap<HeavenBlockLocation, Store>();
-	private final Map<CompanyIdAndStockName, Store> storesByCompanyAndStockName = new ConcurrentHashMap<CompanyIdAndStockName, Store>();
 
 	public Store getStoreById(int id)
 	{
@@ -28,24 +29,27 @@ class StoreCache
 		return storesByLocation.get(location);
 	}
 
-	public Store getStoreByCompanyIdAndStockName(CompanyIdAndStockName companyIdAndStockName)
-	{
-		return storesByCompanyAndStockName.get(companyIdAndStockName);
-	}
-
 	public void addToCache(Store store)
 	{
 		storesById.put(store.getId(), store);
 		storesByLocation.put(store.getLocation(), store);
-		storesByCompanyAndStockName.put(store.getCompanyIdAndStockName(), store);
 	}
 
 	public void invalidateCache(Store store)
 	{
 		storesById.remove(store.getId());
 		storesByLocation.remove(store.getLocation());
-		storesByCompanyAndStockName.remove(store.getCompanyIdAndStockName());
 
 		log.info("Invalidated store cache for {}", store);
+	}
+
+	public void invalidateCache(Stock stock)
+	{
+		final Collection<Store> toInvalidate = new ArrayList<Store>();
+		for (final Store store : storesById.values())
+			if (store.hasStockId() && store.getStockId() == stock.getId())
+				toInvalidate.add(store);
+		for (final Store store : toInvalidate)
+			invalidateCache(store);
 	}
 }
