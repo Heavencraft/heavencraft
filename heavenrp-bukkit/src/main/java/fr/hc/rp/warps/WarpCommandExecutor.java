@@ -12,6 +12,7 @@ import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.RPPermissions;
 import fr.hc.rp.db.users.RPUser;
 import fr.hc.rp.db.warps.RPWarp;
 import fr.hc.rp.db.warps.RPWarpProvider;
@@ -19,7 +20,7 @@ import fr.hc.rp.db.warps.RPWarpProvider;
 public class WarpCommandExecutor extends AbstractCommandExecutor
 {
 
-	private static final String WarpPermission = "heavencraft.commands.warp";
+	// private static final String WarpPermission = "heavencraft.commands.warp";
 	private final HeavenRP plugin = HeavenRPInstance.get();
 
 	private static final String WARP_DOES_NOT_EXIST = "Le warp {%1$s} n'existe pas.";
@@ -27,7 +28,7 @@ public class WarpCommandExecutor extends AbstractCommandExecutor
 
 	public WarpCommandExecutor(BukkitHeavenRP plugin)
 	{
-		super(plugin, "warp", WarpPermission);
+		super(plugin, "warp", RPPermissions.WARP_COMMAND);
 	}
 
 	@Override
