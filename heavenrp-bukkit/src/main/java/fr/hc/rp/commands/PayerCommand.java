@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import fr.hc.core.cmd.AbstractCommandExecutor;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
+import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
@@ -92,6 +93,9 @@ public class PayerCommand extends AbstractCommandExecutor
 					throw new HeavenException("Alors comme ça, on s'envoie de l'argent à soi-même ?");
 				}
 				toBankAccount = plugin.getBankAccountProvider().getBankAccountByUser(toUser);
+				if (PlayerUtil.getPlayer(args[1]) != null)
+					ChatUtil.sendMessage(PlayerUtil.getPlayer(args[1]), "Vous avez reçu {%1$s} PO de la part de {%2$s}",
+							args[2], player.getName());
 				break;
 
 			case "entreprise":

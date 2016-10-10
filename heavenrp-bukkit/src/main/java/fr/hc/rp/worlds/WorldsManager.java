@@ -32,6 +32,7 @@ public class WorldsManager
 			creator.environment(World.Environment.NETHER);
 			creator.createWorld();
 		}
+		getNether().setDifficulty(Difficulty.HARD);
 
 		if (!isLoaded("world_resources"))
 		{
@@ -42,6 +43,7 @@ public class WorldsManager
 			final World worldResources = creator.createWorld();
 			worldResources.setDifficulty(Difficulty.NORMAL);
 		}
+		getResources().setDifficulty(Difficulty.HARD);
 
 		if (!isLoaded("world_the_end"))
 		{
@@ -49,7 +51,8 @@ public class WorldsManager
 			creator.environment(World.Environment.THE_END);
 			creator.createWorld();
 		}
-
+		getTheEnd().setDifficulty(Difficulty.HARD);
+		
 		_spawn = new Location(getWorld(), 351.5, 83, 1041.5, 90, 0);
 		_spawnNether = new Location(getNether(), 96.5, 36, 176.5, 0, 0);
 		_spawnTheEnd = new Location(getTheEnd(), 4.5D, 61D, 23.5D, 0F, 0F);
