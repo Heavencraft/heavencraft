@@ -1,6 +1,7 @@
 package fr.hc.rp.exceptions;
 
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.rp.db.bankaccounts.BankAccount;
 
 public class CompanyNotFoundException extends HeavenException
 {
@@ -16,5 +17,10 @@ public class CompanyNotFoundException extends HeavenException
 	public CompanyNotFoundException(String name)
 	{
 		super(MESSAGE, name);
+	}
+
+	public CompanyNotFoundException(BankAccount account)
+	{
+		super("Aucune entreprise n'est liée au compte {%1$s}.", account);
 	}
 }
