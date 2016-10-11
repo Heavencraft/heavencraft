@@ -11,4 +11,5 @@ public class RPPermissions
 	public static final String ENTREPRISE_AJOUTEREMPLOYE_COMMAND = "heavenrp.commands.entreprise.ajouteremploye";
 	public static final String ENTREPRISE_RETIREREMPLOYEUR_COMMAND = "heavenrp.commands.entreprise.retireremployeur";
 	public static final String ENTREPRISE_RETIREREMPLOYE_COMMAND = "heavenrp.commands.entreprise.retireremploye";
+	public static final String LIVRETPRO_SIGN = null;
 }

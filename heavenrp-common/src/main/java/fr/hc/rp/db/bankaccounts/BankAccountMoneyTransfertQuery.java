@@ -50,4 +50,20 @@ public class BankAccountMoneyTransfertQuery extends BatchQuery
 		queries.add(new UpdateUserBalanceQuery(to, delta, HeavenRPInstance.get().getUserProvider()));
 		return queries;
 	}
+
+	public BankAccountMoneyTransfertQuery(Object from, Object to, int delta)
+	{
+		super(createQueries(from, to, delta));
+	}
+
+	private static List<Query> createQueries(Object from, Object to, int delta)
+	{
+		if (from instanceof RPUser && to instanceof BankAccount)
+			return createQueries((RPUser) from, (BankAccount) to, delta);
+
+		if (from instanceof BankAccount && to instanceof RPUser)
+			return createQueries((BankAccount) from, (RPUser) to, delta);
+
+		return null;
+	}
 }

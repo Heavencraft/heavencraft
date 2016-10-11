@@ -82,6 +82,12 @@ public abstract class AbstractBankAccountSignListener extends AbstractSignListen
 		}
 	}
 
+	@Override
+	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
+	{
+		return true;
+	}
+
 	protected ItemStack createLastTransactionsBook(BankAccount account, int transactionsPerPage) throws HeavenException
 	{
 		// TODO Implement transaction book
