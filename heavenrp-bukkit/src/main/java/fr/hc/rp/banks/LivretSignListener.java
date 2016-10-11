@@ -40,7 +40,7 @@ public class LivretSignListener extends AbstractBankAccountSignListener implemen
 
 	public LivretSignListener(JavaPlugin plugin)
 	{
-		super(plugin, "Livret", RPPermissions.LIVRETPRO_SIGN);
+		super(plugin, "Livret", RPPermissions.LIVRET_SIGN);
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
