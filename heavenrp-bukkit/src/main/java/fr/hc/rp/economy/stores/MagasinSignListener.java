@@ -42,13 +42,13 @@ public class MagasinSignListener extends AbstractStoreSignListener
 		final ItemStack storeItem = BukkitStoreUtil.getStoreItem(chest);
 
 		if (BukkitStoreUtil.getItemQuantityInInventory(chest.getInventory(), storeItem) < store.getQuantity())
-			throw new HeavenException("Ce magasin d'a pas assez en stoque.");
+			throw new HeavenException("Ce magasin n'a pas assez en stock.");
 
 		final String content = BukkitStoreUtil.getStoreContentString(chest);
 
 		if (firstClick)
 		{
-			ChatUtil.sendMessage(player, "Vous vous apprêtez à acheter %1$s %2$s pour %3$s pièces d'or.",
+			ChatUtil.sendMessage(player, "Vous vous apprêtez à acheter {%1$s %2$s} pour {%3$s} pièces d'or.",
 					store.getQuantity(), content, store.getPrice());
 			return;
 		}
@@ -70,7 +70,7 @@ public class MagasinSignListener extends AbstractStoreSignListener
 						player.getInventory().addItem(removedItem);
 					player.updateInventory();
 
-					ChatUtil.sendMessage(player, "Vous avez acheté %1$s %2$s pour %3$s pièces d'or.",
+					ChatUtil.sendMessage(player, "Vous avez acheté {%1$s %2$s} pour {%3$s} pièces d'or.",
 							store.getQuantity(), content, store.getPrice());
 				}
 				catch (final HeavenException ex)

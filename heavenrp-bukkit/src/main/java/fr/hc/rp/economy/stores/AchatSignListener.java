@@ -52,7 +52,7 @@ public class AchatSignListener extends AbstractStoreSignListener
 
 		if (firstClick)
 		{
-			ChatUtil.sendMessage(player, "Vous vous apprêtez à vendre %1$s %2$s pour %3$s pièces d'or.",
+			ChatUtil.sendMessage(player, "Vous vous apprêtez à vendre {%1$s %2$s} pour {%3$s} pièces d'or.",
 					store.getQuantity(), content, store.getPrice());
 			return;
 		}
@@ -71,7 +71,7 @@ public class AchatSignListener extends AbstractStoreSignListener
 						chest.getInventory().addItem(removedItem);
 					player.updateInventory();
 
-					ChatUtil.sendMessage(player, "Vous avez vendu %1$s %2$s pour %3$s pièces d'or.",
+					ChatUtil.sendMessage(player, "Vous avez vendu {%1$s %2$s} pour {%3$s} pièces d'or.",
 							store.getQuantity(), content, store.getPrice());
 				}
 				catch (final HeavenException ex)
