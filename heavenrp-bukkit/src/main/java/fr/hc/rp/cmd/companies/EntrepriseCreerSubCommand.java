@@ -36,7 +36,7 @@ public class EntrepriseCreerSubCommand extends SubCommand
 		}
 
 		final String name = args[0];
-		final String tag = args[0];
+		final String tag = args[1];
 
 		final Company company = plugin.getCompanyProvider().createCompany(name, tag);
 
