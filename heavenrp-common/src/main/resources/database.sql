@@ -30,7 +30,7 @@ CREATE TABLE users (
 );
 
 ALTER TABLE users
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id) ON DELETE SET NULL;
 
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE homes (
 );
 
 ALTER TABLE homes
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
 
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE towns (
 );
 
 ALTER TABLE towns
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id) ON DELETE SET NULL;
 
 CREATE TABLE towns_users (
     town_id         MEDIUMINT UNSIGNED  NOT NULL,
@@ -78,10 +78,10 @@ CREATE TABLE towns_users (
 );
 
 ALTER TABLE towns_users
-    ADD FOREIGN KEY (town_id) REFERENCES towns (id);
+    ADD FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE CASCADE;
 
 ALTER TABLE towns_users
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
 
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE companies (
 );
 
 ALTER TABLE companies
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id) ON DELETE SET NULL;
 
 CREATE TABLE companies_users (
     company_id      MEDIUMINT UNSIGNED  NOT NULL,
@@ -111,10 +111,10 @@ CREATE TABLE companies_users (
 );
 
 ALTER TABLE companies_users
-    ADD FOREIGN KEY (company_id) REFERENCES companies (id);
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
 
 ALTER TABLE companies_users
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
 
 
 INSERT INTO companies (name, tag, bank_account_id) VALUES ('Heavencraft', 'Heavencraft', 1);
@@ -127,7 +127,7 @@ INSERT INTO companies (name, tag, bank_account_id) VALUES ('Heavencraft', 'Heave
 CREATE TABLE warps (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name            VARCHAR(32)         NOT NULL,
-    creator         MEDIUMINT UNSIGNED  NOT NULL,
+    creator         MEDIUMINT UNSIGNED  NULL,
     world           VARCHAR(16)         NOT NULL,
     x               DOUBLE              NOT NULL,
     y               DOUBLE              NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE warps (
 );
 
 ALTER TABLE warps
-    ADD FOREIGN KEY (creator) REFERENCES users (id);
+    ADD FOREIGN KEY (creator) REFERENCES users (id) ON DELETE SET NULL;
 
 --
 -- Insert global regions on HeavenGuard
