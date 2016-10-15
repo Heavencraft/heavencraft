@@ -37,18 +37,15 @@ public class EconomyListener extends AbstractBukkitListener
 		final Player player = event.getPlayer();
 
 		final BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user);
-		final int benefit;
 
-		if (account.getBalance() >= 25000)
-			benefit = 25;
-		else
-			benefit = (int) (account.getBalance() * 0.001D);
+		final int userReward = plugin.getPricingManager().getUserFirstLoginReward();
+		final int accountBenefits = plugin.getPricingManager().getBankAccountFirstLoginReward(account);
 
 		final List<Query> queries = new ArrayList<Query>();
-		queries.add(new UpdateUserBalanceQuery(user, 5, plugin.getUserProvider()));
-		if (benefit > 0)
+		queries.add(new UpdateUserBalanceQuery(user, userReward, plugin.getUserProvider()));
+		if (accountBenefits > 0)
 		{
-			queries.add(new UpdateBankAccountBalanceQuery(account, benefit));
+			queries.add(new UpdateBankAccountBalanceQuery(account, accountBenefits));
 			// queries.add(new AddTransactionQuery(account, benefit, "Intérets journaliers"));
 		}
 
@@ -59,9 +56,9 @@ public class EconomyListener extends AbstractBukkitListener
 			{
 				ChatUtil.sendMessage(player, "Vous venez d'obtenir 5 pièces d'or en vous connectant !");
 
-				if (benefit > 0)
+				if (accountBenefits > 0)
 				{
-					ChatUtil.sendMessage(player, "Votre livret vous a rapporté %1$s pièces d'or.", benefit);
+					ChatUtil.sendMessage(player, "Votre livret vous a rapporté %1$s pièces d'or.", accountBenefits);
 				}
 			}
 		}.schedule();
