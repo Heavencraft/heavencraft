@@ -71,10 +71,18 @@ public class CompanyProvider
 
 	public Company getCompanyByTag(String tag) throws HeavenException
 	{
+		final Optional<Company> optCompany = getOptionalCompanyByTag(tag);
+		if (!optCompany.isPresent())
+			throw new CompanyNotFoundException(tag);
+		return optCompany.get();
+	}
+
+	public Optional<Company> getOptionalCompanyByTag(String tag) throws DatabaseErrorException
+	{
 		// Try to get company from cache
 		Company company = cache.getCompanyByTag(tag);
 		if (company != null)
-			return company;
+			return Optional.of(company);
 
 		// Get company from database
 		try (Connection connection = connectionProvider.getConnection();
@@ -85,12 +93,12 @@ public class CompanyProvider
 			final ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
-				throw new CompanyNotFoundException(tag);
+				return Optional.empty();
 
 			company = new Company(rs);
 			loadMembers(company, connection);
 			cache.addToCache(company);
-			return company;
+			return Optional.of(company);
 		}
 		catch (final SQLException ex)
 		{
