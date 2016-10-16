@@ -46,6 +46,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	private RPWarpProvider warpProvider;
 	private StoreProvider storeProvider;
 	private StockProvider stockProvider;
+	private PricingManager pricingManager;
 
 	public BukkitHeavenRP()
 	{
@@ -66,6 +67,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		warpProvider = new RPWarpProvider(connectionProvider);
 		storeProvider = new StoreProvider(connectionProvider);
 		stockProvider = new StockProvider(connectionProvider);
+		pricingManager = new PricingManager();
 
 		HeavenCoreInstance.get().setReferencePlugin(this);
 		HeavenGuardInstance.get().setUserProvider(userProvider);
@@ -149,5 +151,11 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	public StockProvider getStockProvider()
 	{
 		return stockProvider;
+	}
+
+	@Override
+	public PricingManager getPricingManager()
+	{
+		return pricingManager;
 	}
 }
