@@ -33,11 +33,17 @@ public class AddCompanyMemberQuery implements Query
 		{
 			if (company.isEmployer(user))
 				return; // Nothing to do
+			if (company.isEmployee(user))
+				throw new HeavenException("{%1$s} est déjà employé dans l'entreprise {%2$s}, retirer le d'abord.", user,
+						company);
 		}
 		else
 		{
 			if (company.isEmployee(user))
 				return; // Nothing to do
+			if (company.isEmployer(user))
+				throw new HeavenException("{%1$s} est déjà employeur dans l'entreprise {%2$s}, retirer le d'abord.",
+						user, company);
 		}
 
 		try (Connection connection = provider.getConnectionProvider().getConnection();
