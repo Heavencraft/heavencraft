@@ -14,6 +14,7 @@ import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.bankaccounts.BankAccountMoneyTransfertQuery;
+import fr.hc.rp.db.companies.AddCompanyMemberQuery;
 import fr.hc.rp.db.companies.Company;
 import fr.hc.rp.db.users.RPUser;
 
@@ -65,7 +66,21 @@ public class EntrepriseCreerSubCommand extends SubCommand
 				try
 				{
 					final Company company = plugin.getCompanyProvider().createCompany(name, tag);
-					ChatUtil.sendMessage(player, "L'entreprise {%1$s} a été crée avec succès.", company);
+
+					new AddCompanyMemberQuery(company, user, true, plugin.getCompanyProvider())
+					{
+						@Override
+						public void onSuccess()
+						{
+							ChatUtil.sendMessage(player, "L'entreprise {%1$s} a été crée avec succès.", company);
+						}
+
+						@Override
+						public void onException(HeavenException ex)
+						{
+							ChatUtil.sendMessage(player, ex.getMessage());
+						}
+					}.schedule();
 				}
 				catch (final HeavenException ex)
 				{
