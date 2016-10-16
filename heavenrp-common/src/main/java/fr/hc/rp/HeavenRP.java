@@ -11,8 +11,6 @@ import fr.hc.rp.db.warps.RPWarpProvider;
 
 public interface HeavenRP
 {
-	static final PricingManager PRICING_MANAGER = new PricingManager();
-
 	ConnectionProvider getConnectionProvider();
 
 	BankAccountProvider getBankAccountProvider();
@@ -29,8 +27,5 @@ public interface HeavenRP
 
 	StockProvider getStockProvider();
 
-	default PricingManager getPricingManager()
-	{
-		return PRICING_MANAGER;
-	}
+	PricingManager getPricingManager();
 }
