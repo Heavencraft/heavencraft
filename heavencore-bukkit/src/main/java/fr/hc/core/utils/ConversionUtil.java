@@ -47,6 +47,20 @@ public class ConversionUtil
 		return builder.toString();
 	}
 
+	public static String toString(String[] array, int start, String separator)
+	{
+		final StringBuilder builder = localBuilder.get();
+
+		for (int i = start; i != array.length; i++)
+		{
+			if (builder.length() != 0)
+				builder.append(separator);
+			builder.append(array[i]);
+		}
+
+		return builder.toString();
+	}
+
 	public static Location toLocation(Home home)
 	{
 		return new Location(Bukkit.getWorld(home.getWorld()), //
