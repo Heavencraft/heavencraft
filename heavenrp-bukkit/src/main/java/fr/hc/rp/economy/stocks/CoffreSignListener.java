@@ -33,7 +33,7 @@ public class CoffreSignListener extends AbstractSignListener
 
 	public CoffreSignListener(BukkitHeavenRP plugin)
 	{
-		super(plugin, COFFRE_TAG, "");
+		super(plugin, COFFRE_TAG);
 
 		this.plugin = plugin;
 	}

@@ -17,6 +17,11 @@ public abstract class AbstractSignWithConfirmationListener extends AbstractSignL
 
 	private final Map<UUID, Click> clicksByPlayer = new HashMap<UUID, Click>();
 
+	public AbstractSignWithConfirmationListener(JavaPlugin plugin, String tag)
+	{
+		super(plugin, tag);
+	}
+
 	public AbstractSignWithConfirmationListener(JavaPlugin plugin, String tag, String permission)
 	{
 		super(plugin, tag, permission);
