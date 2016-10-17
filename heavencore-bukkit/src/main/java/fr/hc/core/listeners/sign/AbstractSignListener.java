@@ -22,6 +22,11 @@ public abstract class AbstractSignListener
 	private final String tag;
 	private final String permission;
 
+	public AbstractSignListener(JavaPlugin plugin, String tag)
+	{
+		this(plugin, tag, null);
+	}
+
 	public AbstractSignListener(JavaPlugin plugin, String tag, String permission)
 	{
 		this.tag = "[" + tag + "]";
@@ -46,7 +51,10 @@ public abstract class AbstractSignListener
 
 			final Player player = event.getPlayer();
 
-			if (player == null || !player.hasPermission(permission) || !event.getLine(0).equalsIgnoreCase(tag))
+			if (player == null || !event.getLine(0).equalsIgnoreCase(tag))
+				return;
+
+			if (permission != null && !player.hasPermission(permission))
 				return;
 
 			try

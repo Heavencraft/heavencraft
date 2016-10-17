@@ -32,7 +32,7 @@ public abstract class AbstractStoreSignListener extends AbstractSignWithConfirma
 
 	public AbstractStoreSignListener(JavaPlugin plugin, String tag, boolean isBuyer)
 	{
-		super(plugin, tag, "");
+		super(plugin, tag);
 		this.isBuyer = isBuyer;
 	}
 
