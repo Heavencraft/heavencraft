@@ -32,7 +32,7 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 	public void addSubCommand(String name, SubCommand subCommand)
 	{
 		subCommands.add(subCommand);
-		subCommandsByName.put(name, subCommand);
+		subCommandsByName.put(name.toLowerCase(), subCommand);
 	}
 
 	@Override

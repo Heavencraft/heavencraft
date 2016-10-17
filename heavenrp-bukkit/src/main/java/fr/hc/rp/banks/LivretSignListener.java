@@ -1,135 +1,204 @@
 package fr.hc.rp.banks;
 
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
-import fr.hc.rp.BukkitHeavenRP;
+import fr.hc.rp.HeavenRP;
+import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.RPPermissions;
 import fr.hc.rp.db.bankaccounts.BankAccount;
 import fr.hc.rp.db.bankaccounts.BankAccountMoneyTransfertQuery;
+import fr.hc.rp.db.companies.Company;
+import fr.hc.rp.db.towns.Town;
 import fr.hc.rp.db.users.RPUser;
+import fr.hc.rp.exceptions.BankAccountNotFoundException;
 
 public class LivretSignListener extends AbstractBankAccountSignListener implements Listener
 {
-	private final Collection<String> deposants = new HashSet<String>();
-	private final Collection<String> retirants = new HashSet<String>();
-	private final BukkitHeavenRP plugin;
-
-	public LivretSignListener(BukkitHeavenRP plugin)
+	enum LivretProAction
 	{
-		super(plugin, "Livret", "heavencraft.signs.livret");
+		DEPOSIT, WITHDRAW, STATEMENT
+	}
+
+	private final HeavenRP plugin = HeavenRPInstance.get();
+
+	private final Map<UUID, LivretProAction> pendingActions = new HashMap<UUID, LivretProAction>();
+	private final Map<UUID, Integer> selectedAccounts = new HashMap<UUID, Integer>();
+
+	public LivretSignListener(JavaPlugin plugin)
+	{
+		super(plugin, "Livret", RPPermissions.LIVRET_SIGN);
 		Bukkit.getPluginManager().registerEvents(this, plugin);
-		this.plugin = plugin;
 	}
 
 	@Override
 	protected void onConsultSignClick(Player player) throws HeavenException
 	{
-		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
-		if (!user.isPresent())
-			throw new HeavenException(
-					"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
-		BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
+		final RPUser user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
 
-		ChatUtil.sendMessage(player, "{Trésorier} : Vous avez {%1$d} pièces d'or sur votre livret.",
-				account.getBalance());
+		final Map<BankAccount, String> accounts = plugin.getBankAccountProvider()
+				.getAllPermissionnedBankAccountForUser(user);
+
+		if (accounts.size() == 0)
+			throw new HeavenException("{Trésorier} : Vous n'avez accès à aucun livret...");
+
+		ChatUtil.sendMessage(player, "{Trésorier} : Voici la liste de vos livrets :");
+
+		for (final Entry<BankAccount, String> account : accounts.entrySet())
+			ChatUtil.sendMessage(player, "{%1$s} (%2$s) : {%3$s} pièces d'or", account.getKey().getId(),
+					account.getValue(), account.getKey().getBalance());
 	}
 
 	@Override
 	protected void onDepositSignClick(Player player) throws HeavenException
 	{
-		ChatUtil.sendMessage(player, "{Trésorier} : Combien de pièces d'or souhaitez-vous déposer ?");
-		deposants.add(player.getName());
+		pendingActions.put(player.getUniqueId(), LivretProAction.DEPOSIT);
+
+		onConsultSignClick(player);
+		ChatUtil.sendMessage(player, "{Trésorier} : Sur quel livret voulez-vous déposer ?");
 	}
 
 	@Override
 	protected void onWithdrawSignClick(Player player) throws HeavenException
 	{
-		ChatUtil.sendMessage(player, "{Trésorier} : Combien de pièces d'or souhaitez-vous retirer ?");
-		retirants.add(player.getName());
+		pendingActions.put(player.getUniqueId(), LivretProAction.WITHDRAW);
+
+		onConsultSignClick(player);
+		ChatUtil.sendMessage(player, "{Trésorier} : Sur quel livret voulez-vous retirer ?");
 	}
 
 	@Override
 	protected void onStatementSignClick(Player player) throws HeavenException
 	{
-		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
-		if (!user.isPresent())
-			throw new HeavenException(
-					"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
-		BankAccount account = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
+		pendingActions.put(player.getUniqueId(), LivretProAction.STATEMENT);
 
-		player.getInventory().addItem(createLastTransactionsBook(account, 2));
+		onConsultSignClick(player);
+		ChatUtil.sendMessage(player, "{Trésorier} : De quel livret voulez-vous le relevé ?");
 	}
-
-	// private static String buildTransactionLog(Player player, boolean isDepot)
-	// {
-	// return (isDepot ? "Dépot de " : "Retrait de ") + player.getName();
-	// }
 
 	@EventHandler(ignoreCancelled = true)
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent event)
 	{
 		final Player player = event.getPlayer();
-		String playerName = player.getName();
-		boolean isDepot = false;
+		final UUID uniqueId = player.getUniqueId();
 
-		if (deposants.contains(playerName))
-		{
-			deposants.remove(playerName);
-			isDepot = true;
-		}
-		else if (retirants.contains(playerName))
-		{
-			retirants.remove(playerName);
-			isDepot = false;
-		}
-		else
-		{
-			// The player is not withdrawing or depositing.
+		final LivretProAction action = pendingActions.get(uniqueId);
+		if (action == null)
 			return;
-		}
 
 		event.setCancelled(true);
 
 		try
 		{
-			int delta = Integer.parseInt(event.getMessage());
-			if (delta <= 0)
-				throw new HeavenException("Le nombre {%1$s} doit être positif.", delta);
+			final RPUser user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+			final int input = ConversionUtil.toUint(event.getMessage());
 
-			Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(event.getPlayer().getUniqueId());
-			if (!user.isPresent())
-				throw new HeavenException(
-						"Votre UUID n'est pas associé a un compte Heavencraft. Contactez un administrateur.");
-
-			BankAccount bank = plugin.getBankAccountProvider().getBankAccountByUser(user.get());
-
-			try
+			final Integer accountId = selectedAccounts.get(uniqueId);
+			if (accountId == null)
 			{
-				if (isDepot)
-					new BankAccountMoneyTransfertQuery(user.get(), bank, delta).executeQuery();
-				else
-					new BankAccountMoneyTransfertQuery(bank, user.get(), delta).executeQuery();
+				final BankAccount account = getAccount(user, input);
 
-				ChatUtil.sendMessage(player, "{Trésorier} : L'opération a bien été effectuée.");
+				switch (action)
+				{
+					case DEPOSIT:
+						selectedAccounts.put(player.getUniqueId(), account.getId());
+						ChatUtil.sendMessage(player, "{Trésorier} : Combien de pièces d'or souhaitez-vous déposer ?");
+						break;
+					case WITHDRAW:
+						selectedAccounts.put(player.getUniqueId(), account.getId());
+						ChatUtil.sendMessage(player, "{Trésorier} : Combien de pièces d'or souhaitez-vous retirer ?");
+						break;
+					case STATEMENT:
+						player.getInventory().addItem(createLastTransactionsBook(account, 3));
+						clear(uniqueId);
+						ChatUtil.sendMessage(player, "{Trésorier} : L'opération a été effectuée avec succès.");
+						break;
+				}
 			}
-			catch (SQLException e)
+			else
 			{
-				throw new HeavenException(e.getMessage());
+				executeTransaction(player, user, accountId, action, input);
+				clear(uniqueId);
 			}
 		}
-		catch (HeavenException ex)
+		catch (final HeavenException ex)
 		{
+			clear(uniqueId);
 			ChatUtil.sendMessage(player, ex.getMessage());
 		}
+	}
+
+	private BankAccount getAccount(RPUser user, int id) throws HeavenException
+	{
+		final BankAccount account = plugin.getBankAccountProvider().getBankAccountById(id);
+
+		if (user.getBankAccountId() == id)
+			return account;
+
+		final Optional<Company> optCompany = plugin.getCompanyProvider().getOptionalCompanyByBankAccount(account);
+		if (optCompany.isPresent() && optCompany.get().isEmployer(user))
+			return account;
+
+		final Optional<Town> optTown = plugin.getTownProvider().getOptionalTownByBankAccount(account);
+		if (optTown.isPresent() && optTown.get().isMayor(user))
+			return account;
+
+		throw new BankAccountNotFoundException(id);
+	}
+
+	private void executeTransaction(Player player, RPUser user, int accountId, LivretProAction action, int delta)
+			throws HeavenException
+	{
+		final BankAccount bank = plugin.getBankAccountProvider().getBankAccountById(accountId);
+
+		Object from, to;
+		switch (action)
+		{
+			case DEPOSIT:
+				from = user;
+				to = bank;
+				break;
+			case WITHDRAW:
+				from = bank;
+				to = user;
+				break;
+			default:
+				throw new HeavenException("Opération invalide.");
+		}
+
+		new BankAccountMoneyTransfertQuery(from, to, delta)
+		{
+			@Override
+			public void onSuccess()
+			{
+				ChatUtil.sendMessage(player, "{Trésorier} : L'opération a été effectuée avec succès.");
+			}
+
+			@Override
+			public void onException(HeavenException ex)
+			{
+				ChatUtil.sendMessage(player, ex.getMessage());
+			}
+		}.schedule();
+
+	}
+
+	private void clear(UUID uniqueId)
+	{
+		pendingActions.remove(uniqueId);
+		selectedAccounts.remove(uniqueId);
 	}
 }

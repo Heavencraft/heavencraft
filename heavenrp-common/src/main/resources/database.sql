@@ -5,28 +5,12 @@
 CREATE TABLE bank_accounts (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     balance         MEDIUMINT UNSIGNED  NOT NULL DEFAULT 0,
+    last_update     TIMESTAMP           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
 INSERT INTO bank_accounts (id, balance) VALUES ('1', '1000');
 
---
--- Companies
---
-
-CREATE TABLE companies (
-    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(32)         NOT NULL,
-    bank_account_id MEDIUMINT UNSIGNED  NULL,
-
-    PRIMARY KEY (id),
-    UNIQUE (name)
-);
-
-ALTER TABLE companies
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
-
-INSERT INTO companies (id, name, bank_account_id) VALUES ('1', 'Heavencraft', '1');
 
 --
 -- Users
@@ -47,7 +31,9 @@ CREATE TABLE users (
 );
 
 ALTER TABLE users
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id) ON DELETE SET NULL;
+
+
 --
 -- Homes
 --
@@ -66,7 +52,8 @@ CREATE TABLE homes (
 );
 
 ALTER TABLE homes
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+
 
 --
 -- Towns
@@ -82,7 +69,7 @@ CREATE TABLE towns (
 );
 
 ALTER TABLE towns
-    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id);
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id) ON DELETE SET NULL;
 
 CREATE TABLE towns_users (
     town_id         MEDIUMINT UNSIGNED  NOT NULL,
@@ -92,11 +79,48 @@ CREATE TABLE towns_users (
 );
 
 ALTER TABLE towns_users
-    ADD FOREIGN KEY (town_id) REFERENCES towns (id);
+    ADD FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE CASCADE;
 
 ALTER TABLE towns_users
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
-    
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+
+
+--
+-- Companies
+--
+
+CREATE TABLE companies (
+    id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(32)         NOT NULL,
+    tag             VARCHAR(14)         NOT NULL,
+    bank_account_id MEDIUMINT UNSIGNED  NULL,
+
+    PRIMARY KEY (id),
+    UNIQUE (name),
+    UNIQUE (tag)
+);
+
+ALTER TABLE companies
+    ADD FOREIGN KEY (bank_account_id) REFERENCES bank_accounts (id) ON DELETE SET NULL;
+
+CREATE TABLE companies_users (
+    company_id      MEDIUMINT UNSIGNED  NOT NULL,
+    user_id         MEDIUMINT UNSIGNED  NOT NULL,
+    employer        BOOLEAN             NOT NULL,
+
+    PRIMARY KEY (company_id, user_id)
+);
+
+ALTER TABLE companies_users
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
+
+ALTER TABLE companies_users
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
+
+
+INSERT INTO companies (name, tag, bank_account_id) VALUES ('Heavencraft', 'Heavencraft', 1);
+
+
 
 --
 -- Warps
@@ -104,7 +128,7 @@ ALTER TABLE towns_users
 CREATE TABLE warps (
     id              MEDIUMINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name            VARCHAR(32)         NOT NULL,
-    creator         MEDIUMINT UNSIGNED  NOT NULL,
+    creator         MEDIUMINT UNSIGNED  NULL,
     world           VARCHAR(16)         NOT NULL,
     x               DOUBLE              NOT NULL,
     y               DOUBLE              NOT NULL,
@@ -117,7 +141,7 @@ CREATE TABLE warps (
 );
 
 ALTER TABLE warps
-    ADD FOREIGN KEY (creator) REFERENCES users (id);
+    ADD FOREIGN KEY (creator) REFERENCES users (id) ON DELETE SET NULL;
 
 --
 -- Insert global regions on HeavenGuard
@@ -128,3 +152,59 @@ INSERT INTO worlds (name, flag_pvp, flag_public) VALUES
 ("world_resources", 0, 1),
 ("world_nether", 1, 1),
 ("world_the_end", 1, 1);
+
+
+--
+-- Stocks
+--
+
+CREATE TABLE stocks (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+    company_id      MEDIUMINT UNSIGNED  NOT NULL,
+    name            VARCHAR(14)         NOT NULL,
+    world           VARCHAR(16)         NOT NULL,
+    sign_x          INT                 NOT NULL,
+    sign_y          TINYINT UNSIGNED    NOT NULL,
+    sign_z          INT                 NOT NULL,
+    chest_x         INT                 NOT NULL,
+    chest_y         TINYINT UNSIGNED    NOT NULL,
+    chest_z         INT                 NOT NULL,
+
+    PRIMARY KEY (id),
+    UNIQUE (name, company_id),
+    UNIQUE (world, sign_x, sign_y, sign_z),
+    UNIQUE (world, chest_x, chest_y, chest_z)
+);
+
+ALTER TABLE stocks
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
+
+--
+-- Stores
+--
+
+CREATE TABLE stores (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+
+    stock_id        INT UNSIGNED        NULL,
+    company_id      MEDIUMINT UNSIGNED  NOT NULL,
+    stock_name      VARCHAR(14)         NOT NULL,
+
+    quantity        SMALLINT UNSIGNED   NOT NULL,
+    price           MEDIUMINT UNSIGNED  NOT NULL,
+    is_buyer        BOOLEAN             NOT NULL,
+
+    world           VARCHAR(16)         NOT NULL,
+    x               INT                 NOT NULL,
+    y               TINYINT             NOT NULL,
+    z               INT                 NOT NULL,
+    
+    PRIMARY KEY (id),
+    UNIQUE (world, x, y, z)
+);
+
+ALTER TABLE stores
+    ADD FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE;
+    
+ALTER TABLE stores
+    ADD FOREIGN KEY (stock_id) REFERENCES stocks (id) ON DELETE SET NULL;

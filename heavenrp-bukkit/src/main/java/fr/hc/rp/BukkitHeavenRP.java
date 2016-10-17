@@ -6,6 +6,7 @@ import fr.hc.core.ReferencePlugin;
 import fr.hc.core.users.UsersListener;
 import fr.hc.guard.HeavenGuardInstance;
 import fr.hc.rp.banks.LivretSignListener;
+import fr.hc.rp.cmd.companies.EntrepriseCommand;
 import fr.hc.rp.cmd.parcelle.ParcelleCommand;
 import fr.hc.rp.cmd.towns.VilleCommand;
 import fr.hc.rp.commands.AccepterCommand;
@@ -16,12 +17,18 @@ import fr.hc.rp.commands.SpawnCommand;
 import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
+import fr.hc.rp.db.stocks.StockProvider;
+import fr.hc.rp.db.stores.StoreProvider;
 import fr.hc.rp.db.towns.TownProvider;
 import fr.hc.rp.db.users.RPUserProvider;
 import fr.hc.rp.db.warps.RPWarpProvider;
 import fr.hc.rp.economy.EconomyListener;
 import fr.hc.rp.economy.GoldDropListener;
 import fr.hc.rp.economy.MoneyTask;
+import fr.hc.rp.economy.stocks.CoffreSignListener;
+import fr.hc.rp.economy.stocks.StockListener;
+import fr.hc.rp.economy.stores.AchatSignListener;
+import fr.hc.rp.economy.stores.MagasinSignListener;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
@@ -37,6 +44,9 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	private TownProvider townProvider;
 	private RPUserProvider userProvider;
 	private RPWarpProvider warpProvider;
+	private StoreProvider storeProvider;
+	private StockProvider stockProvider;
+	private PricingManager pricingManager;
 
 	public BukkitHeavenRP()
 	{
@@ -55,6 +65,9 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		townProvider = new TownProvider(connectionProvider);
 		userProvider = new RPUserProvider(connectionProvider);
 		warpProvider = new RPWarpProvider(connectionProvider);
+		storeProvider = new StoreProvider(connectionProvider);
+		stockProvider = new StockProvider(connectionProvider);
+		pricingManager = new PricingManager();
 
 		HeavenCoreInstance.get().setReferencePlugin(this);
 		HeavenGuardInstance.get().setUserProvider(userProvider);
@@ -77,10 +90,19 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		new RejoindreCommand(this);
 		new AccepterCommand(this);
 
+		// Company
+		new EntrepriseCommand(this);
+
 		// Economy
 		new EconomyListener(this);
 		new GoldDropListener(this);
 		new MoneyTask(this);
+		// Economy/Stocks
+		new CoffreSignListener(this);
+		new StockListener(this);
+		// Economy/Stores
+		new AchatSignListener(this);
+		new MagasinSignListener(this);
 
 		// Bank
 		new LivretSignListener(this);
@@ -117,5 +139,23 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	public RPWarpProvider getWarpProvider()
 	{
 		return warpProvider;
+	}
+
+	@Override
+	public StoreProvider getStoreProvider()
+	{
+		return storeProvider;
+	}
+
+	@Override
+	public StockProvider getStockProvider()
+	{
+		return stockProvider;
+	}
+
+	@Override
+	public PricingManager getPricingManager()
+	{
+		return pricingManager;
 	}
 }

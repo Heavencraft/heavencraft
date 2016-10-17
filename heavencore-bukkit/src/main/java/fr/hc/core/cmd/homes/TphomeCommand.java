@@ -47,7 +47,7 @@ public class TphomeCommand extends AbstractCommandExecutor
 		}
 
 		final Optional<? extends User> optUser = plugin.getUserProvider()
-				.getUserByName(PlayerUtil.getExactName(args[0]));
+				.getOptionalUserByName(PlayerUtil.getExactName(args[0]));
 		if (!optUser.isPresent())
 			throw new UserNotFoundException(args[0]);
 		final User user = optUser.get();

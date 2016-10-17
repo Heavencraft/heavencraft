@@ -35,7 +35,7 @@ public class ParcelleSupprimerSubCommand extends SubCommand
 		final String townName = args[0];
 		final String regionName = args[1];
 
-		final Optional<RPUser> optMayor = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> optMayor = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optMayor.isPresent())
 			throw new UnexpectedErrorException();
 		final RPUser mayor = optMayor.get();

@@ -38,7 +38,7 @@ public class UsersListener extends AbstractBukkitListener
 
 		try
 		{
-			final Optional<? extends User> optUser = userProvider.getUserByUniqueId(uniqueId);
+			final Optional<? extends User> optUser = userProvider.getOptionalUserByUniqueId(uniqueId);
 
 			if (!optUser.isPresent())
 			{
