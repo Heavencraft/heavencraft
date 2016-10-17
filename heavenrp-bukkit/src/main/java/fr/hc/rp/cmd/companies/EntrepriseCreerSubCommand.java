@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import fr.hc.core.cmd.SubCommand;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
+import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
@@ -27,7 +28,7 @@ public class EntrepriseCreerSubCommand extends SubCommand
 	@Override
 	public void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-		if (args.length != 2)
+		if (args.length < 2)
 		{
 			sendUsage(player);
 			return;
@@ -38,8 +39,8 @@ public class EntrepriseCreerSubCommand extends SubCommand
 		if (user.getBalance() < companyCreationCost)
 			throw new HeavenException("Vous fouillez dans votre bourse... Vous n'avez pas assez.");
 
-		final String name = args[0];
-		final String tag = args[1];
+		final String name = ConversionUtil.toString(args, 1, " ");
+		final String tag = args[0];
 
 		final Optional<Company> optCompany = plugin.getCompanyProvider().getOptionalCompanyByTag(tag);
 		if (optCompany.isPresent())
@@ -106,7 +107,7 @@ public class EntrepriseCreerSubCommand extends SubCommand
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "/{entreprise} creer <nom de l'entreprise> <tag de l'entreprise>");
+		ChatUtil.sendMessage(sender, "/{entreprise} creer <tag de l'entreprise> <nom de l'entreprise>");
 	}
 
 	class CompanyRequest
