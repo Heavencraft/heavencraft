@@ -9,9 +9,9 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import fr.hc.core.AbstractSignListener;
 import fr.hc.core.BukkitHeavenCore;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.listeners.sign.AbstractSignListener;
 
 public class CookieSignListener extends AbstractSignListener
 {
@@ -34,11 +34,17 @@ public class CookieSignListener extends AbstractSignListener
 		if (rand.nextInt(10) != 0)
 			return;
 
-		ItemStack cookie = new ItemStack(Material.COOKIE);
-		ItemMeta meta = cookie.getItemMeta();
+		final ItemStack cookie = new ItemStack(Material.COOKIE);
+		final ItemMeta meta = cookie.getItemMeta();
 		meta.setDisplayName("Cookie de l'amitié");
 		cookie.setItemMeta(meta);
 		player.getInventory().addItem(cookie);
 		player.updateInventory();
+	}
+
+	@Override
+	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
+	{
+		return true;
 	}
 }

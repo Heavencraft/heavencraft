@@ -47,7 +47,7 @@ public class HomeCommand extends AbstractCommandExecutor
 				return;
 		}
 
-		final Optional<? extends User> optUser = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<? extends User> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 			throw new UnexpectedErrorException();
 

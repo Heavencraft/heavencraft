@@ -34,7 +34,7 @@ ALTER TABLE regions_members
     ADD FOREIGN KEY (region_id) REFERENCES regions (id) ON DELETE CASCADE;
 
 ALTER TABLE regions_members
-    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+    ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
 
 CREATE TABLE worlds (
     name            VARCHAR(32)         NOT NULL,

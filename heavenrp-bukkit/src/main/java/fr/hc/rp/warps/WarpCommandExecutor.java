@@ -35,7 +35,7 @@ public class WarpCommandExecutor extends AbstractCommandExecutor
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
 		RPWarpProvider warpProvider = plugin.getWarpProvider();
-		Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		Optional<RPUser> user = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 
 		// Parse the command
 		switch (args.length)

@@ -30,4 +30,6 @@ commands:
  accepter:
    description: Accepter la téléportation d'un joueur
    usage: /accepter <joueur>
-    
+ entreprise:
+   description: Gérer son entreprise
+   usage: /entreprise

@@ -42,7 +42,7 @@ public class BourseCommand extends AbstractCommandExecutor
 
 		ChatUtil.sendMessage(player, PURSE_MESSAGE);
 
-		final Optional<RPUser> user = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> user = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!user.isPresent())
 			throw new UnexpectedErrorException();
 

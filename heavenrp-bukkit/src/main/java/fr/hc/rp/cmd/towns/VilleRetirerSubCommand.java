@@ -55,7 +55,7 @@ public class VilleRetirerSubCommand extends SubCommand
 
 		for (int i = 1; i != args.length; i++)
 		{
-			final Optional<RPUser> optUser = userProvider.getUserByName(PlayerUtil.getExactName(args[i]));
+			final Optional<RPUser> optUser = userProvider.getOptionalUserByName(PlayerUtil.getExactName(args[i]));
 			if (!optUser.isPresent())
 			{
 				ChatUtil.sendMessage(sender, UserNotFoundException.MESSAGE, args[i]);

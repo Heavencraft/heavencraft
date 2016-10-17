@@ -47,7 +47,7 @@ public class SetHomeCommand extends AbstractCommandExecutor
 		}
 
 		final Optional<? extends UserWithHome> optUser = plugin.getUserProvider()
-				.getUserByUniqueId(player.getUniqueId());
+				.getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 			throw new UnexpectedErrorException();
 

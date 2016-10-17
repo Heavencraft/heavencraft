@@ -106,7 +106,10 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 						final Statement statement = connection.createStatement())
 				{
 					for (final String query : entry.getValue())
+					{
+						log.info(query);
 						statement.execute(query);
+					}
 				}
 			}
 
@@ -116,7 +119,10 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 						final Statement statement = connection.createStatement())
 				{
 					for (final String query : entry.getValue())
+					{
+						log.info(query);
 						statement.execute(query);
+					}
 				}
 			}
 
@@ -126,7 +132,10 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 						final Statement statement = connection.createStatement())
 				{
 					for (final String query : entry.getValue())
+					{
+						log.info(query);
 						statement.execute(query);
+					}
 				}
 			}
 		}

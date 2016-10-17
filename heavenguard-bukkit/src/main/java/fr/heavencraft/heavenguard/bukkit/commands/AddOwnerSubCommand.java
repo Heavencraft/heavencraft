@@ -33,7 +33,7 @@ public class AddOwnerSubCommand extends HeavenGuardSubCommand
 
 		for (final String arg : args)
 		{
-			final Optional<? extends User> optUser = plugin.getUserProvider().getUserByName(arg);
+			final Optional<? extends User> optUser = plugin.getUserProvider().getOptionalUserByName(arg);
 
 			if (!optUser.isPresent())
 				throw new UserNotFoundException(arg);

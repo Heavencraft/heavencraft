@@ -6,26 +6,44 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.hc.rp.db.bankaccounts.BankAccount;
+
 // Available from package only
 class CompanyCache
 {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private final Map<String, Company> companiesByName = new ConcurrentHashMap<String, Company>();
+	private final Map<Integer, Company> companiesById = new ConcurrentHashMap<Integer, Company>();
+	private final Map<String, Company> companiesByTag = new ConcurrentHashMap<String, Company>();
+	private final Map<Integer, Company> companiesByBankAccountId = new ConcurrentHashMap<Integer, Company>();
 
-	public Company getCompanyByName(String name)
+	public Company getCompanyById(int id)
 	{
-		return companiesByName.get(name);
+		return companiesById.get(id);
+	}
+
+	public Company getCompanyByTag(String name)
+	{
+		return companiesByTag.get(name);
+	}
+
+	public Company getCompanyByBankAccount(BankAccount account)
+	{
+		return companiesByBankAccountId.get(account.getId());
 	}
 
 	public void addToCache(Company company)
 	{
-		companiesByName.put(company.getName(), company);
+		companiesById.put(company.getId(), company);
+		companiesByTag.put(company.getTag(), company);
+		companiesByBankAccountId.put(company.getBankAccountId(), company);
 	}
 
 	public void invalidateCache(Company company)
 	{
-		companiesByName.remove(company.getName());
+		companiesById.remove(company.getId());
+		companiesByTag.remove(company.getTag());
+		companiesByBankAccountId.remove(company.getBankAccountId());
 
 		log.info("Invalidated company cache for {}", company);
 	}

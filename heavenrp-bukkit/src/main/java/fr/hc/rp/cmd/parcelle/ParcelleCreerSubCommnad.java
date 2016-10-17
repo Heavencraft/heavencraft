@@ -59,7 +59,7 @@ public class ParcelleCreerSubCommnad extends SubCommand
 		final String townName = args[0];
 		final String playerName = args[1];
 
-		final Optional<RPUser> optMayor = plugin.getUserProvider().getUserByUniqueId(player.getUniqueId());
+		final Optional<RPUser> optMayor = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optMayor.isPresent())
 			throw new UnexpectedErrorException();
 		final RPUser mayor = optMayor.get();
@@ -68,7 +68,7 @@ public class ParcelleCreerSubCommnad extends SubCommand
 		if (!town.isMayor(mayor))
 			throw new HeavenException("Vous n'êtes pas maire de {%1$s}", town);
 
-		final Optional<RPUser> optUser = plugin.getUserProvider().getUserByName(PlayerUtil.getExactName(playerName));
+		final Optional<RPUser> optUser = plugin.getUserProvider().getOptionalUserByName(PlayerUtil.getExactName(playerName));
 		if (!optUser.isPresent())
 			throw new UserNotFoundException(playerName);
 		final RPUser user = optUser.get();

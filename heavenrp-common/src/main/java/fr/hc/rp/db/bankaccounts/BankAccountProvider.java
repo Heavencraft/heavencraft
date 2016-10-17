@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +76,25 @@ public class BankAccountProvider
 		}
 	}
 
-	private BankAccount getBankAccountById(int id) throws HeavenException
+	public Map<BankAccount, String> getAllPermissionnedBankAccountForUser(RPUser user) throws HeavenException
+	{
+		final Map<BankAccount, String> accounts = new HashMap<BankAccount, String>();
+
+		// BankAccount of user
+		accounts.put(getBankAccountByUser(user), user.getName());
+
+		// BankAccount of companies
+		for (final Company company : plugin.getCompanyProvider().getCompaniesByUser(user))
+			if (company.isEmployer(user))
+				accounts.put(getBankAccountByCompany(company), company.getName());
+
+		for (final Town town : plugin.getTownProvider().getTownsByUser(user))
+			accounts.put(getBankAccountByTown(town), town.getName());
+
+		return accounts;
+	}
+
+	public BankAccount getBankAccountById(int id) throws HeavenException
 	{
 		// Try to get bank account from cache
 		BankAccount bankAccount = cache.getBankAccountById(id);
