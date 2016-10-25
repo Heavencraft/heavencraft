@@ -206,6 +206,10 @@ public class ProtectionPlayerListener extends AbstractBukkitListener
 	{
 		log.debug(event.getClass().getSimpleName() + " " + event.getRightClicked().getType());
 
+		// Horse are handled by HorsesListePlayerInteractEventner
+		if (event.getRightClicked().getType() == EntityType.HORSE)
+			return;
+
 		if (!canBuildAt(event.getPlayer(), event.getRightClicked().getLocation().getBlock()))
 			event.setCancelled(true);
 	}
@@ -390,8 +394,8 @@ public class ProtectionPlayerListener extends AbstractBukkitListener
 
 		try
 		{
-			final boolean result = canBuildAt(plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get(),
-					block);
+			final boolean result = canBuildAt(
+					plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get(), block);
 			if (!result)
 				ChatUtil.sendMessage(player, "Cet endroit est protégé.");
 			return result;
