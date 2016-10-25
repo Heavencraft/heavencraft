@@ -20,6 +20,11 @@ public abstract class SubCommand
 		this.permission = permission;
 	}
 
+	public boolean canSeeUsage(CommandSender sender)
+	{
+		return permission == null || sender.hasPermission(permission);
+	}
+
 	public boolean canExecute(CommandSender sender, String[] args)
 	{
 		return permission == null || sender.hasPermission(permission);
