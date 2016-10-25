@@ -19,6 +19,12 @@ abstract class AbstractOwnerSubCommand extends HeavenGuardSubCommand
 	}
 
 	@Override
+	public boolean canSeeUsage(CommandSender sender)
+	{
+		return true;
+	}
+
+	@Override
 	public boolean canExecute(CommandSender sender, String[] args)
 	{
 		if (super.canExecute(sender, args))

@@ -23,6 +23,12 @@ public abstract class AbstractEmployerSubCommand extends SubCommand
 	}
 
 	@Override
+	public boolean canSeeUsage(CommandSender sender)
+	{
+		return true;
+	}
+
+	@Override
 	public boolean canExecute(CommandSender sender, String[] args)
 	{
 		if (super.canExecute(sender, args))

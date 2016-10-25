@@ -91,7 +91,7 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 	protected void sendUsage(CommandSender sender)
 	{
 		for (final SubCommand subCommand : subCommands)
-			if (subCommand.canExecute(sender, null))
+			if (subCommand.canSeeUsage(sender))
 				subCommand.sendUsage(sender);
 	}
 }
