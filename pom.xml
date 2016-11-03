@@ -11,6 +11,7 @@
 		<module>heavencore-common</module>
 		<module>heavenguard-bukkit</module>
 		<module>heavenguard-common</module>
+		<module>heavenproxy</module>
 		<module>heavenrp-bukkit</module>
 		<module>heavenrp-common</module>
 	</modules>
