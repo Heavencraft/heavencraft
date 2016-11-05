@@ -16,6 +16,7 @@ import com.google.common.collect.Multimap;
 
 import fr.hc.core.cmd.admin.CreacheatCommand;
 import fr.hc.core.cmd.admin.EndercheatCommand;
+import fr.hc.core.cmd.admin.GenerateCommand;
 import fr.hc.core.cmd.admin.HealCommand;
 import fr.hc.core.cmd.admin.InventoryCommand;
 import fr.hc.core.cmd.admin.PoofCommand;
@@ -171,6 +172,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 
 			new CreacheatCommand(this);
 			new EndercheatCommand(this);
+			new GenerateCommand(this);
 			new HealCommand(this);
 			new InventoryCommand(this);
 			new RoucoupsCommand(this);

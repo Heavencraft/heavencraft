@@ -9,6 +9,9 @@ commands:
  endercheat:
   usage: /endercheat <joueur>
   description: Ouvre l'endercheat du joueur concerné.
+ generate:
+  usage: /generate <carte> <taille>
+  description: Force la génération d'une carte
  heal:
   usage: /heal [<joueur>]
   description: Soigne le joueur.
