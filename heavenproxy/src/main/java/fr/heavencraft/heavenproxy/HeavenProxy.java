@@ -66,6 +66,9 @@ public class HeavenProxy extends Plugin
 	@Override
 	public void onEnable()
 	{
+		super.onEnable();
+		_instance = this;
+
 		try
 		{
 			final File file = new File(getDataFolder(), "config.yml");
@@ -86,9 +89,6 @@ public class HeavenProxy extends Plugin
 
 			updateDatabaseIfNeeded();
 
-			super.onEnable();
-
-			_instance = this;
 			new QueriesHandler();
 
 			new LogListener();
