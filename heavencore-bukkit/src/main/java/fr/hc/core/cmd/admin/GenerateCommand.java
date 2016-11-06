@@ -49,16 +49,8 @@ public class GenerateCommand extends AbstractCommandExecutor
 		final Chunk minChunk = world.getChunkAt(new Location(world, -size, 100, -size));
 		final Chunk maxChunk = world.getChunkAt(new Location(world, size, 100, size));
 
-		ChatUtil.sendMessage(sender, "Génération de la carte [%1$s}...", world.getName());
-
-		long i = 0;
-
-		for (int x = minChunk.getX(); x <= maxChunk.getX(); x++)
-			for (int z = minChunk.getZ(); z <= maxChunk.getZ(); z++)
-				new GenerateChunkTask(world.getName(), x, z, i++ / CHUNKS_PER_TICK);
-
-		ChatUtil.sendMessage(sender, "La carte {%1$s} sera complètement générée dans environ {%2$s} secondes.",
-				world.getName(), i / CHUNKS_PER_TICK / 20);
+		new GenerateChunkTask(world, minChunk, maxChunk);
+		ChatUtil.sendMessage(sender, "Génération de la carte {%1$s}...", world.getName());
 	}
 
 	@Override
@@ -70,53 +62,58 @@ public class GenerateCommand extends AbstractCommandExecutor
 	private class GenerateChunkTask extends BukkitRunnable
 	{
 		private final String worldName;
-		private final int x;
-		private final int z;
+		private int x;
+		private int z;
+		private final int minZ;
+		private final int maxX;
+		private final int maxZ;
 
-		public GenerateChunkTask(String worldName, int x, int z, long delay)
+		public GenerateChunkTask(World world, Chunk minChunk, Chunk maxChunk)
 		{
-			runTaskLater(plugin, delay);
+			runTaskTimer(plugin, 0, 1);
 
-			this.worldName = worldName;
-			this.x = x;
-			this.z = z;
+			this.worldName = world.getName();
+			this.x = minChunk.getX();
+			this.z = this.minZ = minChunk.getZ();
+			this.maxX = maxChunk.getX();
+			this.maxZ = maxChunk.getZ();
+
+			log.info("GenerateChunkTask: x={}, z={}, maxX={}, maxZ={}", x, z, maxX, maxZ);
 		}
 
 		@Override
 		public void run()
 		{
+			int i = 0;
+
 			final World world = Bukkit.getWorld(worldName);
 
-			// Chunk is already loaded, no need to generate it
-			if (world.isChunkLoaded(x, z))
-				return;
+			for (; x <= maxX; x++)
+			{
+				for (; z <= maxZ; z++)
+				{
+					// Limit reached, we continue next tick
+					if (++i > CHUNKS_PER_TICK)
+						return;
 
-			world.loadChunk(x, z);
-			new UnloadChunkTask(worldName, x, z);
+					// Chunk is already loaded, no need to generate it
+					if (world.isChunkLoaded(x, z))
+					{
+						log.info("Chunk already loaded: {}, {}, {}", worldName, x, z);
+						continue;
+					}
 
-			log.info("Chunk generated: {}, {}, {}", worldName, x, z);
-		}
-	}
+					world.loadChunk(x, z);
+					log.info("Chunk loaded: {}, {}, {}", worldName, x, z);
+				}
 
-	private class UnloadChunkTask extends BukkitRunnable
-	{
-		private final String worldName;
-		private final int x;
-		private final int z;
+				z = minZ;
+			}
 
-		public UnloadChunkTask(String worldName, int x, int z)
-		{
-			runTaskLater(plugin, 20);
+			log.info("Map {} generated", worldName);
+			cancel();
 
-			this.worldName = worldName;
-			this.x = x;
-			this.z = z;
-		}
-
-		@Override
-		public void run()
-		{
-			Bukkit.getWorld(worldName).unloadChunk(x, z);
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
 		}
 	}
 }
