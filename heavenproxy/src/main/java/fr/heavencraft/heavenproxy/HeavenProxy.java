@@ -149,7 +149,6 @@ public class HeavenProxy extends Plugin
 			new ServerProcessManager();
 
 			new AutoMessageTask();
-			new MemoryWatcherTask();
 
 			_requestsManager = new RequestsManager();
 
