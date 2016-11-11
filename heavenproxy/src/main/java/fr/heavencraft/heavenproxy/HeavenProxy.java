@@ -3,8 +3,6 @@ package fr.heavencraft.heavenproxy;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fr.heavencraft.heavenproxy.async.QueriesHandler;
@@ -86,8 +84,6 @@ public class HeavenProxy extends Plugin
 			databaseUrl = builder.toString();
 
 			log.info("Using database url %1$s", databaseUrl);
-
-			updateDatabaseIfNeeded();
 
 			new QueriesHandler();
 
@@ -194,76 +190,5 @@ public class HeavenProxy extends Plugin
 	public static HeavenProxy getInstance()
 	{
 		return _instance;
-	}
-
-	private static final String USERS_TEST_QUERY = "SELECT DISTINCT uuid FROM users WHERE LENGTH(uuid) = 32 ORDER BY last_login DESC;";
-
-	private static final String BANLIST_TEST_QUERY = "SELECT DISTINCT uuid FROM banlist WHERE LENGTH(uuid) = 32;";
-	private static final String BANLIST_UPDATE_QUERY = "UPDATE banlist SET uuid = ? WHERE uuid = ?;";
-
-	private static void updateDatabaseIfNeeded() throws SQLException
-	{
-		/*
-		 * Banlist
-		 */
-
-		System.out.println("BANLIST START");
-
-		try (PreparedStatement ps = getConnection().prepareStatement(BANLIST_TEST_QUERY))
-		{
-			final ResultSet rs = ps.executeQuery();
-
-			while (rs.next())
-			{
-				final String uuid = rs.getString("uuid");
-				final String dash = uuid.substring(0, 8) //
-						+ "-" + uuid.substring(8, 12) //
-						+ "-" + uuid.substring(12, 16) //
-						+ "-" + uuid.substring(16, 20) //
-						+ "-" + uuid.substring(20, 32);
-
-				try (PreparedStatement ps2 = getConnection().prepareStatement(BANLIST_UPDATE_QUERY))
-				{
-					ps2.setString(1, dash);
-					ps2.setString(2, uuid);
-
-					if (ps2.executeUpdate() == 0)
-						throw new RuntimeException("Failed to update " + uuid);
-				}
-			}
-		}
-		System.out.println("BANLIST END");
-
-		/*
-		 * Users
-		 */
-
-		try (PreparedStatement ps = getConnection().prepareStatement(USERS_TEST_QUERY))
-		{
-			final ResultSet rs = ps.executeQuery();
-
-			System.out.println("USERS START");
-
-			while (rs.next())
-			{
-				final String uuid = rs.getString("uuid");
-
-				if (rs.isLast())
-				{
-					QueriesHandler.addQuery(new UpdateUUIDQuery(uuid)
-					{
-						@Override
-						public void onSuccess()
-						{
-							System.out.println("USERS END");
-						}
-					});
-				}
-				else
-				{
-					QueriesHandler.addQuery(new UpdateUUIDQuery(uuid));
-				}
-			}
-		}
 	}
 }
