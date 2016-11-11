@@ -15,6 +15,7 @@ import fr.hc.core.db.users.User;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.HomeNotFoundException;
 import fr.hc.core.exceptions.UserNotFoundException;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
@@ -57,7 +58,7 @@ public class TphomeCommand extends AbstractCommandExecutor
 			throw new HomeNotFoundException(user, homeNumber);
 		final Home home = optHome.get();
 
-		PlayerUtil.teleportPlayer(player, ConversionUtil.toLocation(home));
+		PlayerUtil.teleportPlayer(player, BukkitConversionUtil.toLocation(home));
 		ChatUtil.sendMessage(player, "Vous avez été téléporté au {home %1$s} de {%2$s}.", homeNumber, user);
 	}
 

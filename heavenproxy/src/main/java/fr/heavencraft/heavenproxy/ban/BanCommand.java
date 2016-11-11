@@ -3,7 +3,7 @@ package fr.heavencraft.heavenproxy.ban;
 import fr.heavencraft.heavenproxy.Utils;
 import fr.heavencraft.heavenproxy.commands.HeavenCommand;
 import fr.heavencraft.heavenproxy.database.users.UserProvider;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 import net.md_5.bungee.api.CommandSender;
 
 public class BanCommand extends HeavenCommand

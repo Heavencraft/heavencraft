@@ -326,7 +326,7 @@ public class ProtectionPlayerListener extends AbstractBukkitListener
 
 	// @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	// private void onPlayerRightClickBlock(PlayerInteractEvent event) throws
-	// SQLErrorException
+	// DatabaseErrorException
 	// {
 	// Block block = event.getClickedBlock();
 	//

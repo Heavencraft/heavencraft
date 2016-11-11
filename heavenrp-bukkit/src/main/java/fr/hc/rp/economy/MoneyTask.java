@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import fr.hc.core.db.users.balance.UpdateUserBalanceQuery;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
-import fr.hc.core.utils.ConversionUtil;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
@@ -37,7 +37,7 @@ public class MoneyTask extends BukkitRunnable
 			return;
 
 		final int amount = plugin.getPricingManager().getMoneyTaskAmount();
-		log.info("Giving {} po to [{}]", amount, ConversionUtil.toString(players));
+		log.info("Giving {} po to [{}]", amount, BukkitConversionUtil.toString(players));
 
 		try
 		{

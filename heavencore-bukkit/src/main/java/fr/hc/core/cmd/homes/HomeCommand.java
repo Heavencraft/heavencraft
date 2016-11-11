@@ -14,6 +14,7 @@ import fr.hc.core.db.users.User;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.HomeNotFoundException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
@@ -47,7 +48,8 @@ public class HomeCommand extends AbstractCommandExecutor
 				return;
 		}
 
-		final Optional<? extends User> optUser = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
+		final Optional<? extends User> optUser = plugin.getUserProvider()
+				.getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optUser.isPresent())
 			throw new UnexpectedErrorException();
 
@@ -57,7 +59,7 @@ public class HomeCommand extends AbstractCommandExecutor
 		if (!optHome.isPresent())
 			throw new HomeNotFoundException(homeNumber);
 
-		PlayerUtil.teleportPlayer(player, ConversionUtil.toLocation(optHome.get()));
+		PlayerUtil.teleportPlayer(player, BukkitConversionUtil.toLocation(optHome.get()));
 		ChatUtil.sendMessage(player, "Téléportation au home {%1$s} effectuée!", homeNumber);
 	}
 

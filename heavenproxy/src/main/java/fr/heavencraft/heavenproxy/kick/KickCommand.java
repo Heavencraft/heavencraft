@@ -5,7 +5,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import fr.heavencraft.heavenproxy.Utils;
 import fr.heavencraft.heavenproxy.chat.DisconnectReasonManager;
 import fr.heavencraft.heavenproxy.commands.HeavenCommand;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 import fr.heavencraft.heavenproxy.listeners.LogListener;
 
 public class KickCommand extends HeavenCommand

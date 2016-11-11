@@ -10,8 +10,8 @@ import fr.heavencraft.heavenproxy.database.users.UpdateUserLastLoginQuery;
 import fr.heavencraft.heavenproxy.database.users.UpdateUserNameQuery;
 import fr.heavencraft.heavenproxy.database.users.User;
 import fr.heavencraft.heavenproxy.database.users.UserProvider;
-import fr.heavencraft.heavenproxy.exceptions.SQLErrorException;
-import fr.heavencraft.heavenproxy.exceptions.UserNotFoundException;
+import fr.hc.core.exceptions.DatabaseErrorException;
+import fr.hc.core.exceptions.UserNotFoundException;
 import fr.heavencraft.heavenproxy.kick.KickCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -51,7 +51,7 @@ public class UsersListener extends AbstractListener
 
 	// Must be run with LOWEST priority, as it create or update the user
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onPostLoginLowest(PostLoginEvent event) throws SQLErrorException
+	public void onPostLoginLowest(PostLoginEvent event) throws DatabaseErrorException
 	{
 		final ProxiedPlayer player = event.getPlayer();
 		final UUID uniqueId = player.getUniqueId();

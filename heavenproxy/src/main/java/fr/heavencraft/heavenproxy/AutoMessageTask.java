@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import fr.heavencraft.heavenproxy.exceptions.SQLErrorException;
+import fr.hc.core.exceptions.DatabaseErrorException;
 
 public class AutoMessageTask implements Runnable
 {
@@ -30,20 +30,20 @@ public class AutoMessageTask implements Runnable
 		{
 			ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(PREFIX + getRandomMessage()));
 		}
-		catch (final SQLErrorException ex)
+		catch (final DatabaseErrorException ex)
 		{
 			ex.printStackTrace();
 		}
 	}
 
-	private static String getRandomMessage() throws SQLErrorException
+	private static String getRandomMessage() throws DatabaseErrorException
 	{
 		try (final PreparedStatement ps = HeavenProxy.getConnection().prepareStatement(GET_AUTO_MESSAGE))
 		{
 			try (ResultSet rs = ps.executeQuery())
 			{
 				if (!rs.next())
-					throw new SQLErrorException();
+					throw new DatabaseErrorException();
 
 				return rs.getString("text");
 			}
@@ -51,7 +51,7 @@ public class AutoMessageTask implements Runnable
 		catch (final SQLException ex)
 		{
 			ex.printStackTrace();
-			throw new SQLErrorException();
+			throw new DatabaseErrorException();
 		}
 	}
 }

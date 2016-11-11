@@ -9,8 +9,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.BukkitUtil;
-import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRP;
@@ -34,7 +34,7 @@ public class StockListener extends AbstractBukkitListener
 		if (!BukkitUtil.isChest(block.getType()))
 			return;
 
-		final HeavenBlockLocation chestLocation = ConversionUtil.toHeavenBlockLocation(block.getLocation());
+		final HeavenBlockLocation chestLocation = BukkitConversionUtil.toHeavenBlockLocation(block.getLocation());
 
 		final Optional<Stock> optStock = plugin.getStockProvider().getOptionalStockByChestLocation(chestLocation);
 		if (!optStock.isPresent())
@@ -47,7 +47,7 @@ public class StockListener extends AbstractBukkitListener
 			public void onSuccess()
 			{
 				// Don't forget to break the sign
-				ConversionUtil.toLocation(stock.getSignLocation()).getBlock().breakNaturally();
+				BukkitConversionUtil.toLocation(stock.getSignLocation()).getBlock().breakNaturally();
 
 				ChatUtil.sendMessage(event.getPlayer(), "Le coffre {%1$s} a été détruit.",
 						stock.getCompanyIdAndStockName().getStockName());

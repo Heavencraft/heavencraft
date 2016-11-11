@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 import fr.heavencraft.heavenproxy.HeavenProxy;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 import net.md_5.bungee.api.ProxyServer;
 
 public class QueriesHandler implements Runnable

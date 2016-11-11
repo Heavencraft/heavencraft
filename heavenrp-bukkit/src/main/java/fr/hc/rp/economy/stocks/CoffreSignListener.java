@@ -13,8 +13,8 @@ import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UserNotFoundException;
 import fr.hc.core.listeners.sign.AbstractSignListener;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.BukkitUtil;
-import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.db.companies.Company;
@@ -64,8 +64,8 @@ public class CoffreSignListener extends AbstractSignListener
 
 		final String stockName = event.getLine(NAME_LINE);
 		plugin.getStockProvider().createStock(new CompanyIdAndStockName(company.getId(), stockName),
-				ConversionUtil.toHeavenBlockLocation(event.getBlock().getLocation()),
-				ConversionUtil.toHeavenBlockLocation(chestBlock.getLocation()));
+				BukkitConversionUtil.toHeavenBlockLocation(event.getBlock().getLocation()),
+				BukkitConversionUtil.toHeavenBlockLocation(chestBlock.getLocation()));
 		return true;
 	}
 
@@ -78,7 +78,7 @@ public class CoffreSignListener extends AbstractSignListener
 	@Override
 	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
 	{
-		final HeavenBlockLocation signLocation = ConversionUtil.toHeavenBlockLocation(sign.getLocation());
+		final HeavenBlockLocation signLocation = BukkitConversionUtil.toHeavenBlockLocation(sign.getLocation());
 
 		final Optional<Stock> optStock = plugin.getStockProvider().getOptionalStockBySignLocation(signLocation);
 		if (!optStock.isPresent())

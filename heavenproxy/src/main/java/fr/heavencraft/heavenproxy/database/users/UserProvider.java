@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import fr.heavencraft.heavenproxy.HeavenProxy;
-import fr.heavencraft.heavenproxy.exceptions.SQLErrorException;
-import fr.heavencraft.heavenproxy.exceptions.UserNotFoundException;
+import fr.hc.core.exceptions.DatabaseErrorException;
+import fr.hc.core.exceptions.UserNotFoundException;
 
 public class UserProvider
 {
@@ -15,7 +15,7 @@ public class UserProvider
     private static final String SELECT_USER_BY_NAME = "SELECT * FROM users WHERE name = ? LIMIT 1;";
     private static final String INSERT_USER = "INSERT INTO users (uuid, name) VALUES (?, ?)";
 
-    public static User getUserByUniqueId(UUID uniqueId) throws UserNotFoundException, SQLErrorException
+    public static User getUserByUniqueId(UUID uniqueId) throws UserNotFoundException, DatabaseErrorException
     {
         // Try to get user from cache
         User user = UserCache.getUserByUniqueId(uniqueId);
@@ -39,11 +39,11 @@ public class UserProvider
         catch (final SQLException ex)
         {
             ex.printStackTrace();
-            throw new SQLErrorException();
+            throw new DatabaseErrorException();
         }
     }
 
-    public static User getUserByName(String name) throws UserNotFoundException, SQLErrorException
+    public static User getUserByName(String name) throws UserNotFoundException, DatabaseErrorException
     {
         // Try to get user from cache
         User user = UserCache.getUserByName(name);
@@ -67,11 +67,11 @@ public class UserProvider
         catch (final SQLException ex)
         {
             ex.printStackTrace();
-            throw new SQLErrorException();
+            throw new DatabaseErrorException();
         }
     }
 
-    public static void createUser(UUID uniqueId, String name) throws SQLErrorException
+    public static void createUser(UUID uniqueId, String name) throws DatabaseErrorException
     {
         try (PreparedStatement ps = HeavenProxy.getConnection().prepareStatement(INSERT_USER))
         {
@@ -83,7 +83,7 @@ public class UserProvider
         catch (final SQLException ex)
         {
             ex.printStackTrace();
-            throw new SQLErrorException();
+            throw new DatabaseErrorException();
         }
     }
 }

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 
 public class BatchQuery extends AbstractQuery
 {

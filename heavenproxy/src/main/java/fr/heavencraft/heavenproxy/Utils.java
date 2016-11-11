@@ -8,8 +8,7 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Subdivision;
 
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
-import fr.heavencraft.heavenproxy.exceptions.PlayerNotConnectedException;
+import fr.hc.core.exceptions.PlayerNotConnectedException;
 import fr.heavencraft.heavenproxy.servers.Server;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -19,206 +18,184 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class Utils
 {
-    private final static String BEGIN = "{";
-    private final static String END = "}";
-    private final static String GOLD = ChatColor.GOLD.toString();
-    private final static String RED = ChatColor.RED.toString();
+	private final static String BEGIN = "{";
+	private final static String END = "}";
+	private final static String GOLD = ChatColor.GOLD.toString();
+	private final static String RED = ChatColor.RED.toString();
 
-    public static ProxiedPlayer getPlayer(String name) throws PlayerNotConnectedException
-    {
-        final String lowerCaseName = name.toLowerCase();
+	public static ProxiedPlayer getPlayer(String name) throws PlayerNotConnectedException
+	{
+		final String lowerCaseName = name.toLowerCase();
 
-        for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
-            if (player.getName().toLowerCase().startsWith(lowerCaseName))
-                return player;
+		for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
+			if (player.getName().toLowerCase().startsWith(lowerCaseName))
+				return player;
 
-        throw new PlayerNotConnectedException(name);
-    }
+		throw new PlayerNotConnectedException(name);
+	}
 
-    public static boolean IsConnected(String name)
-    {
-        try
-        {
-            getPlayer(name);
-            return true;
-        }
-        catch (final PlayerNotConnectedException e)
-        {
-            return false;
-        }
-    }
+	public static boolean IsConnected(String name)
+	{
+		try
+		{
+			getPlayer(name);
+			return true;
+		}
+		catch (final PlayerNotConnectedException e)
+		{
+			return false;
+		}
+	}
 
-    public static String getRealName(String name)
-    {
-        try
-        {
-            return getPlayer(name).getName();
-        }
-        catch (final PlayerNotConnectedException ex)
-        {
-            return name;
-        }
-    }
+	public static String getRealName(String name)
+	{
+		try
+		{
+			return getPlayer(name).getName();
+		}
+		catch (final PlayerNotConnectedException ex)
+		{
+			return name;
+		}
+	}
 
-    public static int toInt(String s) throws HeavenException
-    {
-        try
-        {
-            return Integer.parseInt(s);
-        }
-        catch (final NumberFormatException ex)
-        {
-            throw new HeavenException("Le nombre {%1$s} est incorrect.", s);
-        }
-    }
+	/*
+	 * Géolocalisation
+	 */
 
-    public static int toUint(String s) throws HeavenException
-    {
-        final int i = toInt(s);
+	private static DatabaseReader _databaseReader;
 
-        if (i < 0)
-            throw new HeavenException("Le nombre {%1$s} est incorrect.", s);
+	public static String getCountry(final InetAddress address)
+	{
+		try
+		{
+			if (_databaseReader == null)
+				_databaseReader = new DatabaseReader.Builder(new File("GeoLite2-City.mmdb")).build();
 
-        return i;
-    }
+			final CountryResponse response = _databaseReader.country(address);
+			return response.getCountry().getNames().get("fr");
+		}
+		catch (final Throwable t)
+		{
+			t.printStackTrace();
+			return "France";
+		}
+	}
 
-    /*
-     * Géolocalisation
-     */
+	public static String getExactLocation(final InetAddress address)
+	{
+		try
+		{
+			if (_databaseReader == null)
+				_databaseReader = new DatabaseReader.Builder(new File("GeoLite2-City.mmdb")).build();
 
-    private static DatabaseReader _databaseReader;
+			final CityResponse response = _databaseReader.city(address);
 
-    public static String getCountry(final InetAddress address)
-    {
-        try
-        {
-            if (_databaseReader == null)
-                _databaseReader = new DatabaseReader.Builder(new File("GeoLite2-City.mmdb")).build();
+			String location = "";
+			String tmp;
 
-            final CountryResponse response = _databaseReader.country(address);
-            return response.getCountry().getNames().get("fr");
-        }
-        catch (final Throwable t)
-        {
-            t.printStackTrace();
-            return "France";
-        }
-    }
+			// Ville
+			if ((tmp = response.getCity().getName()) != null)
+				location += tmp;
 
-    public static String getExactLocation(final InetAddress address)
-    {
-        try
-        {
-            if (_databaseReader == null)
-                _databaseReader = new DatabaseReader.Builder(new File("GeoLite2-City.mmdb")).build();
+			// Département, région
+			for (final Subdivision subdivision : response.getSubdivisions())
+				if ((tmp = subdivision.getName()) != null)
+					location += (location == "" ? "" : " ") + tmp;
 
-            final CityResponse response = _databaseReader.city(address);
+			// Pays
+			if ((tmp = response.getCountry().getName()) != null)
+				location += (location == "" ? "" : " ") + tmp;
 
-            String location = "";
-            String tmp;
+			return location;
+		}
+		catch (final Throwable t)
+		{
+			t.printStackTrace();
+			return "";
+		}
+	}
 
-            // Ville
-            if ((tmp = response.getCity().getName()) != null)
-                location += tmp;
+	/*
+	 * Kick
+	 */
 
-            // Département, région
-            for (final Subdivision subdivision : response.getSubdivisions())
-                if ((tmp = subdivision.getName()) != null)
-                    location += (location == "" ? "" : " ") + tmp;
+	public static void kickPlayer(ProxiedPlayer player, String reason)
+	{
+		player.disconnect(TextComponent.fromLegacyText(reason));
+	}
 
-            // Pays
-            if ((tmp = response.getCountry().getName()) != null)
-                location += (location == "" ? "" : " ") + tmp;
+	/*
+	 * Send message to a player
+	 */
 
-            return location;
-        }
-        catch (final Throwable t)
-        {
-            t.printStackTrace();
-            return "";
-        }
-    }
+	public static void sendMessage(CommandSender sender, String message)
+	{
+		if (sender != null)
+		{
+			message = GOLD + message.replace(BEGIN, RED).replace(END, GOLD);
 
-    /*
-     * Kick
-     */
+			for (final String line : message.split("\n"))
+				sender.sendMessage(TextComponent.fromLegacyText(line));
+		}
+	}
 
-    public static void kickPlayer(ProxiedPlayer player, String reason)
-    {
-        player.disconnect(TextComponent.fromLegacyText(reason));
-    }
+	public static void sendMessage(CommandSender sender, String message, Object... args)
+	{
+		sendMessage(sender, String.format(message, args));
+	}
 
-    /*
-     * Send message to a player
-     */
+	/*
+	 * Send message to all players
+	 */
 
-    public static void sendMessage(CommandSender sender, String message)
-    {
-        if (sender != null)
-        {
-            message = GOLD + message.replace(BEGIN, RED).replace(END, GOLD);
+	public static void broadcastMessage(String message)
+	{
+		message = GOLD + message.replace(BEGIN, RED).replace(END, GOLD);
 
-            for (final String line : message.split("\n"))
-                sender.sendMessage(TextComponent.fromLegacyText(line));
-        }
-    }
+		for (final String line : message.split("\n"))
+			ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(line));
+	}
 
-    public static void sendMessage(CommandSender sender, String message, Object... args)
-    {
-        sendMessage(sender, String.format(message, args));
-    }
+	public static void broadcastMessage(String message, Object... args)
+	{
+		broadcastMessage(String.format(message, args));
+	}
 
-    /*
-     * Send message to all players
-     */
+	public static void broadcast(String message, String permission)
+	{
+		for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
+			if (player.hasPermission(permission))
+				sendMessage(player, message);
+	}
 
-    public static void broadcastMessage(String message)
-    {
-        message = GOLD + message.replace(BEGIN, RED).replace(END, GOLD);
+	public static String ArrayToString(String[] array, int start, String separator)
+	{
+		String result = "";
 
-        for (final String line : message.split("\n"))
-            ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(line));
-    }
+		for (int i = start; i != array.length; i++)
+			result += (result == "" ? "" : separator) + array[i];
 
-    public static void broadcastMessage(String message, Object... args)
-    {
-        broadcastMessage(String.format(message, args));
-    }
+		return result;
+	}
 
-    public static void broadcast(String message, String permission)
-    {
-        for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers())
-            if (player.hasPermission(permission))
-                sendMessage(player, message);
-    }
+	public static String getPrefix(ProxiedPlayer player)
+	{
+		final String serverName = player.getServer().getInfo().getName();
 
-    public static String ArrayToString(String[] array, int start, String separator)
-    {
-        String result = "";
+		return Server.getUniqueInstanceByName(serverName).getPrefix();
+	}
 
-        for (int i = start; i != array.length; i++)
-            result += (result == "" ? "" : separator) + array[i];
-
-        return result;
-    }
-
-    public static String getPrefix(ProxiedPlayer player)
-    {
-        final String serverName = player.getServer().getInfo().getName();
-
-        return Server.getUniqueInstanceByName(serverName).getPrefix();
-    }
-
-    public static boolean isInteger(String s)
-    {
-        try
-        {
-            Integer.parseInt(s);
-            return true;
-        }
-        catch (final NumberFormatException ex)
-        {
-            return false;
-        }
-    }
+	public static boolean isInteger(String s)
+	{
+		try
+		{
+			Integer.parseInt(s);
+			return true;
+		}
+		catch (final NumberFormatException ex)
+		{
+			return false;
+		}
+	}
 }
