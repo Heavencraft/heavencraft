@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import fr.heavencraft.heavenproxy.HeavenProxy;
 import fr.heavencraft.heavenproxy.async.AbstractQuery;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 
 public class UpdateUserLastLoginQuery extends AbstractQuery
 {

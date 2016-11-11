@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.listeners.sign.AbstractSignWithConfirmationListener;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.HeavenRP;
@@ -58,7 +59,7 @@ public abstract class AbstractStoreSignListener extends AbstractSignWithConfirma
 
 		final String stockName = event.getLine(NAME_LINE);
 		final CompanyIdAndStockName companyIdAndStockName = new CompanyIdAndStockName(company.getId(), stockName);
-		final HeavenBlockLocation location = ConversionUtil.toHeavenBlockLocation(event.getBlock().getLocation());
+		final HeavenBlockLocation location = BukkitConversionUtil.toHeavenBlockLocation(event.getBlock().getLocation());
 
 		plugin.getStoreProvider().createStore(companyIdAndStockName, quantity, price, isBuyer, location);
 		return true;
@@ -81,7 +82,7 @@ public abstract class AbstractStoreSignListener extends AbstractSignWithConfirma
 	@Override
 	protected boolean onSignBreak(Player player, Sign sign) throws HeavenException
 	{
-		final HeavenBlockLocation location = ConversionUtil.toHeavenBlockLocation(sign.getLocation());
+		final HeavenBlockLocation location = BukkitConversionUtil.toHeavenBlockLocation(sign.getLocation());
 
 		final Optional<Store> optStore = plugin.getStoreProvider().getOptionalStoreByLocation(location);
 		if (!optStore.isPresent())

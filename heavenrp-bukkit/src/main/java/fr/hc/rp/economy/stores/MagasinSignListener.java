@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
-import fr.hc.core.utils.ConversionUtil;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.db.bankaccounts.BankAccount;
@@ -30,7 +30,7 @@ public class MagasinSignListener extends AbstractStoreSignListener
 		if (player.getInventory().firstEmpty() == -1)
 			throw new HeavenException("Vous n'avez pas de place dans votre inventaire !");
 
-		final HeavenBlockLocation location = ConversionUtil.toHeavenBlockLocation(sign.getBlock().getLocation());
+		final HeavenBlockLocation location = BukkitConversionUtil.toHeavenBlockLocation(sign.getBlock().getLocation());
 
 		final Store store = plugin.getStoreProvider().getStoreByLocation(location);
 

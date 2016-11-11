@@ -1,7 +1,7 @@
 package fr.heavencraft.heavenproxy.commands;
 
 import fr.heavencraft.heavenproxy.Utils;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 

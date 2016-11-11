@@ -2,7 +2,7 @@ package fr.heavencraft.heavenproxy.async;
 
 import java.sql.SQLException;
 
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 
 public interface Query
 {

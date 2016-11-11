@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.BukkitUtil;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.rp.HeavenRPInstance;
@@ -27,7 +28,7 @@ class BukkitStoreUtil
 			throw new HeavenException("Ce magasin n'a actuellement aucun coffre lié.");
 
 		final Stock stock = HeavenRPInstance.get().getStockProvider().getStockById(store.getStockId());
-		final Block chestBlock = ConversionUtil.toLocation(stock.getChestLocation()).getBlock();
+		final Block chestBlock = BukkitConversionUtil.toLocation(stock.getChestLocation()).getBlock();
 
 		if (!BukkitUtil.isChest(chestBlock.getType()))
 			throw new HeavenException("Le coffre lié à ce magasin n'existe plus.");

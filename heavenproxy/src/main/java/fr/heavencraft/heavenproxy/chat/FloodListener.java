@@ -10,9 +10,9 @@ import fr.heavencraft.heavenproxy.AbstractListener;
 import fr.heavencraft.heavenproxy.Utils;
 import fr.heavencraft.heavenproxy.ban.BanManager;
 import fr.heavencraft.heavenproxy.database.users.UserProvider;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
-import fr.heavencraft.heavenproxy.exceptions.SQLErrorException;
-import fr.heavencraft.heavenproxy.exceptions.UserNotFoundException;
+import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.exceptions.DatabaseErrorException;
+import fr.hc.core.exceptions.UserNotFoundException;
 import fr.heavencraft.heavenproxy.mute.MuteHelper;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
@@ -141,7 +141,7 @@ public class FloodListener extends AbstractListener
                         BanManager.banPlayer(UserProvider.getUserByUniqueId(player.getUniqueId()),
                                 String.format("Flood abusif : '%1$s'", message));
                     }
-                    catch (UserNotFoundException | SQLErrorException ex)
+                    catch (UserNotFoundException | DatabaseErrorException ex)
                     {
                         ex.printStackTrace();
                     }

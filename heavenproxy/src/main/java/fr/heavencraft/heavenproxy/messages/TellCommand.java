@@ -5,7 +5,7 @@ import java.util.Map;
 
 import fr.heavencraft.heavenproxy.Utils;
 import fr.heavencraft.heavenproxy.commands.HeavenCommand;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

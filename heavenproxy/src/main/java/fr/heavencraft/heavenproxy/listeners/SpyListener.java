@@ -5,7 +5,7 @@ import java.util.List;
 
 import fr.heavencraft.heavenproxy.HeavenProxy;
 import fr.heavencraft.heavenproxy.Utils;
-import fr.heavencraft.heavenproxy.exceptions.PlayerNotConnectedException;
+import fr.hc.core.exceptions.PlayerNotConnectedException;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

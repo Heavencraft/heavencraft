@@ -1,7 +1,7 @@
 package fr.heavencraft.heavenproxy.commands;
 
 import net.md_5.bungee.api.CommandSender;
-import fr.heavencraft.heavenproxy.exceptions.HeavenException;
+import fr.hc.core.exceptions.HeavenException;
 import fr.heavencraft.heavenproxy.listeners.SpyListener;
 
 public class SpyCommand extends HeavenCommand {

@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.hc.core.HeavenBlockLocation;
 import fr.hc.core.exceptions.HeavenException;
-import fr.hc.core.utils.ConversionUtil;
+import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.db.bankaccounts.BankAccount;
 import fr.hc.rp.db.bankaccounts.BankAccountMoneyTransfertQuery;
@@ -27,7 +27,7 @@ public class AchatSignListener extends AbstractStoreSignListener
 	@Override
 	protected void onStoreSignClick(Player player, Sign sign, boolean firstClick) throws HeavenException
 	{
-		final HeavenBlockLocation location = ConversionUtil.toHeavenBlockLocation(sign.getBlock().getLocation());
+		final HeavenBlockLocation location = BukkitConversionUtil.toHeavenBlockLocation(sign.getBlock().getLocation());
 
 		final Store store = plugin.getStoreProvider().getStoreByLocation(location);
 
