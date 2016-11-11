@@ -23,6 +23,9 @@ public class AutoMessageTask implements Runnable
 	@Override
 	public void run()
 	{
+		if (ProxyServer.getInstance().getPlayers().isEmpty())
+			return;
+
 		try
 		{
 			ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(PREFIX + getRandomMessage()));
