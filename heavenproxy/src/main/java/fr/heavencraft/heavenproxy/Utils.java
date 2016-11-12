@@ -183,7 +183,7 @@ public class Utils
 	{
 		final String serverName = player.getServer().getInfo().getName();
 
-		return Server.getUniqueInstanceByName(serverName).getPrefix();
+		return Server.getUniqueInstanceByName(serverName).getChatPrefix();
 	}
 
 	public static boolean isInteger(String s)

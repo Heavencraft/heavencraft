@@ -14,7 +14,7 @@ import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
 import fr.hc.core.utils.BukkitConversionUtil;
 import fr.hc.core.utils.BukkitUtil;
-import fr.hc.core.utils.ConversionUtil;
+import fr.hc.core.utils.LocalStringBuilder;
 import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.stocks.Stock;
 import fr.hc.rp.db.stores.Store;
@@ -66,7 +66,7 @@ class BukkitStoreUtil
 		for (final ItemStack item : chest.getInventory())
 			if (item != null)
 			{
-				final StringBuilder builder = ConversionUtil.localBuilder.get();
+				final StringBuilder builder = LocalStringBuilder.get();
 				builder.append(item.getType().name());
 				for (final Entry<Enchantment, Integer> enchant : item.getEnchantments().entrySet())
 				{
