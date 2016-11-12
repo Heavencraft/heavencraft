@@ -2,7 +2,6 @@ package fr.heavencraft.heavenproxy.motd;
 
 import fr.heavencraft.heavenproxy.AbstractListener;
 import fr.heavencraft.heavenproxy.servers.Server;
-import fr.heavencraft.heavenproxy.utils.LocalComponentBuilder;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -13,21 +12,21 @@ import net.md_5.bungee.event.EventHandler;
 
 public class ProxyPingListener extends AbstractListener
 {
-	private static final TextComponent FIRST_LINE = buildFirstLine();
-	private static final String SEMIRP_TAG = "Semi-RP";
-	private static final String CREATIVE_TAG = "Créatif";
-	private static final String ROBINSON_TAG = "Robinson 1.11";
+	private static final ComponentBuilder FIRST_LINE = buildFirstLine();
+	private static final String SEMIRP_TAG = "Semi-RP ";
+	private static final String CREATIVE_TAG = "Créatif ";
+	private static final String ROBINSON_TAG = "Robinson";
 
 	@EventHandler
 	public void onProxyPing(ProxyPingEvent event)
 	{
-		final ComponentBuilder builder = LocalComponentBuilder.get();
+		final ComponentBuilder builder = new ComponentBuilder(FIRST_LINE);
 
-		builder.color(getServerColor(Server.SemiRP)).append(SEMIRP_TAG);
-		builder.color(getServerColor(Server.Creative)).append(CREATIVE_TAG);
-		builder.color(getServerColor(Server.Robinson)).append(ROBINSON_TAG);
+		builder.append(SEMIRP_TAG).color(getServerColor(Server.SemiRP));
+		builder.append(CREATIVE_TAG).color(getServerColor(Server.Creative));
+		builder.append(ROBINSON_TAG).color(getServerColor(Server.Robinson));
 
-		event.getResponse().setDescriptionComponent(new TextComponent(FIRST_LINE, new TextComponent(builder.create())));
+		event.getResponse().setDescriptionComponent(new TextComponent(builder.create()));
 	}
 
 	private static ChatColor getServerColor(Server... servers)
@@ -36,19 +35,18 @@ public class ProxyPingListener extends AbstractListener
 		{
 			final ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getName());
 
-			if (serverInfo != null && serverInfo.getPlayers().size() != 0)
+			if (serverInfo != null && !serverInfo.getPlayers().isEmpty())
 				return ChatColor.GREEN;
 		}
 
 		return ChatColor.RED;
 	}
 
-	private static TextComponent buildFirstLine()
+	private static ComponentBuilder buildFirstLine()
 	{
-		final ComponentBuilder builder = LocalComponentBuilder.get();
-		builder.bold(true);
-		builder.color(ChatColor.WHITE).append("Heaven").color(ChatColor.AQUA).append("craft").reset();
-		builder.append(" [1.10]\n");
-		return new TextComponent(builder.create());
+		final ComponentBuilder builder = new ComponentBuilder("Heaven").color(ChatColor.WHITE).bold(true);
+		builder.append("craft").color(ChatColor.AQUA);
+		builder.append(" [1.10]\n").reset();
+		return builder;
 	}
 }
