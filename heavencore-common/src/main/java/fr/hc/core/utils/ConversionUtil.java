@@ -6,26 +6,9 @@ public class ConversionUtil
 {
 	static final String SEPARATOR = ", ";
 
-	public static final ThreadLocal<StringBuilder> localBuilder = new ThreadLocal<StringBuilder>()
-	{
-		@Override
-		protected StringBuilder initialValue()
-		{
-			return new StringBuilder();
-		}
-
-		@Override
-		public StringBuilder get()
-		{
-			final StringBuilder builder = super.get();
-			builder.setLength(0);
-			return builder;
-		}
-	};
-
 	public static String toString(String[] array, int start, String separator)
 	{
-		final StringBuilder builder = localBuilder.get();
+		final StringBuilder builder = LocalStringBuilder.get();
 
 		for (int i = start; i != array.length; i++)
 		{

@@ -1,43 +1,54 @@
 package fr.heavencraft.heavenproxy.motd;
 
 import fr.heavencraft.heavenproxy.AbstractListener;
+import fr.heavencraft.heavenproxy.servers.Server;
+import fr.heavencraft.heavenproxy.utils.LocalComponentBuilder;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.event.EventHandler;
 
 public class ProxyPingListener extends AbstractListener
 {
-	private static final String FIRST_LINE = "§l§fHeaven§bcraft§r [1.10]\n";
+	private static final TextComponent FIRST_LINE = buildFirstLine();
+	private static final String SEMIRP_TAG = "Semi-RP";
+	private static final String CREATIVE_TAG = "Créatif";
+	private static final String ROBINSON_TAG = "Robinson 1.11";
 
 	@EventHandler
 	public void onProxyPing(ProxyPingEvent event)
 	{
-		String description = FIRST_LINE;
+		final ComponentBuilder builder = LocalComponentBuilder.get();
 
-		description += getServerString("Semi-RP", "semirp") + " ";
-		description += getServerString("Créatif", "creative") + " ";
-		// description += getServerString("Créatif", "creative", "fun", "musee", "build") + " ";
-		// description += getServerString("Skyblock", "skyblock") + " ";
-		// description += getServerString("Survie", "origines", "ultrahard") + " ";
-		// description += getServerString("Jeux", "infected", "tntrun", "mariokart", "paintball", "event");
+		builder.color(getServerColor(Server.SemiRP)).append(SEMIRP_TAG);
+		builder.color(getServerColor(Server.Creative)).append(CREATIVE_TAG);
+		builder.color(getServerColor(Server.Robinson)).append(ROBINSON_TAG);
 
-		event.getResponse().setDescription(description);
+		event.getResponse().setDescriptionComponent(new TextComponent(FIRST_LINE, new TextComponent(builder.create())));
 	}
 
-	private static String getServerString(String name, String... servers)
+	private static ChatColor getServerColor(Server... servers)
 	{
-		for (final String server : servers)
+		for (final Server server : servers)
 		{
-			final ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server);
+			final ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(server.getName());
 
 			if (serverInfo != null && serverInfo.getPlayers().size() != 0)
-			{
-				return ChatColor.GREEN + name;
-			}
+				return ChatColor.GREEN;
 		}
 
-		return ChatColor.RED + name;
+		return ChatColor.RED;
+	}
+
+	private static TextComponent buildFirstLine()
+	{
+		final ComponentBuilder builder = LocalComponentBuilder.get();
+		builder.bold(true);
+		builder.color(ChatColor.WHITE).append("Heaven").color(ChatColor.AQUA).append("craft").reset();
+		builder.append(" [1.10]\n");
+		return new TextComponent(builder.create());
 	}
 }

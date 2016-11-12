@@ -32,7 +32,7 @@ public class BukkitConversionUtil
 
 	public static String toString(Collection<? extends Player> players)
 	{
-		final StringBuilder builder = ConversionUtil.localBuilder.get();
+		final StringBuilder builder = LocalStringBuilder.get();
 
 		final Iterator<? extends Player> it = players.iterator();
 		while (it.hasNext())

@@ -1,62 +1,59 @@
 package fr.heavencraft.heavenproxy.servers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public enum Server
+public class Server
 {
-    Nexus("nexus", "Nex", "Nexus"),
-    SemiRP("semirp", "SRP", "Monde Semi-RP"),
-    Origines("origines", "Ori", "Monde Origines"),
-    Creatif("creative", "Créa", "Monde Créatif"),
-    Build("build", "Créa", "Build"),
-    Fun("fun", "Fun", "Monde Fun"),
-    Infected("infected", "Inf", "Infected"),
-    Musee("musee", "Mus", "Musée"),
-    MarioKart("mariokart", "MK", "Mario Kart"),
-    TNTRun("tntrun", "TNT", "TNT Run"),
-    UltraHardcore("ultrahard", "UH", "Monde Ultra-Hardcore"),
-    Paintball("paintball", "PB", "Paintball"),
-    HungerGames("hungergames", "HG", "Hunger Games"),
-    Skyblock("skyblock", "Sky", "Skyblock"),
-    Robinson("robinson", "1.9", "Robinson"),
-    Event("event", "Evt", "Evènement"),
-    UnknownServer("", "???", "Monde ???");
+	private static final Map<String, Server> serversByName = new HashMap<String, Server>();
 
-    private final String name;
-    private final String prefix;
-    private final Title title;
+	// Production environment
+	public static final Server SemiRP = new Server("semirp", "SRP", "Monde Semi-RP");
+	public static final Server Creative = new Server("creative", "Créa", "Monde Créatif");
+	public static final Server Robinson = new Server("robinson", "1.11", "Le Robinson");
+	// Testing environment
+	public static final Server UAT_SemiRP = new Server("uat-semirp", "UAT", "UAT Semi-RP");
+	public static final Server UAT_Creative = new Server("uat-creative", "UAT", "UAT Créatif");
+	// Unknown server
+	public static final Server UnknownServer = new Server("", "???", "Monde ???");
 
-    Server(String name, String prefix, String title)
-    {
-        this.name = name;
-        this.prefix = prefix;
+	private final String name;
+	private final String chatPrefix;
+	private final Title title;
 
-        this.title = ProxyServer.getInstance().createTitle();
-        this.title.title(new TextComponent(title));
-    }
+	private Server(String name, String chatPrefix, String title)
+	{
+		serversByName.put(name, this);
 
-    public String getPrefix()
-    {
-        return prefix;
-    }
+		this.name = name;
+		this.chatPrefix = chatPrefix;
 
-    public Title getTitle()
-    {
-        return title;
-    }
+		this.title = ProxyServer.getInstance().createTitle();
+		this.title.title(new TextComponent(title));
+	}
 
-    public static Server getUniqueInstanceByName(String name)
-    {
-        for (final Server server : Server.values())
-        {
-            if (server.name.equals(name))
-            {
-                return server;
-            }
-        }
+	public String getName()
+	{
+		return name;
+	}
 
-        return UnknownServer;
-    }
+	public String getChatPrefix()
+	{
+		return chatPrefix;
+	}
+
+	public Title getTitle()
+	{
+		return title;
+	}
+
+	public static Server getUniqueInstanceByName(String name)
+	{
+		final Server server = serversByName.get(name);
+		return server != null ? server : UnknownServer;
+	}
 }
