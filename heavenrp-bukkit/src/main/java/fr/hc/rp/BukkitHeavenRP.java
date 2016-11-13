@@ -14,6 +14,7 @@ import fr.hc.rp.commands.BourseCommand;
 import fr.hc.rp.commands.PayerCommand;
 import fr.hc.rp.commands.RejoindreCommand;
 import fr.hc.rp.commands.SpawnCommand;
+import fr.hc.rp.commands.SpleefCommand;
 import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
@@ -31,6 +32,7 @@ import fr.hc.rp.economy.stores.AchatSignListener;
 import fr.hc.rp.economy.stores.MagasinSignListener;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
+import fr.hc.rp.listeners.SpleefManager;
 import fr.hc.rp.warps.WarpCommandExecutor;
 import fr.hc.rp.warps.WarpSignListener;
 import fr.hc.rp.worlds.PortalListener;
@@ -75,11 +77,14 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		WorldsManager.init();
 		new WorldsListener(this);
 
+		new SpleefManager(this);
+
 		new PortalListener(this);
 		new UsersListener(this, userProvider);
 		new FirstSpawnListener(this);
 		new RespawnListener(this);
 
+		new SpleefCommand(this);
 		new TestCommand(this);
 		new WarpCommandExecutor(this);
 		new SpawnCommand(this);

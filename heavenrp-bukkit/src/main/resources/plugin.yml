@@ -33,3 +33,6 @@ commands:
  entreprise:
    description: Gérer son entreprise
    usage: /entreprise
+ spleef:
+   description: Commande de gestion du spleef
+   usage: /spleef
