@@ -18,7 +18,7 @@ public class RegionManager
 		this.regionProvider = regionProvider;
 	}
 
-	private Collection<Region> getRegionsAtLocationWithoutParents(String world, int x, int y, int z)
+	public Collection<Region> getRegionsAtLocationWithoutParents(String world, int x, int y, int z)
 	{
 		final Collection<Region> regions = regionProvider.getRegionsAtLocation(world, x, y, z);
 
