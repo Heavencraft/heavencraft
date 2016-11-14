@@ -14,5 +14,6 @@ public class ParcelleCommand extends SubCommandsCommand
 		addSubCommand("creer", creerSubCommand);
 		addSubCommand("créer", creerSubCommand);
 		addSubCommand("supprimer", new ParcelleSupprimerSubCommand());
+		addSubCommand("panneau", new ParcellePanneauSubCommand());
 	}
 }

@@ -1,10 +1,14 @@
 package fr.hc.rp.cmd.parcelle;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,16 +17,11 @@ import com.sk89q.worldedit.bukkit.selections.Selection;
 import fr.hc.core.cmd.SubCommand;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
-import fr.hc.core.exceptions.UserNotFoundException;
-import fr.hc.core.tasks.queries.BatchQuery;
-import fr.hc.core.tasks.queries.Query;
 import fr.hc.core.utils.ConversionUtil;
-import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.guard.HeavenGuard;
 import fr.hc.guard.HeavenGuardInstance;
-import fr.hc.guard.db.regions.AddMemberQuery;
 import fr.hc.guard.db.regions.Region;
 import fr.hc.guard.db.regions.SetParentQuery;
 import fr.hc.guard.exceptions.RegionNotFoundException;
@@ -31,7 +30,7 @@ import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.towns.Town;
 import fr.hc.rp.db.users.RPUser;
 
-public class ParcelleCreerSubCommnad extends SubCommand
+public class ParcellePanneauSubCommand extends SubCommand
 {
 	private final HeavenRP plugin = HeavenRPInstance.get();
 	private final HeavenGuard guard = HeavenGuardInstance.get();
@@ -42,11 +41,11 @@ public class ParcelleCreerSubCommnad extends SubCommand
 		int up, down;
 		switch (args.length)
 		{
-			case 2: // /parcelle ajouter <ville> <joueur>
+			case 2: // /parcelle panneau <ville> <prix>
 				up = 20;
 				down = 10;
 				break;
-			case 4: // /parcelle ajouter <ville> <joueur> <up> <down>
+			case 4: // /parcelle ajouter <ville> <prix> <up> <down>
 				up = ConversionUtil.toUint(args[2]);
 				down = ConversionUtil.toUint(args[3]);
 				break;
@@ -56,7 +55,7 @@ public class ParcelleCreerSubCommnad extends SubCommand
 		}
 
 		final String townName = args[0];
-		final String playerName = args[1];
+		final int price = ConversionUtil.toUint(args[1]);
 
 		final Optional<RPUser> optMayor = plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId());
 		if (!optMayor.isPresent())
@@ -66,12 +65,6 @@ public class ParcelleCreerSubCommnad extends SubCommand
 		final Town town = plugin.getTownProvider().getTownByName(townName);
 		if (!town.isMayor(mayor))
 			throw new HeavenException("Vous n'êtes pas maire de {%1$s}", town);
-
-		final Optional<RPUser> optUser = plugin.getUserProvider()
-				.getOptionalUserByName(PlayerUtil.getExactName(playerName));
-		if (!optUser.isPresent())
-			throw new UserNotFoundException(playerName);
-		final RPUser user = optUser.get();
 
 		final Optional<Region> optParent = guard.getRegionProvider().getRegionByName(town.getName());
 		if (!optParent.isPresent())
@@ -86,7 +79,7 @@ public class ParcelleCreerSubCommnad extends SubCommand
 				|| !parent.contains(max.getWorld().getName(), max.getBlockX(), max.getBlockY(), max.getBlockZ()))
 			throw new HeavenException("La parcelle sort de la ville.");
 
-		final String regionName = ParcelleCommandUtil.createRegionName(parent, user.getName());
+		final String regionName = ParcelleCommandUtil.createRegionName(parent, "parcelle");
 
 		// Create the region
 		final Region region = guard.getRegionProvider().createRegion(regionName, selection.getWorld().getName(), //
@@ -94,14 +87,21 @@ public class ParcelleCreerSubCommnad extends SubCommand
 				max.getBlockX(), max.getBlockY(), max.getBlockZ());
 
 		// Set parent and add owner
-		final List<Query> queries = new ArrayList<Query>();
-		queries.add(new SetParentQuery(region, parent, guard.getConnectionProvider()));
-		queries.add(new AddMemberQuery(region, user, true, guard.getConnectionProvider()));
-		new BatchQuery(queries)
+		new SetParentQuery(region, parent, guard.getConnectionProvider())
 		{
 			@Override
 			public void onSuccess()
 			{
+				final Block block = player.getTargetBlock((Set) null, 10);
+				final Block signBlock = block.getRelative(BlockFace.UP);
+				signBlock.setType(Material.SIGN);
+				final Sign sign = (Sign) signBlock.getState();
+				sign.setLine(0, ChatColor.GREEN + "[Parcelle]");
+				sign.setLine(1, town.getName());
+				sign.setLine(2, Integer.toString(price));
+				sign.setLine(3, (max.getBlockX() - min.getBlockX()) + "x" + (max.getBlockZ() - min.getBlockZ()) + "x"
+						+ (max.getBlockY() - min.getBlockY()));
+
 				ChatUtil.sendMessage(player, "La parcelle a été créée avec succès.");
 			}
 
@@ -116,13 +116,15 @@ public class ParcelleCreerSubCommnad extends SubCommand
 	@Override
 	public void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-		notConsoleCommand(sender);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		ChatUtil.sendMessage(sender, "/{parcelle} créer <nom de la ville> <nom du joueur>");
-		ChatUtil.sendMessage(sender, "/{parcelle} créer <nom de la ville> <nom du joueur> <up> <down>");
+		// TODO Auto-generated method stub
+
 	}
+
 }
