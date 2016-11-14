@@ -53,6 +53,7 @@ public class BukkitHeavenGuard extends AbstractDatabaseBukkitPlugin implements H
 		return regionProvider;
 	}
 
+	@Override
 	public RegionManager getRegionManager()
 	{
 		return regionManager;

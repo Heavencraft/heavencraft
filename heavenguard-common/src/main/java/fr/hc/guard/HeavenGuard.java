@@ -11,6 +11,8 @@ public interface HeavenGuard
 
 	RegionProvider getRegionProvider();
 
+	RegionManager getRegionManager();
+
 	UserProvider<? extends User> getUserProvider();
 
 	void setUserProvider(UserProvider<? extends User> userProvider);
