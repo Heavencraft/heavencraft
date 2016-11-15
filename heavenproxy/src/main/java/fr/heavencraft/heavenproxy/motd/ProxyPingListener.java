@@ -15,7 +15,7 @@ public class ProxyPingListener extends AbstractListener
 	private static final ComponentBuilder FIRST_LINE = buildFirstLine();
 	private static final String SEMIRP_TAG = "Semi-RP ";
 	private static final String CREATIVE_TAG = "Créatif ";
-	private static final String ROBINSON_TAG = "Robinson";
+	private static final String ROBINSON_TAG = "+ Robinson 1.11 !";
 
 	@EventHandler
 	public void onProxyPing(ProxyPingEvent event)
@@ -24,7 +24,7 @@ public class ProxyPingListener extends AbstractListener
 
 		builder.append(SEMIRP_TAG).color(getServerColor(Server.SemiRP));
 		builder.append(CREATIVE_TAG).color(getServerColor(Server.Creative));
-		builder.append(ROBINSON_TAG).color(getServerColor(Server.Robinson));
+		builder.append(ROBINSON_TAG).color(ChatColor.WHITE).bold(true);
 
 		event.getResponse().setDescriptionComponent(new TextComponent(builder.create()));
 	}
@@ -46,7 +46,7 @@ public class ProxyPingListener extends AbstractListener
 	{
 		final ComponentBuilder builder = new ComponentBuilder("Heaven").color(ChatColor.WHITE).bold(true);
 		builder.append("craft").color(ChatColor.AQUA);
-		builder.append(" [1.10]\n").reset();
+		builder.append(" [1.10 & 1.11]\n").reset();
 		return builder;
 	}
 }
