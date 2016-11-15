@@ -79,6 +79,14 @@ public class ParcellePanneauSubCommand extends SubCommand
 				|| !parent.contains(max.getWorld().getName(), max.getBlockX(), max.getBlockY(), max.getBlockZ()))
 			throw new HeavenException("La parcelle sort de la ville.");
 
+		final Block targetBlock = player.getTargetBlock((Set) null, 10);
+		if (targetBlock == null)
+			throw new HeavenException("Veuillez pointer l'emplacement du panneau.");
+
+		final Block signBlock = targetBlock.getRelative(BlockFace.UP);
+		if (signBlock.getType() != Material.AIR)
+			throw new HeavenException("Impossible de poser un panneau ici.");
+
 		final String regionName = ParcelleCommandUtil.createRegionName(parent, "parcelle");
 
 		// Create the region
@@ -92,15 +100,15 @@ public class ParcellePanneauSubCommand extends SubCommand
 			@Override
 			public void onSuccess()
 			{
-				final Block block = player.getTargetBlock((Set) null, 10);
-				final Block signBlock = block.getRelative(BlockFace.UP);
-				signBlock.setType(Material.SIGN);
+				signBlock.setType(Material.SIGN_POST);
+
 				final Sign sign = (Sign) signBlock.getState();
 				sign.setLine(0, ChatColor.GREEN + "[Parcelle]");
 				sign.setLine(1, town.getName());
 				sign.setLine(2, Integer.toString(price));
 				sign.setLine(3, (max.getBlockX() - min.getBlockX()) + "x" + (max.getBlockZ() - min.getBlockZ()) + "x"
 						+ (max.getBlockY() - min.getBlockY()));
+				sign.update();
 
 				ChatUtil.sendMessage(player, "La parcelle a été créée avec succès.");
 			}

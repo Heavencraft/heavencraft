@@ -71,7 +71,7 @@ public class ParcelleSignListener extends AbstractSignListener
 			{
 				ChatUtil.sendMessage(player, ex.getMessage());
 			}
-		};
+		}.schedule();
 	}
 
 	@Override
