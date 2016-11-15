@@ -2,6 +2,8 @@ package fr.heavencraft.heavenproxy.users;
 
 import java.util.UUID;
 
+import fr.hc.core.exceptions.DatabaseErrorException;
+import fr.hc.core.exceptions.UserNotFoundException;
 import fr.heavencraft.heavenproxy.AbstractListener;
 import fr.heavencraft.heavenproxy.Utils;
 import fr.heavencraft.heavenproxy.async.QueriesHandler;
@@ -10,8 +12,6 @@ import fr.heavencraft.heavenproxy.database.users.UpdateUserLastLoginQuery;
 import fr.heavencraft.heavenproxy.database.users.UpdateUserNameQuery;
 import fr.heavencraft.heavenproxy.database.users.User;
 import fr.heavencraft.heavenproxy.database.users.UserProvider;
-import fr.hc.core.exceptions.DatabaseErrorException;
-import fr.hc.core.exceptions.UserNotFoundException;
 import fr.heavencraft.heavenproxy.kick.KickCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -26,8 +26,10 @@ public class UsersListener extends AbstractListener
 	// Connection address for staff members
 	private static final String STAFF_ADDRESS = "licorne.heavencraft.fr";
 
-	private static final String LOG_BAD_VERSION = "[onLogin] %1$s is not in 1.10.";
-	private static final String KICK_BAD_VERSION = "§fHeaven§bcraft§r est en 1.10.\n\nMerci de vous connecter avec cette version.";
+	private static final String LOG_BAD_VERSION = "[onLogin] %1$s is not in 1.10/1.11.";
+	private static final String KICK_BAD_VERSION = "§fHeaven§bcraft§r est en 1.10 et 1.11.\n\nMerci de vous connecter avec une de ces versions.";
+
+	private static final String KICK_ROBINSON = "Bienvenue sur §fHeaven§bcraft§r !\n\nPour accéder au monde Robinson 1.11,\nconnectez-vous à l'adresse suivante:\n\nheavencraft.fr:25568";
 
 	@EventHandler
 	public void onLogin(LoginEvent event)
@@ -38,6 +40,11 @@ public class UsersListener extends AbstractListener
 		switch (event.getConnection().getVersion())
 		{
 			case ProtocolConstants.MINECRAFT_1_10:
+				break;
+
+			case ProtocolConstants.MINECRAFT_1_11:
+				event.setCancelled(true);
+				event.setCancelReason(KICK_ROBINSON);
 				break;
 
 			default:
