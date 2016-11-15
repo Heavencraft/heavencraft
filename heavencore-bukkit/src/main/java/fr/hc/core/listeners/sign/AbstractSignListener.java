@@ -46,7 +46,8 @@ public abstract class AbstractSignListener
 		@EventHandler(ignoreCancelled = true)
 		private void onSignChange(SignChangeEvent event)
 		{
-			if (event.getBlock().getType() != Material.WALL_SIGN)
+			final Material type = event.getBlock().getType();
+			if (type != Material.WALL_SIGN && type != Material.SIGN_POST)
 				return;
 
 			final Player player = event.getPlayer();
@@ -83,7 +84,8 @@ public abstract class AbstractSignListener
 
 			final Block block = event.getClickedBlock();
 
-			if (block.getType() != Material.WALL_SIGN)
+			final Material type = block.getType();
+			if (type != Material.WALL_SIGN && type != Material.SIGN_POST)
 				return;
 
 			final Sign sign = (Sign) block.getState();
