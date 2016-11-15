@@ -33,6 +33,7 @@ import fr.hc.rp.economy.stores.MagasinSignListener;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.listeners.SpleefManager;
+import fr.hc.rp.towns.ParcelleSignListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
 import fr.hc.rp.warps.WarpSignListener;
 import fr.hc.rp.worlds.PortalListener;
@@ -111,6 +112,9 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 
 		// Bank
 		new LivretSignListener(this);
+
+		// Towns
+		new ParcelleSignListener(this);
 
 		// Warps
 		new WarpSignListener(this);
