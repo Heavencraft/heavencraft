@@ -45,7 +45,7 @@ public class ParcellePanneauSubCommand extends SubCommand
 				up = 20;
 				down = 10;
 				break;
-			case 4: // /parcelle ajouter <ville> <prix> <up> <down>
+			case 4: // /parcelle panneau <ville> <prix> <up> <down>
 				up = ConversionUtil.toUint(args[2]);
 				down = ConversionUtil.toUint(args[3]);
 				break;
@@ -124,15 +124,13 @@ public class ParcellePanneauSubCommand extends SubCommand
 	@Override
 	public void onConsoleCommand(CommandSender sender, String[] args) throws HeavenException
 	{
-		// TODO Auto-generated method stub
-
+		notConsoleCommand(sender);
 	}
 
 	@Override
 	public void sendUsage(CommandSender sender)
 	{
-		// TODO Auto-generated method stub
-
+		ChatUtil.sendMessage(sender, "/{parcelle} panneau <ville> <prix>");
+		ChatUtil.sendMessage(sender, "/{parcelle} panneau <ville> <prix> <up> <down>");
 	}
-
 }
