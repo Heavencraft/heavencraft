@@ -1,13 +1,11 @@
 package fr.hc.rp.cmd.parcelle;
 
 import java.util.Optional;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,6 +17,7 @@ import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.WorldEditUtil;
+import fr.hc.core.utils.WorldUtils;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.guard.HeavenGuard;
 import fr.hc.guard.HeavenGuardInstance;
@@ -29,6 +28,7 @@ import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.towns.Town;
 import fr.hc.rp.db.users.RPUser;
+import fr.hc.rp.towns.ParcelleSignListener;
 
 public class ParcellePanneauSubCommand extends SubCommand
 {
@@ -79,11 +79,7 @@ public class ParcellePanneauSubCommand extends SubCommand
 				|| !parent.contains(max.getWorld().getName(), max.getBlockX(), max.getBlockY(), max.getBlockZ()))
 			throw new HeavenException("La parcelle sort de la ville.");
 
-		final Block targetBlock = player.getTargetBlock((Set) null, 10);
-		if (targetBlock == null)
-			throw new HeavenException("Veuillez pointer l'emplacement du panneau.");
-
-		final Block signBlock = targetBlock.getRelative(BlockFace.UP);
+		final Block signBlock = getCloserCorner(player.getLocation(), min, max).getBlock();
 		if (signBlock.getType() != Material.AIR)
 			throw new HeavenException("Impossible de poser un panneau ici.");
 
@@ -105,9 +101,9 @@ public class ParcellePanneauSubCommand extends SubCommand
 				final Sign sign = (Sign) signBlock.getState();
 				sign.setLine(0, ChatColor.GREEN + "[Parcelle]");
 				sign.setLine(1, town.getName());
-				sign.setLine(2, Integer.toString(price));
-				sign.setLine(3, (max.getBlockX() - min.getBlockX()) + "x" + (max.getBlockZ() - min.getBlockZ()) + "x"
-						+ (max.getBlockY() - min.getBlockY()));
+				sign.setLine(2, Integer.toString(price) + ParcelleSignListener.PRICE_UNIT);
+				sign.setLine(3, (max.getBlockX() - min.getBlockX() + 1) + "x" + (max.getBlockZ() - min.getBlockZ() + 1)
+						+ "x" + (max.getBlockY() - min.getBlockY() + 1));
 				sign.update();
 
 				ChatUtil.sendMessage(player, "La parcelle a été créée avec succès.");
@@ -132,5 +128,23 @@ public class ParcellePanneauSubCommand extends SubCommand
 	{
 		ChatUtil.sendMessage(sender, "/{parcelle} panneau <ville> <prix>");
 		ChatUtil.sendMessage(sender, "/{parcelle} panneau <ville> <prix> <up> <down>");
+	}
+
+	private static Location getCloserCorner(Location location, Location min, Location max) throws HeavenException
+	{
+		final int x = getCloserNumber(location.getBlockX(), min.getBlockX(), max.getBlockX());
+		final int z = getCloserNumber(location.getBlockZ(), min.getBlockZ(), max.getBlockZ());
+
+		final Location corner = WorldUtils.getSafeLocation(location.getWorld(), x, z);
+
+		if (corner == null)
+			throw new HeavenException("Je n'arrive pas à poser un panneau sur ce coin de la protection");
+
+		return corner;
+	}
+
+	private static int getCloserNumber(int subject, int number1, int number2)
+	{
+		return (Math.abs(subject - number1) < Math.abs(subject - number2)) ? number1 : number2;
 	}
 }

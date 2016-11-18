@@ -7,6 +7,17 @@ import org.bukkit.block.Block;
 
 public class WorldUtils
 {
+	// Return the safe location, or null if no location is safe
+	public static Location getSafeLocation(World world, int x, int z)
+	{
+		final int y = world.getHighestBlockYAt(x, z);
+
+		if (isBlockUnsafe(world, x, y, z))
+			return null;
+
+		return new Location(world, x, y, z);
+	}
+
 	public static Location getSafeDestination(World world, int x, int z)
 	{
 		final int y = world.getHighestBlockYAt(x, z);

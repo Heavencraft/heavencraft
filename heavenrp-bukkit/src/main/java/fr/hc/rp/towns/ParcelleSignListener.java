@@ -29,6 +29,7 @@ public class ParcelleSignListener extends AbstractSignWithConfirmationListener
 {
 	private static final int TOWN_LINE = 1;
 	private static final int PRICE_LINE = 2;
+	public static final String PRICE_UNIT = " PO";
 
 	private final HeavenRP plugin = HeavenRPInstance.get();
 	private final HeavenGuard guard = HeavenGuardInstance.get();
@@ -47,20 +48,24 @@ public class ParcelleSignListener extends AbstractSignWithConfirmationListener
 	@Override
 	protected void onFirstClick(Player player, Sign sign) throws HeavenException
 	{
-		final int price = ConversionUtil.toUint(sign.getLine(PRICE_LINE));
+		final String priceLine = sign.getLine(PRICE_LINE);
+		final int price = ConversionUtil.toUint(priceLine.substring(0, priceLine.length() - PRICE_UNIT.length()));
+
 		final Region region = getBuyableRegion(sign.getLocation());
 		getSolvableUser(player, price);
 
-		ChatUtil.sendMessage(player, "Vous allez acheter la parcelle {%1$s} pour {%2$s}.", region, price);
+		ChatUtil.sendMessage(player, "Vous allez acheter la parcelle {%1$s} pour {%2$s} pièces d'or.", region, price);
 	}
 
 	@Override
 	protected void onSecondClick(Player player, Sign sign) throws HeavenException
 	{
-		final int price = ConversionUtil.toUint(sign.getLine(PRICE_LINE));
-		final Region region = getBuyableRegion(sign.getLocation());
+		final String priceLine = sign.getLine(PRICE_LINE);
+		final int price = ConversionUtil.toUint(priceLine.substring(0, priceLine.length() - PRICE_UNIT.length()));
 
+		final Region region = getBuyableRegion(sign.getLocation());
 		final User user = getSolvableUser(player, price);
+
 		final BankAccount townAccount = getTownAccount(sign.getLine(TOWN_LINE));
 
 		new BatchQuery(new BankAccountMoneyTransfertQuery(user, townAccount, price),
