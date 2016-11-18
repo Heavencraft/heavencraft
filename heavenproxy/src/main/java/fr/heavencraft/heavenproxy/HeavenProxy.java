@@ -17,6 +17,7 @@ import fr.heavencraft.heavenproxy.chat.TabCompleteListener;
 import fr.heavencraft.heavenproxy.commands.ActifCommand;
 import fr.heavencraft.heavenproxy.commands.DonCommand;
 import fr.heavencraft.heavenproxy.commands.ListCommand;
+import fr.heavencraft.heavenproxy.commands.MairesCommand;
 import fr.heavencraft.heavenproxy.commands.MeCommand;
 import fr.heavencraft.heavenproxy.commands.ModoCommand;
 import fr.heavencraft.heavenproxy.commands.NexusCommand;
@@ -52,8 +53,10 @@ public class HeavenProxy extends Plugin
 	private final ProxyLogger log = ProxyLogger.getLogger(getClass());
 
 	private static String databaseUrl;
+	private static String semirpDatabaseUrl;
 
 	private static Connection _connection;
+	private static Connection _semirpConnection;
 
 	private static HeavenProxy _instance;
 
@@ -83,6 +86,14 @@ public class HeavenProxy extends Plugin
 
 			log.info("Using database url %1$s", databaseUrl);
 
+			final String semirpDatabase = configuration.getString("mysql.semirp-database");
+
+			builder.setLength(0);
+			builder.append("jdbc:mysql://localhost:3306/").append(semirpDatabase);
+			builder.append("?user=").append(username).append("&password=").append(password);
+			builder.append("&zeroDateTimeBehavior=convertToNull");
+			semirpDatabaseUrl = builder.toString();
+
 			new QueriesHandler();
 
 			new LogListener();
@@ -91,6 +102,7 @@ public class HeavenProxy extends Plugin
 			new ActifCommand();
 			new DonCommand();
 			new ListCommand();
+			new MairesCommand();
 			new MeCommand();
 			new ModoCommand();
 			new NexusCommand();
@@ -179,6 +191,24 @@ public class HeavenProxy extends Plugin
 		}
 
 		return _connection;
+	}
+
+	public static Connection getSemirpConnection()
+	{
+		try
+		{
+			if (_semirpConnection == null || _semirpConnection.isClosed())
+			{
+				_semirpConnection = DriverManager.getConnection(semirpDatabaseUrl);
+			}
+		}
+		catch (final SQLException ex)
+		{
+			ex.printStackTrace();
+			ProxyServer.getInstance().stop();
+		}
+
+		return _semirpConnection;
 	}
 
 	public static HeavenProxy getInstance()
