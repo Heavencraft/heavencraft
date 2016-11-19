@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.heavencraft.heavenproxy.async.QueriesHandler;
 import fr.heavencraft.heavenproxy.ban.BanCommand;
 import fr.heavencraft.heavenproxy.ban.BanListener;
@@ -50,7 +53,7 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 public class HeavenProxy extends Plugin
 {
-	private final ProxyLogger log = ProxyLogger.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private static String databaseUrl;
 	private static String semirpDatabaseUrl;
@@ -73,7 +76,7 @@ public class HeavenProxy extends Plugin
 		try
 		{
 			final File file = new File(getDataFolder(), "config.yml");
-			log.info("Loading configuration file %1$s", file);
+			log.info("Loading configuration file {}", file);
 			final Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
 
 			final String username = configuration.getString("mysql.username");

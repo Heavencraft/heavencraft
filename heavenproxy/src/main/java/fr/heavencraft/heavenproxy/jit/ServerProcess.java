@@ -3,7 +3,8 @@ package fr.heavencraft.heavenproxy.jit;
 import java.io.File;
 import java.io.IOException;
 
-import fr.heavencraft.heavenproxy.ProxyLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum ServerProcess
 {
@@ -35,16 +36,16 @@ public enum ServerProcess
 		return null;
 	}
 
-	private static final ProxyLogger log = ProxyLogger.getLogger(ServerProcess.class);
+	private static final Logger log = LoggerFactory.getLogger(ServerProcess.class);
 
 	// Bash scripts
 	private static final String START_SERVER = "/home/minecraft/scripts/start_server.sh";
 	private static final String STOP_SERVER = "/home/minecraft/scripts/stop_server.sh";
 	// Log messages
-	private static final String STARTING_SERVER = "Starting server %1$s with %2$s MB on %3$s";
-	private static final String STOPPING_SERVER = "Stopping server %1$s";
-	private static final String SERVER_STARTED = "Server %1$s started";
-	private static final String SERVER_STOPPED = "Server %1$s stopped";
+	private static final String STARTING_SERVER = "Starting server {} with {} MB on {}";
+	private static final String STOPPING_SERVER = "Stopping server {}";
+	private static final String SERVER_STARTED = "Server {} started";
+	private static final String SERVER_STOPPED = "Server {} stopped";
 
 	private final String name;
 	private final int memory;
@@ -63,7 +64,7 @@ public enum ServerProcess
 		// Last start is not 30s ago ! do nothing
 		if (System.currentTimeMillis() - lastStart < 30000)
 		{
-			log.info("Server %1$s already started recently.", name);
+			log.info("Server {} already started recently.", name);
 			return true;
 		}
 
@@ -78,7 +79,7 @@ public enum ServerProcess
 		}
 		catch (final IOException ex)
 		{
-			log.error("Cannot start server %1$s", name);
+			log.error("Cannot start server {}", name);
 			ex.printStackTrace();
 			return false;
 		}
@@ -96,7 +97,7 @@ public enum ServerProcess
 		}
 		catch (final IOException ex)
 		{
-			log.error("Cannot stop server %1$s", name);
+			log.error("Cannot stop server {}", name);
 			ex.printStackTrace();
 			return false;
 		}
@@ -105,7 +106,7 @@ public enum ServerProcess
 	public boolean hasEnoughtMemory()
 	{
 		final long freeMemory = SystemHelper.getFreeMemoryMb();
-		log.info("Free memory : %1$s, needed memory : %2$s", freeMemory, memory);
+		log.info("Free memory : {}, needed memory : {}", freeMemory, memory);
 		return freeMemory > memory;
 	}
 }
