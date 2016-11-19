@@ -2,13 +2,13 @@ package fr.heavencraft.heavenproxy.jit;
 
 import java.util.concurrent.TimeUnit;
 
+import fr.heavencraft.heavenproxy.HeavenProxyInstance;
+import fr.heavencraft.heavenproxy.Utils;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
-import fr.heavencraft.heavenproxy.HeavenProxy;
-import fr.heavencraft.heavenproxy.Utils;
 
 public class ConnectPlayerTask implements Runnable
 {
@@ -18,8 +18,8 @@ public class ConnectPlayerTask implements Runnable
 
 	public ConnectPlayerTask(String playerName, ServerInfo server)
 	{
-		task = ProxyServer.getInstance().getScheduler()
-				.schedule(HeavenProxy.getInstance(), this, 10, 1, TimeUnit.SECONDS);
+		task = ProxyServer.getInstance().getScheduler().schedule(HeavenProxyInstance.get(), this, 10, 1,
+				TimeUnit.SECONDS);
 
 		this.playerName = playerName;
 		this.server = server;

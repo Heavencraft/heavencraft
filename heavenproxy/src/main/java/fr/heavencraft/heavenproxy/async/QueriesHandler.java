@@ -5,51 +5,51 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
-import fr.heavencraft.heavenproxy.HeavenProxy;
 import fr.hc.core.exceptions.HeavenException;
+import fr.heavencraft.heavenproxy.HeavenProxyInstance;
 import net.md_5.bungee.api.ProxyServer;
 
 public class QueriesHandler implements Runnable
 {
-    private static Queue<Query> queries = new ConcurrentLinkedQueue<Query>();
+	private static Queue<Query> queries = new ConcurrentLinkedQueue<Query>();
 
-    public QueriesHandler()
-    {
-        ProxyServer.getInstance().getScheduler().schedule(HeavenProxy.getInstance(), this, 1, 1, TimeUnit.MILLISECONDS);
-    }
+	public QueriesHandler()
+	{
+		ProxyServer.getInstance().getScheduler().schedule(HeavenProxyInstance.get(), this, 1, 1, TimeUnit.MILLISECONDS);
+	}
 
-    @Override
-    public void run()
-    {
-        if (queries.isEmpty())
-            return;
+	@Override
+	public void run()
+	{
+		if (queries.isEmpty())
+			return;
 
-        Query tmp;
+		Query tmp;
 
-        while ((tmp = queries.poll()) != null)
-        {
-            final Query query = tmp; // Gruge final
+		while ((tmp = queries.poll()) != null)
+		{
+			final Query query = tmp; // Gruge final
 
-            try
-            {
-                query.executeQuery();
-                query.onSuccess();
-            }
-            catch (final HeavenException ex)
-            {
-                query.onHeavenException(ex);
-            }
-            catch (final SQLException ex)
-            {
-                ex.printStackTrace();
+			try
+			{
+				query.executeQuery();
+				query.onSuccess();
+			}
+			catch (final HeavenException ex)
+			{
+				query.onHeavenException(ex);
+			}
+			catch (final SQLException ex)
+			{
+				ex.printStackTrace();
 
-                query.onSQLException(ex);
-            }
-        }
-    }
+				query.onSQLException(ex);
+			}
+		}
+	}
 
-    public static void addQuery(Query query)
-    {
-        queries.add(query);
-    }
+	public static void addQuery(Query query)
+	{
+		queries.add(query);
+	}
 }

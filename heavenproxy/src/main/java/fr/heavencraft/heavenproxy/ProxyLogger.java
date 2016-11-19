@@ -11,17 +11,17 @@ public class ProxyLogger
 
 	public void info(String format, Object... args)
 	{
-		HeavenProxy.getInstance().getLogger().info(prefix + String.format(format, args));
+		HeavenProxyInstance.get().getLogger().info(prefix + String.format(format, args));
 	}
 
 	public void warm(String format, Object... args)
 	{
-		HeavenProxy.getInstance().getLogger().warning(prefix + String.format(format, args));
+		HeavenProxyInstance.get().getLogger().warning(prefix + String.format(format, args));
 	}
 
 	public void error(String format, Object... args)
 	{
-		HeavenProxy.getInstance().getLogger().severe(prefix + String.format(format, args));
+		HeavenProxyInstance.get().getLogger().severe(prefix + String.format(format, args));
 	}
 
 	public static ProxyLogger getLogger(Class<?> clazz)

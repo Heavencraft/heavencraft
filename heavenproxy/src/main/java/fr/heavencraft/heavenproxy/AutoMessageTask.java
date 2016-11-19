@@ -17,7 +17,7 @@ public class AutoMessageTask implements Runnable
 
 	public AutoMessageTask()
 	{
-		ProxyServer.getInstance().getScheduler().schedule(HeavenProxy.getInstance(), this, PERIOD, PERIOD, TimeUnit.SECONDS);
+		ProxyServer.getInstance().getScheduler().schedule(HeavenProxyInstance.get(), this, PERIOD, PERIOD, TimeUnit.SECONDS);
 	}
 
 	@Override

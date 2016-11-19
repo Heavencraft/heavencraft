@@ -9,7 +9,7 @@ public abstract class AbstractListener implements Listener
 
     public AbstractListener()
     {
-        ProxyServer.getInstance().getPluginManager().registerListener(HeavenProxy.getInstance(), this);
+        ProxyServer.getInstance().getPluginManager().registerListener(HeavenProxyInstance.get(), this);
         log.info("Registered listener");
     }
 }
