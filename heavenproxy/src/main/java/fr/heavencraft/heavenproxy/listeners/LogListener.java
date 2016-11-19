@@ -1,13 +1,13 @@
 package fr.heavencraft.heavenproxy.listeners;
 
 import java.net.InetAddress;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import fr.heavencraft.heavenproxy.AbstractListener;
-import fr.heavencraft.heavenproxy.HeavenProxy;
 import fr.heavencraft.heavenproxy.HeavenProxyInstance;
 import fr.heavencraft.heavenproxy.Utils;
 import net.md_5.bungee.api.ProxyServer;
@@ -23,6 +23,8 @@ import net.md_5.bungee.event.EventPriority;
  */
 public class LogListener extends AbstractListener
 {
+	private static final String INSERT_LOG_QUERY = "INSERT INTO logs (timestamp, server, player, action, data) VALUES (?, ?, ?, ?, ?);";
+
 	private enum Action
 	{
 		LOGIN, CHAT, COMMAND, MOD_HISTORY, LOGOUT
@@ -103,10 +105,9 @@ public class LogListener extends AbstractListener
 
 	private static void log(final String server, final String playerName, final Action action, final String data)
 	{
-		try
+		try (Connection connection = HeavenProxyInstance.get().getConnectionProvider().getConnection();
+				PreparedStatement ps = connection.prepareStatement(INSERT_LOG_QUERY))
 		{
-			final PreparedStatement ps = HeavenProxy.getConnection().prepareStatement(
-					"INSERT INTO logs (timestamp, server, player, action, data) VALUES (?, ?, ?, ?, ?);");
 			ps.setTimestamp(1, new Timestamp(new Date().getTime()));
 			ps.setString(2, server);
 			ps.setString(3, playerName);
