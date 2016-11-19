@@ -1,13 +1,13 @@
 package fr.heavencraft.heavenproxy;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.hc.core.connection.ConnectionProvider;
+import fr.hc.core.connection.ConnectionProviderFactory;
+import fr.hc.core.connection.HikariConnectionProviderFactory;
 import fr.heavencraft.heavenproxy.async.QueriesHandler;
 import fr.heavencraft.heavenproxy.ban.BanCommand;
 import fr.heavencraft.heavenproxy.ban.BanListener;
@@ -55,11 +55,8 @@ public class HeavenProxy extends Plugin
 {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private static String databaseUrl;
-	private static String semirpDatabaseUrl;
-
-	private static Connection _connection;
-	private static Connection _semirpConnection;
+	private ConnectionProvider connectionProvider;
+	private ConnectionProvider semirpConnectionProvider;
 
 	private RequestsManager _requestsManager;
 
@@ -82,22 +79,12 @@ public class HeavenProxy extends Plugin
 			final String username = configuration.getString("mysql.username");
 			final String password = configuration.getString("mysql.password");
 			final String database = configuration.getString("mysql.database");
-
-			final StringBuilder builder = new StringBuilder();
-			builder.append("jdbc:mysql://localhost:3306/").append(database);
-			builder.append("?user=").append(username).append("&password=").append(password);
-			builder.append("&zeroDateTimeBehavior=convertToNull");
-			databaseUrl = builder.toString();
-
-			log.info("Using database url %1$s", databaseUrl);
-
 			final String semirpDatabase = configuration.getString("mysql.semirp-database");
 
-			builder.setLength(0);
-			builder.append("jdbc:mysql://localhost:3306/").append(semirpDatabase);
-			builder.append("?user=").append(username).append("&password=").append(password);
-			builder.append("&zeroDateTimeBehavior=convertToNull");
-			semirpDatabaseUrl = builder.toString();
+			final ConnectionProviderFactory connectionProviderFactory = new HikariConnectionProviderFactory();
+			connectionProvider = connectionProviderFactory.newConnectionProvider(database, username, password);
+			semirpConnectionProvider = connectionProviderFactory.newConnectionProvider(semirpDatabase, username,
+					password);
 
 			new QueriesHandler();
 
@@ -180,39 +167,13 @@ public class HeavenProxy extends Plugin
 		return _requestsManager;
 	}
 
-	public static Connection getConnection()
+	public ConnectionProvider getConnectionProvider()
 	{
-		try
-		{
-			if (_connection == null || _connection.isClosed())
-			{
-				_connection = DriverManager.getConnection(databaseUrl);
-			}
-		}
-		catch (final SQLException ex)
-		{
-			ex.printStackTrace();
-			ProxyServer.getInstance().stop();
-		}
-
-		return _connection;
+		return connectionProvider;
 	}
 
-	public static Connection getSemirpConnection()
+	public ConnectionProvider getSemirpConnectionProvider()
 	{
-		try
-		{
-			if (_semirpConnection == null || _semirpConnection.isClosed())
-			{
-				_semirpConnection = DriverManager.getConnection(semirpDatabaseUrl);
-			}
-		}
-		catch (final SQLException ex)
-		{
-			ex.printStackTrace();
-			ProxyServer.getInstance().stop();
-		}
-
-		return _semirpConnection;
+		return semirpConnectionProvider;
 	}
 }

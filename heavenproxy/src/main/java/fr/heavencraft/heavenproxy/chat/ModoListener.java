@@ -1,5 +1,6 @@
 package fr.heavencraft.heavenproxy.chat;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import fr.heavencraft.heavenproxy.AbstractListener;
 import fr.heavencraft.heavenproxy.HeavenProxy;
+import fr.heavencraft.heavenproxy.HeavenProxyInstance;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -17,8 +19,11 @@ import net.md_5.bungee.event.EventHandler;
 public class ModoListener extends AbstractListener
 {
 	private static final long TIMEOUT = 300; // 5 minutes
+	private static final String UPDATE_MODO_TIME_QUERY = "UPDATE modo_stats SET time = time + ? WHERE name = ? LIMIT 1";
 
 	private final Map<String, Long> lastActivity = new HashMap<String, Long>();
+
+	private final HeavenProxy plugin = HeavenProxyInstance.get();
 
 	private void update(String player)
 	{
@@ -36,10 +41,9 @@ public class ModoListener extends AbstractListener
 		final long deltaTime = currentTimestamp - previousTimestamp;
 
 		// We update the database to add deltaTime
-		try
+		try (Connection connection = plugin.getConnectionProvider().getConnection();
+				PreparedStatement ps = connection.prepareStatement(UPDATE_MODO_TIME_QUERY))
 		{
-			final PreparedStatement ps = HeavenProxy.getConnection()
-					.prepareStatement("UPDATE modo_stats SET time = time + ? WHERE name = ? LIMIT 1");
 			ps.setLong(1, deltaTime);
 			ps.setString(2, player);
 

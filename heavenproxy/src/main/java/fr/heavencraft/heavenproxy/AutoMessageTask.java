@@ -1,13 +1,14 @@
 package fr.heavencraft.heavenproxy;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
+import fr.hc.core.exceptions.DatabaseErrorException;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import fr.hc.core.exceptions.DatabaseErrorException;
 
 public class AutoMessageTask implements Runnable
 {
@@ -15,9 +16,11 @@ public class AutoMessageTask implements Runnable
 	private static final String PREFIX = "§b[Heavencraft]§r ";
 	private static final String GET_AUTO_MESSAGE = "SELECT text FROM automessages ORDER BY RAND() LIMIT 1;";
 
+	private final HeavenProxy plugin = HeavenProxyInstance.get();
+
 	public AutoMessageTask()
 	{
-		ProxyServer.getInstance().getScheduler().schedule(HeavenProxyInstance.get(), this, PERIOD, PERIOD, TimeUnit.SECONDS);
+		ProxyServer.getInstance().getScheduler().schedule(plugin, this, PERIOD, PERIOD, TimeUnit.SECONDS);
 	}
 
 	@Override
@@ -36,17 +39,17 @@ public class AutoMessageTask implements Runnable
 		}
 	}
 
-	private static String getRandomMessage() throws DatabaseErrorException
+	private String getRandomMessage() throws DatabaseErrorException
 	{
-		try (final PreparedStatement ps = HeavenProxy.getConnection().prepareStatement(GET_AUTO_MESSAGE))
+		try (final Connection connection = plugin.getConnectionProvider().getConnection();
+				final PreparedStatement ps = connection.prepareStatement(GET_AUTO_MESSAGE))
 		{
-			try (ResultSet rs = ps.executeQuery())
-			{
-				if (!rs.next())
-					throw new DatabaseErrorException();
+			final ResultSet rs = ps.executeQuery();
 
-				return rs.getString("text");
-			}
+			if (!rs.next())
+				throw new DatabaseErrorException();
+
+			return rs.getString("text");
 		}
 		catch (final SQLException ex)
 		{

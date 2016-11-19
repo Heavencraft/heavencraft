@@ -20,7 +20,7 @@ public class NexusCommand extends HeavenCommand
 
 		final ProxiedPlayer player = (ProxiedPlayer) sender;
 
-		player.connect(_plugin.getProxy().getServerInfo("semirp"));
+		player.connect(plugin.getProxy().getServerInfo("semirp"));
 		Utils.sendMessage(player, "Vous avez été téléporté au Nexus.");
 	}
 }

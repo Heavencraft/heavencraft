@@ -9,15 +9,13 @@ import net.md_5.bungee.api.plugin.Command;
 
 public abstract class HeavenCommand extends Command
 {
-
-	protected HeavenProxy _plugin;
+	protected final HeavenProxy plugin = HeavenProxyInstance.get();
 
 	public HeavenCommand(String name, String permission, String[] aliases)
 	{
 		super(name, permission, aliases);
 
-		_plugin = HeavenProxyInstance.get();
-		_plugin.getProxy().getPluginManager().registerCommand(_plugin, this);
+		plugin.getProxy().getPluginManager().registerCommand(plugin, this);
 	}
 
 	@Override
