@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
+import fr.heavencraft.heavenproxy.HeavenProxyInstance;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
-import fr.heavencraft.heavenproxy.HeavenProxy;
 
 public class StopServerTask implements Runnable
 {
@@ -14,8 +14,7 @@ public class StopServerTask implements Runnable
 
 	public StopServerTask()
 	{
-		ProxyServer.getInstance().getScheduler()
-				.schedule(HeavenProxy.getInstance(), this, 1, 1, TimeUnit.MINUTES);
+		ProxyServer.getInstance().getScheduler().schedule(HeavenProxyInstance.get(), this, 1, 1, TimeUnit.MINUTES);
 	}
 
 	@Override

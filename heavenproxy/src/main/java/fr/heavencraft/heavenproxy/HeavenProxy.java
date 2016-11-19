@@ -58,15 +58,17 @@ public class HeavenProxy extends Plugin
 	private static Connection _connection;
 	private static Connection _semirpConnection;
 
-	private static HeavenProxy _instance;
-
 	private RequestsManager _requestsManager;
+
+	public HeavenProxy()
+	{
+		HeavenProxyInstance.set(this);
+	}
 
 	@Override
 	public void onEnable()
 	{
 		super.onEnable();
-		_instance = this;
 
 		try
 		{
@@ -209,10 +211,5 @@ public class HeavenProxy extends Plugin
 		}
 
 		return _semirpConnection;
-	}
-
-	public static HeavenProxy getInstance()
-	{
-		return _instance;
 	}
 }

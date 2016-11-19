@@ -3,9 +3,10 @@ package fr.heavencraft.heavenproxy.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.heavencraft.heavenproxy.HeavenProxy;
-import fr.heavencraft.heavenproxy.Utils;
 import fr.hc.core.exceptions.PlayerNotConnectedException;
+import fr.heavencraft.heavenproxy.HeavenProxy;
+import fr.heavencraft.heavenproxy.HeavenProxyInstance;
+import fr.heavencraft.heavenproxy.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -22,7 +23,7 @@ public class SpyListener implements Listener
 
 	public SpyListener()
 	{
-		HeavenProxy plugin = HeavenProxy.getInstance();
+		final HeavenProxy plugin = HeavenProxyInstance.get();
 		plugin.getProxy().getPluginManager().registerListener(plugin, this);
 	}
 
@@ -49,23 +50,23 @@ public class SpyListener implements Listener
 		if (!(event.getSender() instanceof ProxiedPlayer))
 			return;
 
-		String filter = event.getMessage().toLowerCase();
+		final String filter = event.getMessage().toLowerCase();
 
 		if (filter.startsWith("/home") || filter.startsWith("/nexus") || filter.startsWith("/spawn")
 				|| filter.startsWith("/poof") || filter.startsWith("/lit") || filter.startsWith("/me"))
 			return;
 
-		ProxiedPlayer player = (ProxiedPlayer) event.getSender();
-		String message = String.format(MESSAGE_FORMAT, Utils.getPrefix(player), player.getName(),
+		final ProxiedPlayer player = (ProxiedPlayer) event.getSender();
+		final String message = String.format(MESSAGE_FORMAT, Utils.getPrefix(player), player.getName(),
 				event.getMessage());
 
-		for (String playerName : _spies)
+		for (final String playerName : _spies)
 		{
 			try
 			{
 				Utils.getPlayer(playerName).sendMessage(TextComponent.fromLegacyText(message));
 			}
-			catch (PlayerNotConnectedException ex)
+			catch (final PlayerNotConnectedException ex)
 			{
 			}
 		}
