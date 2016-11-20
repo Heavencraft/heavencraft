@@ -24,7 +24,7 @@ public class ProxyPingListener extends AbstractListener
 
 		builder.append(SEMIRP_TAG).color(getServerColor(Server.SemiRP));
 		builder.append(CREATIVE_TAG).color(getServerColor(Server.Creative));
-		builder.append(ROBINSON_TAG).color(ChatColor.WHITE).bold(true);
+		builder.append(ROBINSON_TAG).color(getServerColor(Server.Robinson)).bold(true);
 
 		event.getResponse().setDescriptionComponent(new TextComponent(builder.create()));
 	}
