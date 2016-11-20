@@ -29,9 +29,6 @@ public class UsersListener extends AbstractListener
 	private static final String LOG_BAD_VERSION = "[onLogin] {} is not in 1.10/1.11.";
 	private static final String KICK_BAD_VERSION = "§fHeaven§bcraft§r est en 1.10 et 1.11.\n\nMerci de vous connecter avec une de ces versions.";
 
-	private static final String LOG_ROBINSON = "[onLogin] {} is in 1.11.";
-	private static final String KICK_ROBINSON = "Bienvenue sur §fHeaven§bcraft§r !\n\nPour accéder au monde Robinson 1.11,\nconnectez-vous à l'adresse suivante:\n\nheavencraft.fr:25568\n\nPour accéder aux mondes habituels,\nconnectez-vous avec la version 1.10.\n\nL'équipe d'§fHeaven§bcraft§r";
-
 	@EventHandler
 	public void onLogin(LoginEvent event)
 	{
@@ -41,13 +38,7 @@ public class UsersListener extends AbstractListener
 		switch (event.getConnection().getVersion())
 		{
 			case ProtocolConstants.MINECRAFT_1_10:
-				break;
-
 			case ProtocolConstants.MINECRAFT_1_11:
-				log.info(LOG_ROBINSON, event.getConnection().getName());
-
-				event.setCancelled(true);
-				event.setCancelReason(KICK_ROBINSON);
 				break;
 
 			default:
