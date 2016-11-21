@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -104,6 +105,7 @@ public class ParcellePanneauSubCommand extends SubCommand
 				sign.setLine(2, Integer.toString(price) + ParcelleSignListener.PRICE_UNIT);
 				sign.setLine(3, (max.getBlockX() - min.getBlockX() + 1) + "x" + (max.getBlockZ() - min.getBlockZ() + 1)
 						+ "x" + (max.getBlockY() - min.getBlockY() + 1));
+				((org.bukkit.material.Sign) sign.getData()).setFacingDirection(getSignDirection(signBlock, min));
 				sign.update();
 
 				ChatUtil.sendMessage(player, "La parcelle a été créée avec succès.");
@@ -143,8 +145,16 @@ public class ParcellePanneauSubCommand extends SubCommand
 		return corner;
 	}
 
-	private static int getCloserNumber(int subject, int number1, int number2)
+	private static int getCloserNumber(int tested, int number1, int number2)
 	{
-		return (Math.abs(subject - number1) < Math.abs(subject - number2)) ? number1 : number2;
+		return (Math.abs(tested - number1) < Math.abs(tested - number2)) ? number1 : number2;
+	}
+
+	private static BlockFace getSignDirection(Block signBlock, Location min)
+	{
+		if (signBlock.getX() == min.getBlockX()) // East
+			return signBlock.getZ() == min.getBlockZ() ? BlockFace.NORTH_WEST : BlockFace.SOUTH_WEST;
+		else // West
+			return signBlock.getZ() == min.getBlockZ() ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST;
 	}
 }
