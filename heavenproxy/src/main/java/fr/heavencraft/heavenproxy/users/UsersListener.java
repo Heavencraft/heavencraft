@@ -26,8 +26,8 @@ public class UsersListener extends AbstractListener
 	// Connection address for staff members
 	private static final String STAFF_ADDRESS = "licorne.heavencraft.fr";
 
-	private static final String LOG_BAD_VERSION = "[onLogin] {} is not in 1.10/1.11.";
-	private static final String KICK_BAD_VERSION = "§fHeaven§bcraft§r est en 1.10 et 1.11.\n\nMerci de vous connecter avec une de ces versions.";
+	private static final String LOG_BAD_VERSION = "[onLogin] {} is not in 1.11.";
+	private static final String KICK_BAD_VERSION = "§fHeaven§bcraft§r est en 1.11.\n\nMerci de vous connecter avec cette version.";
 
 	@EventHandler
 	public void onLogin(LoginEvent event)
@@ -37,7 +37,6 @@ public class UsersListener extends AbstractListener
 
 		switch (event.getConnection().getVersion())
 		{
-			case ProtocolConstants.MINECRAFT_1_10:
 			case ProtocolConstants.MINECRAFT_1_11:
 				break;
 
