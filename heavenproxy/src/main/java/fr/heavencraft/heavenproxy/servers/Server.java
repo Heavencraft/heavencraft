@@ -14,7 +14,6 @@ public class Server
 	// Production environment
 	public static final Server SemiRP = new Server("semirp", "SRP", "Monde Semi-RP");
 	public static final Server Creative = new Server("creative", "Créa", "Monde Créatif");
-	public static final Server Robinson = new Server("robinson", "1.11", "Le Robinson");
 	// Testing environment
 	public static final Server UAT_SemiRP = new Server("uat-semirp", "UAT", "UAT Semi-RP");
 	public static final Server UAT_Creative = new Server("uat-creative", "UAT", "UAT Créatif");
