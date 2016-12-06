@@ -3,6 +3,7 @@ package fr.hc.rp;
 import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
+import fr.hc.rp.db.quests.server.ServerQuestStepProvider;
 import fr.hc.rp.db.stocks.StockProvider;
 import fr.hc.rp.db.stores.StoreProvider;
 import fr.hc.rp.db.towns.TownProvider;
@@ -28,4 +29,6 @@ public interface HeavenRP
 	StockProvider getStockProvider();
 
 	PricingManager getPricingManager();
+
+	ServerQuestStepProvider getServerQuestStepProvider();
 }
