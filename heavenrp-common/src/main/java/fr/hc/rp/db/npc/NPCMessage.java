@@ -6,14 +6,14 @@ import java.sql.SQLException;
 public class NPCMessage
 {
 	private final int id;
-	private final int npcId;
+	private final String npcTag;
 	private final String message;
 
 	// Available from package only
 	NPCMessage(ResultSet rs) throws SQLException
 	{
 		id = rs.getInt("id");
-		npcId = rs.getInt("npc_id");
+		npcTag = rs.getString("npc_tag");
 		message = rs.getString("message");
 	}
 
@@ -22,9 +22,9 @@ public class NPCMessage
 		return id;
 	}
 
-	public int getNpcId()
+	public String getNpcTag()
 	{
-		return npcId;
+		return npcTag;
 	}
 
 	public String getMessage()
