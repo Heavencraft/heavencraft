@@ -2,8 +2,10 @@ package fr.hc.rp.db.quests.server;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 
 import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.db.quests.Goal;
 import fr.hc.rp.db.quests.QuestStatus;
 
 public class ServerQuest implements QuestStatus
@@ -35,5 +37,12 @@ public class ServerQuest implements QuestStatus
 	public boolean hasBeenCompleted()
 	{
 		return completed;
+	}
+
+	@Override
+	public Collection<Goal> getCompletedGoals()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
