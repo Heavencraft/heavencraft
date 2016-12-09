@@ -16,25 +16,25 @@ import fr.hc.rp.HeavenRPInstance;
 
 public class NPCMessageProvider
 {
-	private static final String SELECT_NPC_MESSAGES_BY_NPC_ID = "SELECT * FROM npc_messages WHERE npc_id = ?;";
+	private static final String SELECT_NPC_MESSAGES_BY_NPC_TAG = "SELECT * FROM npc_messages WHERE npc_tag = ?;";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private final NPCMessageCache cache = new NPCMessageCache();
 	private final HeavenRP plugin = HeavenRPInstance.get();
 
-	public Collection<NPCMessage> getByNpcId(int npcId) throws DatabaseErrorException
+	public Collection<NPCMessage> getByNpcTag(String npcTag) throws DatabaseErrorException
 	{
 		// Try to get bank account from cache
-		Collection<NPCMessage> npcMessages = cache.getByNpcId(npcId);
+		Collection<NPCMessage> npcMessages = cache.getByNpcTag(npcTag);
 		if (npcMessages != null)
 			return npcMessages;
 
 		// Get user from database
 		try (Connection connection = plugin.getConnectionProvider().getConnection();
-				PreparedStatement ps = connection.prepareStatement(SELECT_NPC_MESSAGES_BY_NPC_ID))
+				PreparedStatement ps = connection.prepareStatement(SELECT_NPC_MESSAGES_BY_NPC_TAG))
 		{
-			ps.setInt(1, npcId);
+			ps.setString(1, npcTag);
 
 			final ResultSet rs = ps.executeQuery();
 
@@ -49,7 +49,7 @@ public class NPCMessageProvider
 		}
 		catch (final SQLException ex)
 		{
-			log.error("Error while executing SQL query '{}'", SELECT_NPC_MESSAGES_BY_NPC_ID, ex);
+			log.error("Error while executing SQL query '{}'", SELECT_NPC_MESSAGES_BY_NPC_TAG, ex);
 			throw new DatabaseErrorException();
 		}
 	}

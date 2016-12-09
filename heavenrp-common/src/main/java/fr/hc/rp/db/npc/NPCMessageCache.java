@@ -11,21 +11,21 @@ public class NPCMessageCache
 {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private final MultiValuedMap<Integer, NPCMessage> npcMessagesByNpcId = new ArrayListValuedHashMap<Integer, NPCMessage>();
+	private final MultiValuedMap<String, NPCMessage> npcMessagesByNpcTag = new ArrayListValuedHashMap<String, NPCMessage>();
 
-	public Collection<NPCMessage> getByNpcId(int npcId)
+	public Collection<NPCMessage> getByNpcTag(String npcTag)
 	{
-		return npcMessagesByNpcId.get(npcId);
+		return npcMessagesByNpcTag.get(npcTag);
 	}
 
 	public void addToCache(NPCMessage npcMessage)
 	{
-		npcMessagesByNpcId.put(npcMessage.getNpcId(), npcMessage);
+		npcMessagesByNpcTag.put(npcMessage.getNpcTag(), npcMessage);
 	}
 
 	public void invalidateCache(NPCMessage npcMessage)
 	{
-		npcMessagesByNpcId.remove(npcMessage.getNpcId());
+		npcMessagesByNpcTag.remove(npcMessage.getNpcTag());
 
 		log.info("Invalidated NPC message cache for {}", npcMessage);
 	}
