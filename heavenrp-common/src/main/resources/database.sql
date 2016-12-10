@@ -208,3 +208,15 @@ ALTER TABLE stores
     
 ALTER TABLE stores
     ADD FOREIGN KEY (stock_id) REFERENCES stocks (id) ON DELETE SET NULL;
+
+--
+-- NPC messages
+--
+
+CREATE TABLE npc_messages (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+    npc_tag         VARCHAR(16)         NOT NULL,
+    message         VARCHAR(255)        NOT NULL,
+
+    PRIMARY KEY (id)
+);
