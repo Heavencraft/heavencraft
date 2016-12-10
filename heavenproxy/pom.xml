@@ -62,6 +62,7 @@
 							<include>com.zaxxer:HikariCP</include>
 							<include>org.slf4j:slf4j-api</include>
 							<include>org.slf4j:slf4j-simple</include>
+							<include>org.apache.commons:commons-collections4</include>
 							<include>org.json:json</include>
 
 							<include>com.maxmind.geoip2:geoip2</include>
