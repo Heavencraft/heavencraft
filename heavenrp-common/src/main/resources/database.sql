@@ -213,10 +213,11 @@ ALTER TABLE stores
 -- NPC messages
 --
 
-CREATE TABLE npc_messages (
+CREATE TABLE npc_actions (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     npc_tag         VARCHAR(16)         NOT NULL,
-    message         VARCHAR(255)        NOT NULL,
+    messages        TEXT                NOT NULL,
+    commands        TEXT                NOT NULL,
 
     PRIMARY KEY (id)
 );
