@@ -36,3 +36,6 @@ commands:
  spleef:
    description: Commande de gestion du spleef
    usage: /spleef
+ npcadmin:
+   description: Commande pour gérer les NPCs liés aux plugins Heavencraft
+   usage: /npcadmin
