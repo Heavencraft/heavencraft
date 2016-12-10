@@ -18,7 +18,7 @@ import fr.hc.rp.commands.SpleefCommand;
 import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
-import fr.hc.rp.db.npc.NPCMessageProvider;
+import fr.hc.rp.db.npc.NPCActionProvider;
 import fr.hc.rp.db.quests.server.ServerQuestStepProvider;
 import fr.hc.rp.db.stocks.StockProvider;
 import fr.hc.rp.db.stores.StoreProvider;
@@ -55,7 +55,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	private StockProvider stockProvider;
 	private PricingManager pricingManager;
 	private ServerQuestStepProvider serverQuestStepProvider;
-	private NPCMessageProvider npcMessageProvider;
+	private NPCActionProvider npcMessageProvider;
 
 	public BukkitHeavenRP()
 	{
@@ -78,7 +78,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		stockProvider = new StockProvider(connectionProvider);
 		pricingManager = new PricingManager();
 		serverQuestStepProvider = new ServerQuestStepProvider();
-		npcMessageProvider = new NPCMessageProvider();
+		npcMessageProvider = new NPCActionProvider();
 
 		HeavenCoreInstance.get().setReferencePlugin(this);
 		HeavenGuardInstance.get().setUserProvider(userProvider);
@@ -187,7 +187,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	}
 
 	@Override
-	public NPCMessageProvider getNpcMessageProvider()
+	public NPCActionProvider getNpcMessageProvider()
 	{
 		return npcMessageProvider;
 	}

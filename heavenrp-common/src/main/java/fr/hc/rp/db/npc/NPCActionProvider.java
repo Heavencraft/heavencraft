@@ -14,42 +14,42 @@ import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
 
-public class NPCMessageProvider
+public class NPCActionProvider
 {
-	private static final String SELECT_NPC_MESSAGES_BY_NPC_TAG = "SELECT * FROM npc_messages WHERE npc_tag = ?;";
+	private static final String SELECT_NPC_ACTIONS_BY_NPC_TAG = "SELECT * FROM npc_actions WHERE npc_tag = ?;";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private final NPCMessageCache cache = new NPCMessageCache();
+	private final NPCActionCache cache = new NPCActionCache();
 	private final HeavenRP plugin = HeavenRPInstance.get();
 
-	public List<NPCMessage> getByNpcTag(String npcTag) throws DatabaseErrorException
+	public List<NPCAction> getByNpcTag(String npcTag) throws DatabaseErrorException
 	{
 		// Try to get bank account from cache
-		List<NPCMessage> npcMessages = cache.getByNpcTag(npcTag);
-		if (!npcMessages.isEmpty())
-			return npcMessages;
+		List<NPCAction> npcActions = cache.getByNpcTag(npcTag);
+		if (!npcActions.isEmpty())
+			return npcActions;
 
 		// Get user from database
 		try (Connection connection = plugin.getConnectionProvider().getConnection();
-				PreparedStatement ps = connection.prepareStatement(SELECT_NPC_MESSAGES_BY_NPC_TAG))
+				PreparedStatement ps = connection.prepareStatement(SELECT_NPC_ACTIONS_BY_NPC_TAG))
 		{
 			ps.setString(1, npcTag);
 
 			final ResultSet rs = ps.executeQuery();
 
-			npcMessages = new ArrayList<NPCMessage>();
+			npcActions = new ArrayList<NPCAction>();
 			while (rs.next())
 			{
-				final NPCMessage npcMessage = new NPCMessage(rs);
-				cache.addToCache(npcMessage);
-				npcMessages.add(npcMessage);
+				final NPCAction npcAction = new NPCAction(rs);
+				cache.addToCache(npcAction);
+				npcActions.add(npcAction);
 			}
-			return npcMessages;
+			return npcActions;
 		}
 		catch (final SQLException ex)
 		{
-			log.error("Error while executing SQL query '{}'", SELECT_NPC_MESSAGES_BY_NPC_TAG, ex);
+			log.error("Error while executing SQL query '{}'", SELECT_NPC_ACTIONS_BY_NPC_TAG, ex);
 			throw new DatabaseErrorException();
 		}
 	}
