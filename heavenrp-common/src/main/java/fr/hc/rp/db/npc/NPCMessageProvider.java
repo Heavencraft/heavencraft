@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +23,10 @@ public class NPCMessageProvider
 	private final NPCMessageCache cache = new NPCMessageCache();
 	private final HeavenRP plugin = HeavenRPInstance.get();
 
-	public Collection<NPCMessage> getByNpcTag(String npcTag) throws DatabaseErrorException
+	public List<NPCMessage> getByNpcTag(String npcTag) throws DatabaseErrorException
 	{
 		// Try to get bank account from cache
-		Collection<NPCMessage> npcMessages = cache.getByNpcTag(npcTag);
+		List<NPCMessage> npcMessages = cache.getByNpcTag(npcTag);
 		if (npcMessages != null)
 			return npcMessages;
 
