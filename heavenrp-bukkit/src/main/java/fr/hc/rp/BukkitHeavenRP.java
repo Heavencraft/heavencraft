@@ -35,6 +35,8 @@ import fr.hc.rp.economy.stores.MagasinSignListener;
 import fr.hc.rp.listeners.FirstSpawnListener;
 import fr.hc.rp.listeners.RespawnListener;
 import fr.hc.rp.listeners.SpleefManager;
+import fr.hc.rp.npc.NPCAdminCommand;
+import fr.hc.rp.npc.NPCMessageListener;
 import fr.hc.rp.towns.ParcelleSignListener;
 import fr.hc.rp.warps.WarpCommandExecutor;
 import fr.hc.rp.warps.WarpSignListener;
@@ -115,6 +117,10 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		// Economy/Stores
 		new AchatSignListener(this);
 		new MagasinSignListener(this);
+
+		// NPC
+		new NPCAdminCommand(this);
+		new NPCMessageListener(this);
 
 		// Bank
 		new LivretSignListener(this);

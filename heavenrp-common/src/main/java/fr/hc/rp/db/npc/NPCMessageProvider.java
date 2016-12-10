@@ -27,7 +27,7 @@ public class NPCMessageProvider
 	{
 		// Try to get bank account from cache
 		List<NPCMessage> npcMessages = cache.getByNpcTag(npcTag);
-		if (npcMessages != null)
+		if (!npcMessages.isEmpty())
 			return npcMessages;
 
 		// Get user from database
