@@ -53,11 +53,11 @@ public class NPCMessageListener extends AbstractBukkitListener
 
 		if (action.hasMessages())
 			for (final String message : action.getMessages())
-				ChatUtil.sendMessage(player, NPC_MESSAGE_FORMAT, npcName, message);
+				ChatUtil.sendMessage(player, NPC_MESSAGE_FORMAT, npcName, replaceVariables(message, player));
 
 		if (action.hasCommands())
 			for (final String command : action.getCommands())
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replaceVariables(command, player));
 	}
 
 	private NPCAction selectAction(List<NPCAction> actions)
@@ -66,5 +66,14 @@ public class NPCMessageListener extends AbstractBukkitListener
 			return actions.get(0);
 		else
 			return actions.get(random.nextInt(actions.size()));
+	}
+
+	// Replace variables by their current values
+	// TODO: optimize
+	private String replaceVariables(String command, Player player)
+	{
+		command = command.replaceAll("%playerName%", player.getName());
+
+		return command;
 	}
 }

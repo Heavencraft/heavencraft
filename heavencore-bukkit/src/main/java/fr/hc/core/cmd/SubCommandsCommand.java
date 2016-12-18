@@ -24,6 +24,11 @@ public class SubCommandsCommand extends AbstractCommandExecutor
 		super(plugin, name);
 	}
 
+	public SubCommandsCommand(AbstractBukkitPlugin plugin, String name, String permission)
+	{
+		super(plugin, name, permission);
+	}
+
 	public SubCommandsCommand(AbstractBukkitPlugin plugin, String name, List<String> aliases)
 	{
 		super(plugin, name, aliases);
