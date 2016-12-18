@@ -1,14 +1,17 @@
 package fr.hc.rp.db.quests;
 
-import java.util.Collection;
+import java.util.Optional;
+
+import fr.hc.core.exceptions.HeavenException;
+import fr.hc.rp.db.quests.goals.Goals;
 
 public interface QuestStep
 {
-	QuestStep getNextStep();
+	Optional<? extends QuestStep> getNextStep() throws HeavenException;
 
-	Collection<Goal> getGoals();
+	Goals getGoals();
 
-	default boolean isFinalStep()
+	default boolean isFinalStep() throws HeavenException
 	{
 		return getNextStep() == null;
 	}

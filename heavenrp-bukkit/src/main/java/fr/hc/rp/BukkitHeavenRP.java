@@ -19,6 +19,9 @@ import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.npc.NPCActionProvider;
+import fr.hc.rp.db.quests.server.ServerQuestCommand;
+import fr.hc.rp.db.quests.server.ServerQuestInventoryListener;
+import fr.hc.rp.db.quests.server.ServerQuestProvider;
 import fr.hc.rp.db.quests.server.ServerQuestStepProvider;
 import fr.hc.rp.db.stocks.StockProvider;
 import fr.hc.rp.db.stores.StoreProvider;
@@ -54,6 +57,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	private StoreProvider storeProvider;
 	private StockProvider stockProvider;
 	private PricingManager pricingManager;
+	private ServerQuestProvider serverQuestProvider;
 	private ServerQuestStepProvider serverQuestStepProvider;
 	private NPCActionProvider npcMessageProvider;
 
@@ -77,6 +81,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		storeProvider = new StoreProvider(connectionProvider);
 		stockProvider = new StockProvider(connectionProvider);
 		pricingManager = new PricingManager();
+		serverQuestProvider = new ServerQuestProvider();
 		serverQuestStepProvider = new ServerQuestStepProvider();
 		npcMessageProvider = new NPCActionProvider();
 
@@ -121,6 +126,10 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		// NPC
 		new NPCAdminCommand(this);
 		new NPCMessageListener(this);
+
+		// ServerQuests
+		final ServerQuestInventoryListener serverQuestInventoryListener = new ServerQuestInventoryListener(this);
+		new ServerQuestCommand(this, serverQuestInventoryListener);
 
 		// Bank
 		new LivretSignListener(this);
@@ -178,6 +187,12 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 	public PricingManager getPricingManager()
 	{
 		return pricingManager;
+	}
+
+	@Override
+	public ServerQuestProvider getServerQuestProvider()
+	{
+		return serverQuestProvider;
 	}
 
 	@Override

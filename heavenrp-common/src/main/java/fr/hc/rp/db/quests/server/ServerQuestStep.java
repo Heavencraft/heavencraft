@@ -2,13 +2,13 @@ package fr.hc.rp.db.quests.server;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.Optional;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.rp.HeavenRPInstance;
-import fr.hc.rp.db.quests.Goal;
-import fr.hc.rp.db.quests.GoalParser;
 import fr.hc.rp.db.quests.QuestStep;
+import fr.hc.rp.db.quests.goals.Goals;
+import fr.hc.rp.db.quests.goals.GoalsParser;
 
 public class ServerQuestStep implements QuestStep
 {
@@ -16,16 +16,16 @@ public class ServerQuestStep implements QuestStep
 	private final int nextStep;
 	private final byte[] schematic;
 
-	private final Collection<Goal> goals;
+	private final Goals goals;
 
 	// Available from package only
-	ServerQuestStep(ResultSet rs) throws SQLException, HeavenException
+	ServerQuestStep(ResultSet rs) throws SQLException
 	{
 		id = rs.getInt("id");
 		nextStep = rs.getInt("next_step");
 		schematic = rs.getBytes("schematic");
 
-		goals = GoalParser.parseGoals(rs.getString("goals"));
+		goals = GoalsParser.parseGoals(rs.getString("goals"));
 	}
 
 	public int getId()
@@ -34,9 +34,9 @@ public class ServerQuestStep implements QuestStep
 	}
 
 	@Override
-	public ServerQuestStep getNextStep()
+	public Optional<ServerQuestStep> getNextStep() throws HeavenException
 	{
-		return HeavenRPInstance.get().getServerQuestStepProvider().getById(nextStep);
+		return HeavenRPInstance.get().getServerQuestStepProvider().getOptionalById(nextStep);
 	}
 
 	public byte[] getSchematic()
@@ -45,7 +45,7 @@ public class ServerQuestStep implements QuestStep
 	}
 
 	@Override
-	public Collection<Goal> getGoals()
+	public Goals getGoals()
 	{
 		return goals;
 	}

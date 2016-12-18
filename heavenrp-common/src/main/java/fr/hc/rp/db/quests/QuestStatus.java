@@ -1,12 +1,13 @@
 package fr.hc.rp.db.quests;
 
-import java.util.Collection;
+import fr.hc.core.exceptions.HeavenException;
+import fr.hc.rp.db.quests.goals.Goals;
 
 public interface QuestStatus
 {
-	QuestStep getCurrentStep();
+	QuestStep getCurrentStep() throws HeavenException;
 
-	Collection<Goal> getCompletedGoals();
+	Goals getCompletedGoals();
 
 	boolean hasBeenCompleted();
 }
