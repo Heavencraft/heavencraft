@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.rp.HeavenRP;
@@ -50,5 +51,15 @@ public class ServerQuestProvider
 			log.error("Error while executing SQL query '{}'", SELECT_SERVER_QUEST_BY_ID, ex);
 			throw new DatabaseErrorException();
 		}
+	}
+
+	public ConnectionProvider getConnectionProvider()
+	{
+		return plugin.getConnectionProvider();
+	}
+
+	public void invalidateCache(ServerQuest quest)
+	{
+		cache.invalidateCache(quest);
 	}
 }

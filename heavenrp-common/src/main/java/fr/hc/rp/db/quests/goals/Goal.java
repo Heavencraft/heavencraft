@@ -1,5 +1,7 @@
 package fr.hc.rp.db.quests.goals;
 
+import fr.hc.core.utils.LocalStringBuilder;
+
 public class Goal
 {
 	private final GoalAction action;
@@ -11,6 +13,23 @@ public class Goal
 		this.action = action;
 		this.number = number;
 		this.element = element;
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder builder = LocalStringBuilder.get();
+		toString(builder);
+		return builder.toString();
+	}
+
+	public void toString(StringBuilder builder)
+	{
+		builder.append(action);
+		builder.append(' ');
+		builder.append(number);
+		builder.append(' ');
+		builder.append(element);
 	}
 
 	public GoalAction getAction()
