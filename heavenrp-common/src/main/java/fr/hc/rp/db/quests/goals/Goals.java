@@ -3,11 +3,13 @@ package fr.hc.rp.db.quests.goals;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
+import fr.hc.core.utils.LocalStringBuilder;
 import fr.hc.rp.exceptions.DuplicateGoalException;
 
 public class Goals
@@ -17,6 +19,22 @@ public class Goals
 
 	Goals()
 	{
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder builder = LocalStringBuilder.get();
+		final Iterator<Goal> it = goals.iterator();
+
+		while (it.hasNext())
+		{
+			it.next().toString(builder);
+			if (it.hasNext())
+				builder.append(',');
+		}
+
+		return builder.toString();
 	}
 
 	public void add(Goal goal) throws DuplicateGoalException
