@@ -73,7 +73,7 @@ class BukkitStoreUtil
 					builder.append(' ').append(enchant.getKey().getName()).append(" lvl ").append(enchant.getValue());
 				}
 
-				return builder.toString();
+				return LocalStringBuilder.release(builder);
 			}
 
 		return null;
@@ -88,8 +88,8 @@ class BukkitStoreUtil
 		return quantity;
 	}
 
-	public static Collection<ItemStack> removeItemFromInventory(Inventory inventory, ItemStack storeItem,
-			int quantityToRemove) throws HeavenException
+	public static Collection<ItemStack> removeItemFromInventory(Inventory inventory, ItemStack storeItem, int quantityToRemove)
+			throws HeavenException
 	{
 		final Collection<ItemStack> removedItems = new ArrayList<ItemStack>();
 
