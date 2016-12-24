@@ -68,8 +68,10 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 				continue;
 			}
 
-			final Goal completedGoal = completedGoals.get(GoalAction.GIVE_ITEM, item.getType().name());
-			final int neededNumber = requiredGoal.getNumber() - (completedGoal != null ? completedGoal.getNumber() : 0);
+			Goal completedGoal = completedGoals.get(GoalAction.GIVE_ITEM, item.getType().name());
+			if (completedGoal == null)
+				completedGoal = requiredGoal.createSimilar(0);
+			final int neededNumber = requiredGoal.getNumber() - completedGoal.getNumber();
 
 			if (neededNumber <= 0)
 			{
