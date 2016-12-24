@@ -3,6 +3,8 @@ package fr.hc.core;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import fr.hc.core.utils.LocalStringBuilder;
+
 public class HeavenBlockLocation
 {
 	private static final int HASHCODE_PRIME = 31;
@@ -31,7 +33,9 @@ public class HeavenBlockLocation
 	@Override
 	public String toString()
 	{
-		return "(" + world + ", " + x + ", " + y + ", " + z + ")";
+		final StringBuilder builder = LocalStringBuilder.get();
+		builder.append('(').append(world).append(", ").append(x).append(", ").append(y).append(", ").append(z).append(')');
+		return LocalStringBuilder.release(builder);
 	}
 
 	@Override
@@ -42,7 +46,7 @@ public class HeavenBlockLocation
 
 		final HeavenBlockLocation other = (HeavenBlockLocation) obj;
 
-		return other.x == x && other.y == y && other.z == z && other.world.equals(world);
+		return other.x == x && other.y == y && other.z == z && (world != null ? world.equals(other.world) : other.world == null);
 	}
 
 	@Override
