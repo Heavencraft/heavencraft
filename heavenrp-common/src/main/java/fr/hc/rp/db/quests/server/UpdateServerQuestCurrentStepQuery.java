@@ -10,7 +10,7 @@ import fr.hc.core.tasks.queries.Query;
 
 public class UpdateServerQuestCurrentStepQuery implements Query
 {
-	private static final String QUERY = "UPDATE server_quests SET next_step = ?, completed = ?, completed_goals = NULL WHERE id = ? AND completed = false LIMIT 1;";
+	private static final String QUERY = "UPDATE server_quests SET current_step = ?, completed = ?, completed_goals = NULL WHERE id = ? AND completed = false LIMIT 1;";
 
 	private final ServerQuest quest;
 	private final ServerQuestStep currentStep;
