@@ -77,22 +77,44 @@ public class WorldEditUtil
 		final com.sk89q.worldedit.world.World weWorld = toWorldEdit(world);
 		final Region region = new CuboidRegion(weWorld, toWorldEdit(pos1), toWorldEdit(pos2));
 
+		final Clipboard clipboard = createClipboard(schematic, weWorld);
+		paste(clipboard, weWorld, region.getMinimumPoint());
+	}
+
+	public static void pasteAtOrigin(byte[] schematic, World world) throws HeavenException
+	{
+		final com.sk89q.worldedit.world.World weWorld = toWorldEdit(world);
+
+		final Clipboard clipboard = createClipboard(schematic, weWorld);
+		paste(clipboard, weWorld, clipboard.getOrigin());
+	}
+
+	private static Clipboard createClipboard(byte[] schematic, com.sk89q.worldedit.world.World world) throws HeavenException
+	{
 		try (ByteArrayInputStream bais = new ByteArrayInputStream(schematic))
 		{
 			final ClipboardReader reader = ClipboardFormat.SCHEMATIC.getReader(bais);
-			final Clipboard clipboard = reader.read(weWorld.getWorldData());
-
-			final ForwardExtentCopy copy = new ForwardExtentCopy(clipboard, clipboard.getRegion(), weWorld,
-					region.getMinimumPoint());
-			Operations.complete(copy);
-
+			return reader.read(world.getWorldData());
 		}
-		catch (WorldEditException | IOException ex)
+		catch (final IOException ex)
 		{
 			ex.printStackTrace();
 			throw new HeavenException(ex.getMessage());
 		}
+	}
 
+	private static void paste(Clipboard clipboard, com.sk89q.worldedit.world.World world, Vector to) throws HeavenException
+	{
+		try
+		{
+			final ForwardExtentCopy copy = new ForwardExtentCopy(clipboard, clipboard.getRegion(), world, to);
+			Operations.complete(copy);
+		}
+		catch (final WorldEditException ex)
+		{
+			ex.printStackTrace();
+			throw new HeavenException(ex.getMessage());
+		}
 	}
 
 	private static com.sk89q.worldedit.world.World toWorldEdit(World world)

@@ -1,9 +1,8 @@
 package fr.hc.rp.db.quests.server;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,19 +12,25 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.exceptions.UnexpectedErrorException;
+import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
+import fr.hc.rp.HeavenRP;
 import fr.hc.rp.db.quests.goals.Goal;
 import fr.hc.rp.db.quests.goals.GoalAction;
 import fr.hc.rp.db.quests.goals.Goals;
+import fr.hc.rp.worlds.WorldsManager;
 
 public class ServerQuestInventoryListener extends AbstractBukkitListener
 {
 	private final Map<Inventory, ServerQuestInventoryContext> contextsByInventory = new HashMap<Inventory, ServerQuestInventoryContext>();
+	private final HeavenRP plugin;
 
 	public ServerQuestInventoryListener(BukkitHeavenRP plugin)
 	{
 		super(plugin);
+		this.plugin = plugin;
 	}
 
 	public void addContext(ServerQuestInventoryContext context)
@@ -44,9 +49,11 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 			return;
 
 		final ServerQuest quest = context.getQuest();
-		final Goals requiredGoals = quest.getCurrentStep().getGoals();
+		final ServerQuestStep currentStep = quest.getCurrentStep();
+
+		final Goals requiredGoals = currentStep.getGoals();
 		final Goals completedGoals = quest.getCompletedGoals();
-		final Collection<Goal> newCompletedGoals = new ArrayList<Goal>();
+		final Goals newCompletedGoals = new Goals();
 
 		for (final ItemStack item : inventory.getContents())
 		{
@@ -83,12 +90,59 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 				newCompletedGoals.add(completedGoal.add(neededNumber));
 			}
 		}
+
+		// All the goals are completed, the step is over, moving to next step
+		if (newCompletedGoals.equals(requiredGoals))
+		{
+			final Optional<ServerQuestStep> optNextStep = currentStep.getNextStep();
+
+			if (!optNextStep.isPresent())
+			{
+				log.error("Non final step doesn't have a next step.");
+				ChatUtil.sendMessage(player, UnexpectedErrorException.MESSAGE);
+				return;
+			}
+
+			new UpdateServerQuestCurrentStepQuery(quest, optNextStep.get(), plugin.getServerQuestProvider())
+			{
+				@Override
+				public void onException(HeavenException ex)
+				{
+					ChatUtil.sendMessage(player, ex.getMessage());
+				}
+
+				@Override
+				public void onSuccess()
+				{
+					try
+					{
+						WorldEditUtil.pasteAtOrigin(currentStep.getSchematic(), WorldsManager.getWorld());
+					}
+					catch (final HeavenException ex)
+					{
+						log.error("Unable to paste schematic", ex);
+					}
+				}
+			}.schedule();
+		}
+
+		// There are still uncompleted goals, we just update the quest status
+		else
+		{
+			new UpdateServerQuestCompletedGoalsQuery(quest, newCompletedGoals, plugin.getServerQuestProvider())
+			{
+				@Override
+				public void onException(HeavenException ex)
+				{
+					ChatUtil.sendMessage(player, ex.getMessage());
+				}
+			}.schedule();
+		}
 	}
 
 	private void giveBack(Player player, ItemStack item)
 	{
 		player.getInventory().addItem(item);
-		ChatUtil.sendMessage(player, "Je n'ai pas besoin de ces %1$s %2$s, je te les rends donc.", item.getAmount(),
-				item.getType());
+		ChatUtil.sendMessage(player, "Je n'ai pas besoin de ces %1$s %2$s, je te les rends donc.", item.getAmount(), item.getType());
 	}
 }
