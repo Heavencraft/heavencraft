@@ -116,9 +116,16 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 				@Override
 				public void onSuccess()
 				{
+					final byte[] schematic = currentStep.getSchematic();
+					if (schematic == null)
+					{
+						log.error("No schematic provided with {}", currentStep);
+						return;
+					}
+
 					try
 					{
-						WorldEditUtil.pasteAtOrigin(currentStep.getSchematic(), WorldsManager.getWorld());
+						WorldEditUtil.pasteAtOrigin(schematic, WorldsManager.getWorld());
 					}
 					catch (final HeavenException ex)
 					{
