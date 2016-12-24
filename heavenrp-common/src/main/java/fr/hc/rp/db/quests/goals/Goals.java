@@ -17,24 +17,46 @@ public class Goals
 	private final Map<GoalAction, Map<String, Goal>> goalsByElementByAction = new HashMap<GoalAction, Map<String, Goal>>();
 	private final Collection<Goal> goals = new ArrayList<Goal>();
 
-	Goals()
+	public Goals()
 	{
 	}
 
 	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null || !(obj instanceof Goals))
+			return false;
+
+		final Goals other = (Goals) obj;
+
+		return goalsByElementByAction.equals(other.goalsByElementByAction);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return goalsByElementByAction.hashCode();
+	}
+
+	@Override
 	public String toString()
+	{
+		return toString(goals);
+	}
+
+	public static String toString(Collection<Goal> goals)
 	{
 		final StringBuilder builder = LocalStringBuilder.get();
 		final Iterator<Goal> it = goals.iterator();
 
 		while (it.hasNext())
 		{
-			it.next().toString(builder);
+			builder.append(it.next().toString());
 			if (it.hasNext())
 				builder.append(',');
 		}
 
-		return builder.toString();
+		return LocalStringBuilder.release(builder);
 	}
 
 	public void add(Goal goal) throws DuplicateGoalException

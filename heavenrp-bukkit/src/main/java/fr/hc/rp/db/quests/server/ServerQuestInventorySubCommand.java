@@ -56,7 +56,7 @@ public class ServerQuestInventorySubCommand extends SubCommand
 			if (goal.getAction() == GoalAction.GIVE_ITEM)
 				builder.append(goal.getNumber()).append(' ').append(goal.getElement()).append(", ");
 
-		final Inventory inventory = Bukkit.createInventory(null, InventoryType.CHEST, builder.toString());
+		final Inventory inventory = Bukkit.createInventory(null, InventoryType.CHEST, LocalStringBuilder.release(builder));
 		player.openInventory(inventory);
 		serverQuestInventoryListener.addContext(new ServerQuestInventoryContext(inventory, quest.getId()));
 	}
