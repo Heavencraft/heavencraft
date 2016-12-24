@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import fr.hc.core.exceptions.HeavenException;
+import fr.hc.core.utils.LocalStringBuilder;
 import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.quests.QuestStep;
 import fr.hc.rp.db.quests.goals.Goals;
@@ -26,6 +27,14 @@ public class ServerQuestStep implements QuestStep
 		schematic = rs.getBytes("schematic");
 
 		goals = GoalsParser.parseGoals(rs.getString("goals"));
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder builder = LocalStringBuilder.get();
+		builder.append("ServerQuestStep #").append(id);
+		return LocalStringBuilder.release(builder);
 	}
 
 	public int getId()
