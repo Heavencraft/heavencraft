@@ -79,4 +79,9 @@ public class Goal
 	{
 		return new Goal(action, number - toSubstract, element);
 	}
+
+	public Goal createSimilar(int number)
+	{
+		return new Goal(action, number, element);
+	}
 }
