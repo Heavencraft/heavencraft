@@ -1,5 +1,6 @@
 package fr.hc.core.horses;
 
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -14,7 +15,6 @@ import org.bukkit.inventory.HorseInventory;
 import fr.hc.core.AbstractBukkitListener;
 import fr.hc.core.BukkitHeavenCore;
 
-@SuppressWarnings("deprecation")
 public class HorsesListener extends AbstractBukkitListener
 {
 	public HorsesListener(BukkitHeavenCore plugin)
@@ -44,7 +44,7 @@ public class HorsesListener extends AbstractBukkitListener
 		if (!(event.getInventory() instanceof HorseInventory))
 			return;
 
-		final Horse horse = (Horse) event.getInventory().getHolder();
+		final AbstractHorse horse = (AbstractHorse) event.getInventory().getHolder();
 		final Player player = (Player) event.getPlayer();
 
 		if (!HorsesManager.canUse(horse, player))
