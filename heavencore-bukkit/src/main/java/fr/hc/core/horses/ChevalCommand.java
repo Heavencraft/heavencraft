@@ -11,7 +11,6 @@ import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.PlayerUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 
-@SuppressWarnings("deprecation")
 public class ChevalCommand extends AbstractCommandExecutor
 {
 	public ChevalCommand(BukkitHeavenCore plugin)
