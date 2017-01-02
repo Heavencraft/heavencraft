@@ -40,9 +40,9 @@ import fr.hc.guard.HeavenGuardPermissions;
 public class ProtectionPlayerListener extends AbstractBukkitListener
 {
 
-	private static final Collection<Material> VEHICULES = Sets.newHashSet(Material.BOAT, Material.MINECART,
-			Material.STORAGE_MINECART, Material.POWERED_MINECART, Material.EXPLOSIVE_MINECART, Material.HOPPER_MINECART,
-			Material.COMMAND_MINECART, Material.ARMOR_STAND);
+	private static final Collection<Material> VEHICULES = Sets.newHashSet(Material.BOAT, Material.MINECART, Material.STORAGE_MINECART,
+			Material.POWERED_MINECART, Material.EXPLOSIVE_MINECART, Material.HOPPER_MINECART, Material.COMMAND_MINECART,
+			Material.ARMOR_STAND);
 
 	private final BukkitHeavenGuard plugin;
 
@@ -389,13 +389,16 @@ public class ProtectionPlayerListener extends AbstractBukkitListener
 
 	private boolean canBuildAt(Player player, Block block)
 	{
+		if (player == null)
+			return plugin.getRegionManager().isProtectedAgainstEnvironment(block.getWorld().getName(), block.getX(), block.getY(),
+					block.getZ());
+
 		if (player.hasPermission(HeavenGuardPermissions.BYPASS))
 			return true;
 
 		try
 		{
-			final boolean result = canBuildAt(
-					plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get(), block);
+			final boolean result = canBuildAt(plugin.getUserProvider().getOptionalUserByUniqueId(player.getUniqueId()).get(), block);
 			if (!result)
 				ChatUtil.sendMessage(player, "Cet endroit est protégé.");
 			return result;
