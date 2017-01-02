@@ -42,4 +42,7 @@ commands:
  serverquest:
    description: Commande utilisée par les NPCs pour intéragir avec les quêtes de serveur
    usage: /serverquest
+ serverquestadmin:
+   description: Commande utilisée par les admins pour modifier les quêtes de serveur sans passer par la base de données
+   usage: /serverquestadmin
    

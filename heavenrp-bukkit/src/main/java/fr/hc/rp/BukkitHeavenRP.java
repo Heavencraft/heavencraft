@@ -19,6 +19,7 @@ import fr.hc.rp.commands.TestCommand;
 import fr.hc.rp.db.bankaccounts.BankAccountProvider;
 import fr.hc.rp.db.companies.CompanyProvider;
 import fr.hc.rp.db.npc.NPCActionProvider;
+import fr.hc.rp.db.quests.server.ServerQuestAdminCommand;
 import fr.hc.rp.db.quests.server.ServerQuestCommand;
 import fr.hc.rp.db.quests.server.ServerQuestInventoryListener;
 import fr.hc.rp.db.quests.server.ServerQuestProvider;
@@ -130,6 +131,7 @@ public class BukkitHeavenRP extends AbstractDatabaseBukkitPlugin implements Heav
 		// ServerQuests
 		final ServerQuestInventoryListener serverQuestInventoryListener = new ServerQuestInventoryListener(this);
 		new ServerQuestCommand(this, serverQuestInventoryListener);
+		new ServerQuestAdminCommand(this);
 
 		// Bank
 		new LivretSignListener(this);
