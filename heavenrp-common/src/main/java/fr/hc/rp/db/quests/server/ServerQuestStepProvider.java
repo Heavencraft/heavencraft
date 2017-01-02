@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.hc.core.connection.ConnectionProvider;
 import fr.hc.core.exceptions.DatabaseErrorException;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.rp.HeavenRP;
@@ -59,5 +60,15 @@ public class ServerQuestStepProvider
 		if (!optCServerQuestStep.isPresent())
 			throw new ServerQuestNotFoundException(id);
 		return optCServerQuestStep.get();
+	}
+
+	public ConnectionProvider getConnectionProvider()
+	{
+		return plugin.getConnectionProvider();
+	}
+
+	public void invalidateCache(ServerQuestStep step)
+	{
+		cache.invalidateCache(step);
 	}
 }
