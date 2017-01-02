@@ -42,6 +42,7 @@ public class SetparentSubCommand extends HeavenGuardSubCommand
 					throw new RegionNotFoundException(args[0]);
 
 				parent = optParent.get();
+				checkNonRecursiveParentRelationship(region, parent);
 				break;
 
 			default:
@@ -69,5 +70,15 @@ public class SetparentSubCommand extends HeavenGuardSubCommand
 	public void sendUsage(CommandSender sender)
 	{
 		ChatUtil.sendMessage(sender, "/rg {setparent} <protection> <protection parente>");
+	}
+
+	public void checkNonRecursiveParentRelationship(Region region, Region ancestor) throws HeavenException
+	{
+		if (region.getId() == ancestor.getId())
+			throw new HeavenException("Impossible de configurer ce parent, car cela créerai une relation récursive.");
+
+		final Optional<Region> ancestorParent = ancestor.getParent();
+		if (ancestorParent.isPresent())
+			checkNonRecursiveParentRelationship(region, ancestorParent.get());
 	}
 }
