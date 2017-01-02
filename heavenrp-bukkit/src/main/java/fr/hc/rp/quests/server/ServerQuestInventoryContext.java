@@ -1,9 +1,10 @@
-package fr.hc.rp.db.quests.server;
+package fr.hc.rp.quests.server;
 
 import org.bukkit.inventory.Inventory;
 
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.db.quests.server.ServerQuest;
 
 public class ServerQuestInventoryContext
 {

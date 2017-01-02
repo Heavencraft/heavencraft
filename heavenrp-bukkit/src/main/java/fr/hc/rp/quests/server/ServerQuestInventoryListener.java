@@ -1,4 +1,4 @@
-package fr.hc.rp.db.quests.server;
+package fr.hc.rp.quests.server;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +20,10 @@ import fr.hc.rp.HeavenRP;
 import fr.hc.rp.db.quests.goals.Goal;
 import fr.hc.rp.db.quests.goals.GoalAction;
 import fr.hc.rp.db.quests.goals.Goals;
+import fr.hc.rp.db.quests.server.ServerQuest;
+import fr.hc.rp.db.quests.server.ServerQuestStep;
+import fr.hc.rp.db.quests.server.UpdateServerQuestCompletedGoalsQuery;
+import fr.hc.rp.db.quests.server.UpdateServerQuestCurrentStepQuery;
 import fr.hc.rp.worlds.WorldsManager;
 
 public class ServerQuestInventoryListener extends AbstractBukkitListener

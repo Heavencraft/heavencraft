@@ -1,4 +1,4 @@
-package fr.hc.rp.db.quests.server;
+package fr.hc.rp.quests.server;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,6 +10,9 @@ import fr.hc.core.utils.WorldEditUtil;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.HeavenRP;
 import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.db.quests.server.ServerQuestStep;
+import fr.hc.rp.db.quests.server.ServerQuestStepProvider;
+import fr.hc.rp.db.quests.server.UpdateServerQuestStepSchematicQuery;
 import fr.hc.rp.worlds.WorldsManager;
 
 public class ServerQuestAdminSetStepSchematicSubCommand extends SubCommand

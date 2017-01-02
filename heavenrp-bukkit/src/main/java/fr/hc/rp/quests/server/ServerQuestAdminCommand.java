@@ -1,4 +1,4 @@
-package fr.hc.rp.db.quests.server;
+package fr.hc.rp.quests.server;
 
 import fr.hc.core.AbstractBukkitPlugin;
 import fr.hc.core.cmd.SubCommandsCommand;
