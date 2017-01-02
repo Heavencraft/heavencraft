@@ -1,4 +1,4 @@
-package fr.hc.rp.db.quests.server;
+package fr.hc.rp.quests.server;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,6 +17,7 @@ import fr.hc.rp.HeavenRPInstance;
 import fr.hc.rp.db.quests.goals.Goal;
 import fr.hc.rp.db.quests.goals.GoalAction;
 import fr.hc.rp.db.quests.goals.Goals;
+import fr.hc.rp.db.quests.server.ServerQuest;
 
 public class ServerQuestInventorySubCommand extends SubCommand
 {
