@@ -1,20 +1,19 @@
 package fr.hc.core.horses;
 
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.CorePermissions;
 import fr.hc.core.utils.chat.ChatUtil;
 
-@SuppressWarnings("deprecation")
 public class HorsesManager
 {
-	public static boolean isWild(Horse horse)
+	public static boolean isWild(AbstractHorse horse)
 	{
 		return !horse.isTamed();
 	}
 
-	public static boolean canUse(Horse horse, Player player)
+	public static boolean canUse(AbstractHorse horse, Player player)
 	{
 		if (player.hasPermission(CorePermissions.HORSE_BYPASS))
 			return true;
@@ -30,11 +29,10 @@ public class HorsesManager
 			return horse.getOwner().getUniqueId().equals(player.getUniqueId());
 	}
 
-	public static void sendWarning(Horse horse, Player player)
+	public static void sendWarning(AbstractHorse horse, Player player)
 	{
 		if (horse.getOwner() == null)
-			ChatUtil.sendMessage(player,
-					"Ce cheval est apprivoisé mais n'a pas de propriétaire. Merci de contacter un administrateur.");
+			ChatUtil.sendMessage(player, "Ce cheval est apprivoisé mais n'a pas de propriétaire. Merci de contacter un administrateur.");
 		else
 			ChatUtil.sendMessage(player, "Ce cheval appartient à {%1$s}.", horse.getOwner().getName());
 	}

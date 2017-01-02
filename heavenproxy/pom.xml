@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.heavencraft</groupId>
 	<artifactId>heavenproxy</artifactId>
-	<version>3.0</version>
+	<version>3.0.1</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>fr.heavencraft</groupId>
 			<artifactId>heavencore-common</artifactId>
-			<version>3.0</version>
+			<version>3.0.1</version>
 		</dependency>
 
 		<dependency>
