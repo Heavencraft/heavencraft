@@ -1,5 +1,6 @@
 package fr.hc.rp.npc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -8,10 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
 import fr.hc.core.AbstractBukkitListener;
-import fr.hc.core.exceptions.DatabaseErrorException;
+import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.rp.BukkitHeavenRP;
 import fr.hc.rp.HeavenRPInstance;
+import fr.hc.rp.db.npc.ConditionExecutor;
 import fr.hc.rp.db.npc.NPCAction;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
@@ -29,7 +31,7 @@ public class NPCMessageListener extends AbstractBukkitListener
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	private void onNPCRightClick(NPCRightClickEvent event) throws DatabaseErrorException
+	private void onNPCRightClick(NPCRightClickEvent event) throws HeavenException
 	{
 		log.info("onNPCRightClick");
 
@@ -40,8 +42,8 @@ public class NPCMessageListener extends AbstractBukkitListener
 
 		log.info("onNPCRightClick with npcTag = {}", npcTag);
 
-		// TODO: conditional actions
-		final List<NPCAction> actions = HeavenRPInstance.get().getNpcMessageProvider().getByNpcTag(npcTag);
+		List<NPCAction> actions = HeavenRPInstance.get().getNpcMessageProvider().getByNpcTag(npcTag);
+		actions = filterUsingConditions(actions);
 		if (actions.isEmpty())
 			return;
 
@@ -58,6 +60,24 @@ public class NPCMessageListener extends AbstractBukkitListener
 		if (action.hasCommands())
 			for (final String command : action.getCommands())
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replaceVariables(command, player));
+	}
+
+	// TODO: This is not working
+	private List<NPCAction> filterUsingConditions(List<NPCAction> actions) throws HeavenException
+	{
+		final List<NPCAction> filteredActions = new ArrayList<NPCAction>();
+
+		for (final NPCAction action : actions)
+		{
+			if (!action.hasConditions())
+				continue;
+
+			log.info("evaluating {}", action.getConditions());
+			if (ConditionExecutor.evaluate(action.getConditions()))
+				filteredActions.add(action);
+		}
+
+		return filteredActions.isEmpty() ? actions : filteredActions;
 	}
 
 	private NPCAction selectAction(List<NPCAction> actions)

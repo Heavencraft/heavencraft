@@ -13,4 +13,9 @@ public class HeavenException extends Exception
 	{
 		super(String.format(message, args));
 	}
+
+	public HeavenException(Exception ex)
+	{
+		super(ex);
+	}
 }

@@ -216,6 +216,7 @@ ALTER TABLE stores
 CREATE TABLE npc_actions (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     npc_tag         VARCHAR(16)         NOT NULL,
+    conditions      TEXT                NOT NULL,
     messages        TEXT                NOT NULL,
     commands        TEXT                NOT NULL,
 
