@@ -7,6 +7,7 @@ public class NPCAction
 {
 	private final int id;
 	private final String npcTag;
+	private final String conditions;
 	private final String[] messages;
 	private final String[] commands;
 
@@ -15,6 +16,7 @@ public class NPCAction
 	{
 		id = rs.getInt("id");
 		npcTag = rs.getString("npc_tag");
+		conditions = rs.getString("conditions");
 
 		final String messagesString = rs.getString("messages");
 		messages = rs.wasNull() ? new String[0] : messagesString.split(";");
@@ -31,6 +33,16 @@ public class NPCAction
 	public String getNpcTag()
 	{
 		return npcTag;
+	}
+
+	public boolean hasConditions()
+	{
+		return conditions != null && !conditions.isEmpty();
+	}
+
+	public String getConditions()
+	{
+		return conditions;
 	}
 
 	public boolean hasMessages()
