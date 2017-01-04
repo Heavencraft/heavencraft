@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.rp.HeavenRPInstance;
+import net.sourceforge.jeval.EvaluationConstants;
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 import net.sourceforge.jeval.function.Function;
@@ -51,8 +52,7 @@ public class ConditionExecutor
 	{
 		try
 		{
-			// TODO: check, this is probably not working
-			return EVALUATOR.evaluate(condition).equals("1.0");
+			return EVALUATOR.evaluate(condition).equals(EvaluationConstants.BOOLEAN_STRING_TRUE);
 		}
 		catch (final EvaluationException ex)
 		{
