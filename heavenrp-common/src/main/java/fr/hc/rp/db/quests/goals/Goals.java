@@ -12,7 +12,7 @@ import fr.hc.core.exceptions.UnexpectedErrorException;
 import fr.hc.core.utils.LocalStringBuilder;
 import fr.hc.rp.exceptions.DuplicateGoalException;
 
-public class Goals
+public class Goals implements Cloneable
 {
 	private final Map<GoalAction, Map<String, Goal>> goalsByElementByAction = new HashMap<GoalAction, Map<String, Goal>>();
 	private final Collection<Goal> goals = new ArrayList<Goal>();
@@ -42,6 +42,12 @@ public class Goals
 	public String toString()
 	{
 		return toString(goals);
+	}
+
+	@Override
+	public Goals clone() throws CloneNotSupportedException
+	{
+		return (Goals) super.clone();
 	}
 
 	public static String toString(Collection<Goal> goals)
@@ -78,6 +84,14 @@ public class Goals
 		if (goalsByElement == null)
 			return null;
 		return goalsByElement.get(element);
+	}
+
+	public Goal remove(GoalAction action, String element)
+	{
+		final Map<String, Goal> goalsByElement = goalsByElementByAction.get(action);
+		if (goalsByElement == null)
+			return null;
+		return goalsByElement.remove(element);
 	}
 
 	public Collection<Goal> getAll()

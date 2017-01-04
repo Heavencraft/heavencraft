@@ -62,22 +62,25 @@ public class NPCMessageListener extends AbstractBukkitListener
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replaceVariables(command, player));
 	}
 
-	// TODO: This is not working
 	private List<NPCAction> filterUsingConditions(List<NPCAction> actions) throws HeavenException
 	{
-		final List<NPCAction> filteredActions = new ArrayList<NPCAction>();
+		final List<NPCAction> defaultActions = new ArrayList<NPCAction>();
+		final List<NPCAction> conditionedActions = new ArrayList<NPCAction>();
 
 		for (final NPCAction action : actions)
 		{
 			if (!action.hasConditions())
+			{
+				defaultActions.add(action);
 				continue;
+			}
 
 			log.info("evaluating {}", action.getConditions());
 			if (ConditionExecutor.evaluate(action.getConditions()))
-				filteredActions.add(action);
+				conditionedActions.add(action);
 		}
 
-		return filteredActions.isEmpty() ? actions : filteredActions;
+		return !conditionedActions.isEmpty() ? conditionedActions : defaultActions;
 	}
 
 	private NPCAction selectAction(List<NPCAction> actions)

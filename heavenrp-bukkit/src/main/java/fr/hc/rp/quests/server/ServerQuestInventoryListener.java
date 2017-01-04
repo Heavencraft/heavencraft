@@ -43,7 +43,7 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 	}
 
 	@EventHandler
-	private void onInventoryClose(InventoryCloseEvent event) throws HeavenException
+	private void onInventoryClose(InventoryCloseEvent event) throws HeavenException, CloneNotSupportedException
 	{
 		final Inventory inventory = event.getInventory();
 		final Player player = (Player) event.getPlayer();
@@ -56,8 +56,7 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 		final ServerQuestStep currentStep = quest.getCurrentStep();
 
 		final Goals requiredGoals = currentStep.getGoals();
-		final Goals completedGoals = quest.getCompletedGoals();
-		final Goals newCompletedGoals = new Goals();
+		final Goals completedGoals = quest.getCompletedGoals().clone();
 
 		for (final ItemStack item : inventory.getContents())
 		{
@@ -72,20 +71,19 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 				continue;
 			}
 
-			Goal completedGoal = completedGoals.get(GoalAction.GIVE_ITEM, item.getType().name());
+			Goal completedGoal = completedGoals.remove(GoalAction.GIVE_ITEM, item.getType().name());
 			if (completedGoal == null)
 				completedGoal = requiredGoal.createSimilar(0);
-			final int neededNumber = requiredGoal.getNumber() - completedGoal.getNumber();
 
+			final int neededNumber = requiredGoal.getNumber() - completedGoal.getNumber();
 			if (neededNumber <= 0)
 			{
 				giveBack(player, item);
-				newCompletedGoals.add(completedGoal); // No change
 			}
 			else if (neededNumber >= item.getAmount())
 			{
 				ChatUtil.sendMessage(player, "Je prend ces %1$s %2$s.", item.getAmount(), item.getType());
-				newCompletedGoals.add(completedGoal.add(item.getAmount()));
+				completedGoal = completedGoal.add(item.getAmount());
 			}
 			else if (neededNumber < item.getAmount())
 			{
@@ -93,12 +91,14 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 				final ItemStack item2 = new ItemStack(item);
 				item2.setAmount(item.getAmount() - neededNumber);
 				giveBack(player, item2);
-				newCompletedGoals.add(completedGoal.add(neededNumber));
+				completedGoal = completedGoal.add(neededNumber);
 			}
+
+			completedGoals.add(completedGoal);
 		}
 
 		// All the goals are completed, the step is over, moving to next step
-		if (newCompletedGoals.equals(requiredGoals))
+		if (completedGoals.equals(requiredGoals))
 		{
 			final Optional<ServerQuestStep> optNextStep = currentStep.getNextStep();
 
@@ -142,7 +142,7 @@ public class ServerQuestInventoryListener extends AbstractBukkitListener
 		// There are still uncompleted goals, we just update the quest status
 		else
 		{
-			new UpdateServerQuestCompletedGoalsQuery(quest, newCompletedGoals, plugin.getServerQuestProvider())
+			new UpdateServerQuestCompletedGoalsQuery(quest, completedGoals, plugin.getServerQuestProvider())
 			{
 				@Override
 				public void onException(HeavenException ex)
