@@ -21,13 +21,12 @@ public class TpCommand extends AbstractCommandExecutor
 	@Override
 	protected void onPlayerCommand(Player player, String[] args) throws HeavenException
 	{
-
-		Player toPlayer = PlayerUtil.getPlayer(args[0]);
+		Player toPlayer;
 
 		switch (args.length)
 		{
-
 			case 1:
+				toPlayer = PlayerUtil.getPlayer(args[0]);
 				if (toPlayer == null)
 					throw new HeavenException("Le joueur {%1$s} n'est pas connecté ou n'existe pas.", args[0]);
 
@@ -36,6 +35,7 @@ public class TpCommand extends AbstractCommandExecutor
 				break;
 
 			case 2:
+				toPlayer = PlayerUtil.getPlayer(args[0]);
 				Player fromPlayer = PlayerUtil.getPlayer(args[0]);
 				toPlayer = PlayerUtil.getPlayer(args[1]);
 

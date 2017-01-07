@@ -51,3 +51,6 @@ commands:
  poof:
   usage: /poof
   description: Rend l'utilisateur invisible.
+ tpworld:
+  usage: /tpworld <world>
+  description: Téléporte le jour dans le world sélectionné
