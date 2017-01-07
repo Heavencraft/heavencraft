@@ -18,6 +18,7 @@ public class WorldsManager
 	private static Location _spawn;
 	private static Location _spawnNether;
 	private static Location _spawnTheEnd;
+	private static Location _spawnOldSRP;
 
 	static Random rnd = new Random();
 
@@ -53,9 +54,18 @@ public class WorldsManager
 		}
 		getTheEnd().setDifficulty(Difficulty.HARD);
 		
+		if (!isLoaded("old_srp"))
+		{
+			final WorldCreator creator = new WorldCreator("old_srp");
+			creator.environment(World.Environment.NORMAL);
+			creator.createWorld();
+		}
+		getOldSRP().setDifficulty(Difficulty.NORMAL);
+		
 		_spawn = new Location(getWorld(), 351.5, 83, 1041.5, 90, 0);
 		_spawnNether = new Location(getNether(), 96.5, 36, 176.5, 0, 0);
 		_spawnTheEnd = new Location(getTheEnd(), 4.5D, 61D, 23.5D, 0F, 0F);
+		_spawnOldSRP = new Location(getOldSRP(), 145.5D, 107D, 130.5D, 270F, 0F);
 	}
 
 	public static Location getSpawn()
@@ -71,6 +81,11 @@ public class WorldsManager
 	public static Location getSpawnTheEnd()
 	{
 		return _spawnTheEnd;
+	}
+	
+	public static Location getSpawnOldSRP()
+	{
+		return _spawnOldSRP;
 	}
 
 	public static Location getResourcesSpawn()
@@ -106,6 +121,12 @@ public class WorldsManager
 	{
 		return Bukkit.getWorld("world_resources");
 	}
+	
+	public static World getOldSRP()
+	{
+		return Bukkit.getWorld("old_srp");
+	}
+
 
 	private static boolean isLoaded(String name)
 	{

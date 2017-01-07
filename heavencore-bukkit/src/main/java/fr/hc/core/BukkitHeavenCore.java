@@ -25,6 +25,7 @@ import fr.hc.core.cmd.admin.SpectatorCommand;
 import fr.hc.core.cmd.admin.TpCommand;
 import fr.hc.core.cmd.admin.TphereCommand;
 import fr.hc.core.cmd.admin.TpposCommand;
+import fr.hc.core.cmd.admin.TpworldCommand;
 import fr.hc.core.cmd.homes.BuyHomeCommand;
 import fr.hc.core.cmd.homes.HomeCommand;
 import fr.hc.core.cmd.homes.SetHomeCommand;
@@ -180,6 +181,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			new TpCommand(this);
 			new TphereCommand(this);
 			new TpposCommand(this);
+			new TpworldCommand(this);
 			new PoofCommand(this);
 
 			// Optim
