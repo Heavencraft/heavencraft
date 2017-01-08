@@ -91,7 +91,10 @@ public class Goals implements Cloneable
 		final Map<String, Goal> goalsByElement = goalsByElementByAction.get(action);
 		if (goalsByElement == null)
 			return null;
-		return goalsByElement.remove(element);
+		final Goal goal = goalsByElement.remove(element);
+		if (goal != null)
+			goals.remove(goal);
+		return goal;
 	}
 
 	public Collection<Goal> getAll()
