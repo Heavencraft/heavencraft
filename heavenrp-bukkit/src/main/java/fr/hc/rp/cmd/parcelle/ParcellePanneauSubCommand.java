@@ -80,7 +80,7 @@ public class ParcellePanneauSubCommand extends SubCommand
 				|| !parent.contains(max.getWorld().getName(), max.getBlockX(), max.getBlockY(), max.getBlockZ()))
 			throw new HeavenException("La parcelle sort de la ville.");
 
-		final Block signBlock = getCloserCorner(player.getLocation(), min, max).getBlock();
+		final Block signBlock = getCloserBlock(player.getLocation(), min, max).getBlock();
 		if (signBlock.getType() != Material.AIR)
 			throw new HeavenException("Impossible de poser un panneau ici.");
 
@@ -132,22 +132,27 @@ public class ParcellePanneauSubCommand extends SubCommand
 		ChatUtil.sendMessage(sender, "/{parcelle} panneau <ville> <prix> <up> <down>");
 	}
 
-	private static Location getCloserCorner(Location location, Location min, Location max) throws HeavenException
+	private static Location getCloserBlock(Location location, Location min, Location max) throws HeavenException
 	{
 		final int x = getCloserNumber(location.getBlockX(), min.getBlockX(), max.getBlockX());
 		final int z = getCloserNumber(location.getBlockZ(), min.getBlockZ(), max.getBlockZ());
 
-		final Location corner = WorldUtils.getSafeLocation(location.getWorld(), x, z);
+		final Location block = WorldUtils.getSafeLocation(location.getWorld(), x, z);
 
-		if (corner == null)
-			throw new HeavenException("Je n'arrive pas à poser un panneau sur ce coin de la protection");
+		if (block == null)
+			throw new HeavenException("Je n'arrive pas à poser un panneau sur ce bloc de la protection");
 
-		return corner;
+		return block;
 	}
 
-	private static int getCloserNumber(int tested, int number1, int number2)
+	private static int getCloserNumber(int tested, int min, int max)
 	{
-		return (Math.abs(tested - number1) < Math.abs(tested - number2)) ? number1 : number2;
+		if (tested < min)
+			return min;
+		else if (tested > max)
+			return max;
+		else
+			return tested;
 	}
 
 	private static BlockFace getSignDirection(Block signBlock, Location min)
