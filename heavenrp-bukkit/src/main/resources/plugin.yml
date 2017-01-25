@@ -36,3 +36,13 @@ commands:
  spleef:
    description: Commande de gestion du spleef
    usage: /spleef
+ npcadmin:
+   description: Commande pour gérer les NPCs liés aux plugins Heavencraft
+   usage: /npcadmin
+ serverquest:
+   description: Commande utilisée par les NPCs pour intéragir avec les quêtes de serveur
+   usage: /serverquest
+ serverquestadmin:
+   description: Commande utilisée par les admins pour modifier les quêtes de serveur sans passer par la base de données
+   usage: /serverquestadmin
+   

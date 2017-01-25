@@ -12,4 +12,8 @@ public class RPPermissions
 	public static final String ENTREPRISE_RETIREREMPLOYEUR_COMMAND = "heavenrp.commands.entreprise.retireremployeur";
 	public static final String ENTREPRISE_RETIREREMPLOYE_COMMAND = "heavenrp.commands.entreprise.retireremploye";
 	public static final String LIVRET_SIGN = "heavenrp.sign.livret.create";
+
+	public static final String NPCADMIN_COMMAND = "heavenrp.commands.npcadmin";
+	public static final String SERVERQUEST_COMMAND = "heavenrp.commands.serverquest";
+	public static final String SERVERQUESTADMIN_COMMAND = "heavenrp.commands.serverquestadmin";
 }

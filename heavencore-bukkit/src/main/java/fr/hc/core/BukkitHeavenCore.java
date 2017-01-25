@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import fr.hc.core.cmd.admin.CreacheatCommand;
@@ -69,9 +69,9 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 
 	private void initializeDatabase() throws StopServerException
 	{
-		final Multimap<ConnectionProvider, String> createTableQueries = HashMultimap.create();
-		final Multimap<ConnectionProvider, String> alterTableQueries = HashMultimap.create();
-		final Multimap<ConnectionProvider, String> insertIntoQueries = HashMultimap.create();
+		final Multimap<ConnectionProvider, String> createTableQueries = ArrayListMultimap.create();
+		final Multimap<ConnectionProvider, String> alterTableQueries = ArrayListMultimap.create();
+		final Multimap<ConnectionProvider, String> insertIntoQueries = ArrayListMultimap.create();
 
 		// Get the queries from Heavencraft's plugins
 		for (final Plugin plugin : Bukkit.getPluginManager().getPlugins())

@@ -208,3 +208,51 @@ ALTER TABLE stores
     
 ALTER TABLE stores
     ADD FOREIGN KEY (stock_id) REFERENCES stocks (id) ON DELETE SET NULL;
+
+--
+-- NPC messages
+--
+
+CREATE TABLE npc_actions (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+    npc_tag         VARCHAR(16)         NOT NULL,
+    conditions      TEXT                NOT NULL,
+    messages        TEXT                NOT NULL,
+    commands        TEXT                NOT NULL,
+
+    PRIMARY KEY (id)
+);
+
+--
+-- server quests
+--
+
+CREATE TABLE server_quests (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(32)         NOT NULL,
+    first_step      INT UNSIGNED        NOT NULL,
+    current_step    INT UNSIGNED        NOT NULL,
+    completed       BOOLEAN             DEFAULT FALSE,
+    completed_goals TEXT                DEFAULT NULL,
+
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE server_quests
+    ADD FOREIGN KEY (current_step) REFERENCES server_quest_steps (id);
+
+CREATE TABLE server_quest_steps (
+    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
+    next_step       INT UNSIGNED        DEFAULT NULL,
+    schematic       MEDIUMBLOB          DEFAULT NULL,
+    goals           TEXT                NOT NULL,
+
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE server_quest_steps
+    ADD FOREIGN KEY (next_step) REFERENCES server_quest_steps (id);
+
+INSERT INTO server_quest_steps (id, next_step, goals) VALUES (2, NULL, "");
+INSERT INTO server_quest_steps (id, next_step, goals) VALUES (1, 2, "GIVE_ITEM 4 COBBLESTONE");
+INSERT INTO server_quests (id, name, first_step, current_step) VALUES (1, "Quête de test", 1, 1);
