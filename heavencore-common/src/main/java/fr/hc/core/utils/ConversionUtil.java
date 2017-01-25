@@ -17,7 +17,7 @@ public class ConversionUtil
 			builder.append(array[i]);
 		}
 
-		return builder.toString();
+		return LocalStringBuilder.release(builder);
 	}
 
 	private static final int TINYINT_BYTES = 1;

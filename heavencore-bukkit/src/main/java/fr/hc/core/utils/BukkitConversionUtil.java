@@ -42,6 +42,6 @@ public class BukkitConversionUtil
 				builder.append(ConversionUtil.SEPARATOR);
 		}
 
-		return builder.toString();
+		return LocalStringBuilder.release(builder);
 	}
 }
