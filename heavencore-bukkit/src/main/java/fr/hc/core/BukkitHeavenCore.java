@@ -44,6 +44,7 @@ import fr.hc.core.listeners.NoChatListener;
 import fr.hc.core.listeners.RedstoneLampListener;
 import fr.hc.core.optim.AntiCheatListener;
 import fr.hc.core.optim.AntiLagListener;
+import fr.hc.core.optim.FishFarmDetector;
 import fr.hc.core.tasks.TaskManager;
 import fr.hc.core.tasks.async.AsyncTaskExecutor;
 import fr.hc.core.tasks.sync.BukkitSyncTaskExecutor;
@@ -187,6 +188,7 @@ public class BukkitHeavenCore extends AbstractBukkitPlugin implements HeavenCore
 			// Optim
 			new AntiLagListener(this);
 			new AntiCheatListener(this);
+			new FishFarmDetector(this);
 		}
 		catch (final StopServerException e)
 		{
