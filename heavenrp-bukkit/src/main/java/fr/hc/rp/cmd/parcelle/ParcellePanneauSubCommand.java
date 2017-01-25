@@ -105,7 +105,7 @@ public class ParcellePanneauSubCommand extends SubCommand
 				sign.setLine(2, Integer.toString(price) + ParcelleSignListener.PRICE_UNIT);
 				sign.setLine(3, (max.getBlockX() - min.getBlockX() + 1) + "x" + (max.getBlockZ() - min.getBlockZ() + 1)
 						+ "x" + (max.getBlockY() - min.getBlockY() + 1));
-				((org.bukkit.material.Sign) sign.getData()).setFacingDirection(getSignDirection(signBlock, min));
+				((org.bukkit.material.Sign) sign.getData()).setFacingDirection(getSignDirection(signBlock, min, max));
 				sign.update();
 
 				ChatUtil.sendMessage(player, "La parcelle a été créée avec succès.");
@@ -155,11 +155,36 @@ public class ParcellePanneauSubCommand extends SubCommand
 			return tested;
 	}
 
-	private static BlockFace getSignDirection(Block signBlock, Location min)
+	private static BlockFace getSignDirection(Block signBlock, Location min, Location max)
 	{
-		if (signBlock.getX() == min.getBlockX()) // East
-			return signBlock.getZ() == min.getBlockZ() ? BlockFace.NORTH_WEST : BlockFace.SOUTH_WEST;
-		else // West
-			return signBlock.getZ() == min.getBlockZ() ? BlockFace.NORTH_EAST : BlockFace.SOUTH_EAST;
+		final boolean east = signBlock.getX() == min.getBlockX();
+		final boolean west = signBlock.getX() == max.getBlockX();
+		final boolean north = signBlock.getZ() == min.getBlockZ();
+		final boolean south = signBlock.getZ() == max.getBlockZ();
+
+		if (north)
+		{
+			if (west)
+				return BlockFace.NORTH_WEST;
+			else if (east)
+				return BlockFace.NORTH_EAST;
+			else
+				return BlockFace.NORTH;
+		}
+		else if (south)
+		{
+			if (west)
+				return BlockFace.SOUTH_WEST;
+			else if (east)
+				return BlockFace.SOUTH_EAST;
+			else
+				return BlockFace.SOUTH;
+		}
+		else if (west)
+			return BlockFace.WEST;
+		else if (east)
+			return BlockFace.EAST;
+
+		return BlockFace.SELF;
 	}
 }
