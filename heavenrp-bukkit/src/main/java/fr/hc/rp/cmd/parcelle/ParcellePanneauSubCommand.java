@@ -103,8 +103,8 @@ public class ParcellePanneauSubCommand extends SubCommand
 				sign.setLine(0, ChatColor.GREEN + "[Parcelle]");
 				sign.setLine(1, town.getName());
 				sign.setLine(2, Integer.toString(price) + ParcelleSignListener.PRICE_UNIT);
-				sign.setLine(3, (max.getBlockX() - min.getBlockX() + 1) + "x" + (max.getBlockZ() - min.getBlockZ() + 1)
-						+ "x" + (max.getBlockY() - min.getBlockY() + 1));
+				sign.setLine(3, (max.getBlockX() - min.getBlockX() + 1) + "x" + (max.getBlockZ() - min.getBlockZ() + 1) + "x"
+						+ (max.getBlockY() - min.getBlockY() + 1));
 				((org.bukkit.material.Sign) sign.getData()).setFacingDirection(getSignDirection(signBlock, min, max));
 				sign.update();
 
@@ -157,8 +157,8 @@ public class ParcellePanneauSubCommand extends SubCommand
 
 	private static BlockFace getSignDirection(Block signBlock, Location min, Location max)
 	{
-		final boolean east = signBlock.getX() == min.getBlockX();
-		final boolean west = signBlock.getX() == max.getBlockX();
+		final boolean west = signBlock.getX() == min.getBlockX();
+		final boolean east = signBlock.getX() == max.getBlockX();
 		final boolean north = signBlock.getZ() == min.getBlockZ();
 		final boolean south = signBlock.getZ() == max.getBlockZ();
 
