@@ -96,63 +96,47 @@ public class RegionManager
 
 	public boolean isPvp(String world, int x, int y, int z)
 	{
-		final Collection<Region> regions = getRegionsAtLocationWithoutParents(world, x, y, z);
-
-		// If there are regions here
-		if (regions.size() != 0)
-		{
-			boolean pvpEnabled = false;
-			boolean pvpDisabled = false;
-
-			for (final Region region : regions)
-			{
-				final Boolean pvp = region.getFlagHandler().getBooleanFlag(Flag.PVP);
-
-				if (pvp == null)
-					continue;
-
-				if (pvp)
-					pvpEnabled = true;
-				else
-					pvpDisabled = true;
-			}
-
-			if (pvpEnabled || pvpDisabled)
-				return !pvpDisabled && pvpEnabled;
-		}
-
-		// No regions here : this block is pvp if the world is pvp
-		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PVP);
+		return getBooleanFlagValueAt(world, x, y, z, Flag.PVP);
 	}
 
 	public boolean canMobSpawn(String world, int x, int y, int z)
+	{
+		return getBooleanFlagValueAt(world, x, y, z, Flag.MOBSPAWNING);
+	}
+
+	public boolean canTeleport(String world, int x, int y, int z)
+	{
+		return getBooleanFlagValueAt(world, x, y, z, Flag.TELEPORT);
+	}
+
+	private boolean getBooleanFlagValueAt(String world, int x, int y, int z, Flag flag)
 	{
 		final Collection<Region> regions = getRegionsAtLocationWithoutParents(world, x, y, z);
 
 		// If there are regions here
 		if (regions.size() != 0)
 		{
-			boolean mobSpawningEnabled = false;
-			boolean mobSpawningDisabled = false;
+			boolean flagEnabled = false;
+			boolean flagDisabled = false;
 
 			for (final Region region : regions)
 			{
-				final Boolean mobSpawning = region.getFlagHandler().getBooleanFlag(Flag.MOBSPAWNING);
+				final Boolean flagValue = region.getFlagHandler().getBooleanFlag(flag);
 
-				if (mobSpawning == null)
+				if (flagValue == null)
 					continue;
 
-				if (mobSpawning)
-					mobSpawningEnabled = true;
+				if (flagValue)
+					flagEnabled = true;
 				else
-					mobSpawningDisabled = true;
-
-				if (mobSpawningEnabled || mobSpawningDisabled)
-					return !mobSpawningDisabled && mobSpawningEnabled;
+					flagDisabled = true;
 			}
+
+			if (flagEnabled || flagDisabled)
+				return !flagDisabled && flagEnabled;
 		}
 
-		// MobSpawning enabled by default
-		return true;
+		// No regions here (or no region with flag defined) -> use the default from the world
+		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(flag);
 	}
 }

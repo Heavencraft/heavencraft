@@ -37,9 +37,11 @@ ALTER TABLE regions_members
     ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
 
 CREATE TABLE worlds (
-    name            VARCHAR(32)         NOT NULL,
-    flag_pvp        BOOLEAN             NOT NULL DEFAULT 0,
-    flag_public     BOOLEAN             NOT NULL DEFAULT 0,
+    name                VARCHAR(32)         NOT NULL,
+    flag_pvp            BOOLEAN             NOT NULL DEFAULT 0,
+    flag_public         BOOLEAN             NOT NULL DEFAULT 0,
+    flag_mobspawning    BOOLEAN             NOT NULL DEFAULT 1,
+    flag_teleport       BOOLEAN             NOT NULL DEFAULT 1,
 
     PRIMARY KEY (name)
 );
