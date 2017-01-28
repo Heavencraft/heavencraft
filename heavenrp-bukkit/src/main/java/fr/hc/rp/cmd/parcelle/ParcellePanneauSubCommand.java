@@ -18,7 +18,6 @@ import fr.hc.core.exceptions.HeavenException;
 import fr.hc.core.exceptions.UnexpectedErrorException;
 import fr.hc.core.utils.ConversionUtil;
 import fr.hc.core.utils.WorldEditUtil;
-import fr.hc.core.utils.WorldUtils;
 import fr.hc.core.utils.chat.ChatUtil;
 import fr.hc.guard.HeavenGuard;
 import fr.hc.guard.HeavenGuardInstance;
@@ -137,7 +136,7 @@ public class ParcellePanneauSubCommand extends SubCommand
 		final int x = getCloserNumber(location.getBlockX(), min.getBlockX(), max.getBlockX());
 		final int z = getCloserNumber(location.getBlockZ(), min.getBlockZ(), max.getBlockZ());
 
-		final Location block = WorldUtils.getSafeLocation(location.getWorld(), x, z);
+		final Location block = getSignLocation(new Location(location.getWorld(), x, location.getBlockY(), z));
 
 		if (block == null)
 			throw new HeavenException("Je n'arrive pas à poser un panneau sur ce bloc de la protection");
@@ -186,5 +185,16 @@ public class ParcellePanneauSubCommand extends SubCommand
 			return BlockFace.EAST;
 
 		return BlockFace.SELF;
+	}
+
+	private static Location getSignLocation(Location location)
+	{
+		while (location.getBlock().getType() != Material.AIR)
+			location.add(0, 1, 0);
+
+		while (location.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR)
+			location.subtract(0, 1, 0);
+
+		return location;
 	}
 }
