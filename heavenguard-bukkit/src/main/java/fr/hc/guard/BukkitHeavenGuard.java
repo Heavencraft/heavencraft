@@ -6,6 +6,7 @@ import fr.hc.core.AbstractDatabaseBukkitPlugin;
 import fr.hc.core.db.users.User;
 import fr.hc.core.db.users.UserProvider;
 import fr.hc.guard.db.RegionProvider;
+import fr.heavencraft.heavenguard.bukkit.listeners.TeleportFlagListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.PlayerListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionEnvironmentListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionPlayerListener;
@@ -33,6 +34,7 @@ public class BukkitHeavenGuard extends AbstractDatabaseBukkitPlugin implements H
 
 			new ProtectionPlayerListener(this);
 			new ProtectionEnvironmentListener(this);
+			new TeleportFlagListener(this);
 
 			regionProvider = new RegionProvider(connectionProvider);
 			regionManager = new RegionManager(regionProvider);
