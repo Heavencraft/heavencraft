@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import fr.hc.core.exceptions.PlayerNotConnectedException;
+import fr.hc.core.utils.player.TeleportPlayerTask;
 
 public class PlayerUtil
 {
@@ -47,12 +48,12 @@ public class PlayerUtil
 
 	public static void teleportPlayer(Player player, Entity entity)
 	{
-		teleportPlayer(player, entity.getLocation());
+		new TeleportPlayerTask(player, entity).schedule();
 	}
 
 	public static void teleportPlayer(Player player, Location location)
 	{
-		player.teleport(location);
+		new TeleportPlayerTask(player, location).schedule();
 	}
 
 	public static String getUUID(Player player)
