@@ -6,16 +6,19 @@ import java.util.Optional;
 
 import fr.hc.core.db.users.User;
 import fr.hc.guard.db.Flag;
+import fr.hc.guard.db.GlobalRegionProvider;
 import fr.hc.guard.db.RegionProvider;
 import fr.hc.guard.db.regions.Region;
 
 public class RegionManager
 {
 	private final RegionProvider regionProvider;
+	private final GlobalRegionProvider globalRegionProvider;
 
-	public RegionManager(RegionProvider regionProvider)
+	public RegionManager(RegionProvider regionProvider, GlobalRegionProvider globalRegionProvider)
 	{
 		this.regionProvider = regionProvider;
+		this.globalRegionProvider = globalRegionProvider;
 	}
 
 	public Collection<Region> getRegionsAtLocationWithoutParents(String world, int x, int y, int z)
@@ -71,7 +74,7 @@ public class RegionManager
 		}
 
 		// No regions here : the player can build if the world is public
-		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
+		return globalRegionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
 	}
 
 	public boolean isProtectedAgainstEnvironment(String world, int x, int y, int z)
@@ -83,7 +86,7 @@ public class RegionManager
 			return true;
 
 		// No regions here : the block is protected if the world is not public
-		return !regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
+		return !globalRegionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
 	}
 
 	public boolean areInSameRegion(String world, int x1, int y1, int z1, int x2, int y2, int z2)
@@ -137,6 +140,6 @@ public class RegionManager
 		}
 
 		// No regions here (or no region with flag defined) -> use the default from the world
-		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(flag);
+		return globalRegionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(flag);
 	}
 }

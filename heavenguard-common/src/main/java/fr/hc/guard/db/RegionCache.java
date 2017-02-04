@@ -12,7 +12,6 @@ public class RegionCache
 	private final Map<Integer, Region> regionsById = new HashMap<Integer, Region>();
 	private final Map<String, Region> regionsByName = new HashMap<String, Region>();
 	private final Map<String, Collection<Region>> regionsByWorld = new HashMap<String, Collection<Region>>();
-	private final Map<String, GlobalRegion> globalRegionsByWorld = new HashMap<String, GlobalRegion>();
 
 	public Region getRegionById(int id)
 	{
@@ -28,11 +27,6 @@ public class RegionCache
 	{
 		final Collection<Region> regionsInWorld = regionsByWorld.get(world.toLowerCase());
 		return regionsInWorld != null ? new ArrayList<Region>(regionsInWorld) : new ArrayList<Region>();
-	}
-
-	public GlobalRegion getGlobalRegionByWorld(String world)
-	{
-		return globalRegionsByWorld.get(world);
 	}
 
 	public boolean regionExists(String name)
@@ -52,11 +46,6 @@ public class RegionCache
 			regionsByWorld.put(region.getWorld(), regions = new ArrayList<Region>());
 
 		regions.add(region);
-	}
-
-	public void addToCache(GlobalRegion region)
-	{
-		globalRegionsByWorld.put(region.getName(), region);
 	}
 
 	public void removeFromCache(Region region)
