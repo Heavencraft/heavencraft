@@ -5,14 +5,17 @@ import org.bukkit.Bukkit;
 import fr.hc.core.AbstractDatabaseBukkitPlugin;
 import fr.hc.core.db.users.User;
 import fr.hc.core.db.users.UserProvider;
+import fr.hc.guard.db.GlobalRegionProvider;
 import fr.hc.guard.db.RegionProvider;
 import fr.heavencraft.heavenguard.bukkit.listeners.PlayerListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionEnvironmentListener;
 import fr.heavencraft.heavenguard.bukkit.listeners.ProtectionPlayerListener;
+import fr.heavencraft.heavenguard.bukkit.listeners.TeleportFlagListener;
 
 public class BukkitHeavenGuard extends AbstractDatabaseBukkitPlugin implements HeavenGuard
 {
 	private RegionProvider regionProvider;
+	private GlobalRegionProvider globalRegionProvider;
 	private RegionManager regionManager;
 
 	public BukkitHeavenGuard()
@@ -33,9 +36,11 @@ public class BukkitHeavenGuard extends AbstractDatabaseBukkitPlugin implements H
 
 			new ProtectionPlayerListener(this);
 			new ProtectionEnvironmentListener(this);
+			new TeleportFlagListener(this);
 
 			regionProvider = new RegionProvider(connectionProvider);
-			regionManager = new RegionManager(regionProvider);
+			globalRegionProvider = new GlobalRegionProvider(connectionProvider);
+			regionManager = new RegionManager(regionProvider, globalRegionProvider);
 
 			new RegionCommand(this);
 			new RemoveRegionTask(this);
@@ -51,6 +56,12 @@ public class BukkitHeavenGuard extends AbstractDatabaseBukkitPlugin implements H
 	public RegionProvider getRegionProvider()
 	{
 		return regionProvider;
+	}
+
+	@Override
+	public GlobalRegionProvider getGlobalRegionProvider()
+	{
+		return globalRegionProvider;
 	}
 
 	@Override
