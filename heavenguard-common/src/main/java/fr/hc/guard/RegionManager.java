@@ -6,16 +6,19 @@ import java.util.Optional;
 
 import fr.hc.core.db.users.User;
 import fr.hc.guard.db.Flag;
+import fr.hc.guard.db.GlobalRegionProvider;
 import fr.hc.guard.db.RegionProvider;
 import fr.hc.guard.db.regions.Region;
 
 public class RegionManager
 {
 	private final RegionProvider regionProvider;
+	private final GlobalRegionProvider globalRegionProvider;
 
-	public RegionManager(RegionProvider regionProvider)
+	public RegionManager(RegionProvider regionProvider, GlobalRegionProvider globalRegionProvider)
 	{
 		this.regionProvider = regionProvider;
+		this.globalRegionProvider = globalRegionProvider;
 	}
 
 	public Collection<Region> getRegionsAtLocationWithoutParents(String world, int x, int y, int z)
@@ -71,7 +74,7 @@ public class RegionManager
 		}
 
 		// No regions here : the player can build if the world is public
-		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
+		return globalRegionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
 	}
 
 	public boolean isProtectedAgainstEnvironment(String world, int x, int y, int z)
@@ -83,7 +86,7 @@ public class RegionManager
 			return true;
 
 		// No regions here : the block is protected if the world is not public
-		return !regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
+		return !globalRegionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PUBLIC);
 	}
 
 	public boolean areInSameRegion(String world, int x1, int y1, int z1, int x2, int y2, int z2)
@@ -96,63 +99,47 @@ public class RegionManager
 
 	public boolean isPvp(String world, int x, int y, int z)
 	{
-		final Collection<Region> regions = getRegionsAtLocationWithoutParents(world, x, y, z);
-
-		// If there are regions here
-		if (regions.size() != 0)
-		{
-			boolean pvpEnabled = false;
-			boolean pvpDisabled = false;
-
-			for (final Region region : regions)
-			{
-				final Boolean pvp = region.getFlagHandler().getBooleanFlag(Flag.PVP);
-
-				if (pvp == null)
-					continue;
-
-				if (pvp)
-					pvpEnabled = true;
-				else
-					pvpDisabled = true;
-			}
-
-			if (pvpEnabled || pvpDisabled)
-				return !pvpDisabled && pvpEnabled;
-		}
-
-		// No regions here : this block is pvp if the world is pvp
-		return regionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(Flag.PVP);
+		return getBooleanFlagValueAt(world, x, y, z, Flag.PVP);
 	}
 
 	public boolean canMobSpawn(String world, int x, int y, int z)
+	{
+		return getBooleanFlagValueAt(world, x, y, z, Flag.MOBSPAWNING);
+	}
+
+	public boolean canTeleport(String world, int x, int y, int z)
+	{
+		return getBooleanFlagValueAt(world, x, y, z, Flag.TELEPORT);
+	}
+
+	private boolean getBooleanFlagValueAt(String world, int x, int y, int z, Flag flag)
 	{
 		final Collection<Region> regions = getRegionsAtLocationWithoutParents(world, x, y, z);
 
 		// If there are regions here
 		if (regions.size() != 0)
 		{
-			boolean mobSpawningEnabled = false;
-			boolean mobSpawningDisabled = false;
+			boolean flagEnabled = false;
+			boolean flagDisabled = false;
 
 			for (final Region region : regions)
 			{
-				final Boolean mobSpawning = region.getFlagHandler().getBooleanFlag(Flag.MOBSPAWNING);
+				final Boolean flagValue = region.getFlagHandler().getBooleanFlag(flag);
 
-				if (mobSpawning == null)
+				if (flagValue == null)
 					continue;
 
-				if (mobSpawning)
-					mobSpawningEnabled = true;
+				if (flagValue)
+					flagEnabled = true;
 				else
-					mobSpawningDisabled = true;
-
-				if (mobSpawningEnabled || mobSpawningDisabled)
-					return !mobSpawningDisabled && mobSpawningEnabled;
+					flagDisabled = true;
 			}
+
+			if (flagEnabled || flagDisabled)
+				return !flagDisabled && flagEnabled;
 		}
 
-		// MobSpawning enabled by default
-		return true;
+		// No regions here (or no region with flag defined) -> use the default from the world
+		return globalRegionProvider.getGlobalRegion(world).getFlagHandler().getBooleanFlag(flag);
 	}
 }

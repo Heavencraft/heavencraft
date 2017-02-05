@@ -22,7 +22,6 @@ public class RegionProvider
 {
 	// SQL Queries
 	private static final String PRELOAD_REGIONS = "SELECT * FROM regions;";
-	private static final String PRELOAD_GLOBAL_REGIONS = "SELECT * FROM worlds;";
 
 	private static final String LOAD_REGION = "SELECT * FROM regions WHERE name = LOWER(?) LIMIT 1;";
 
@@ -42,7 +41,6 @@ public class RegionProvider
 		this.connectionProvider = connectionProvider;
 
 		loadFromDatabase();
-		loadGlobalRegions();
 	}
 
 	/*
@@ -76,8 +74,7 @@ public class RegionProvider
 
 	private Region loadRegion(String name) throws RegionNotFoundException, DatabaseErrorException
 	{
-		try (Connection connection = connectionProvider.getConnection();
-				PreparedStatement ps = connection.prepareStatement(LOAD_REGION))
+		try (Connection connection = connectionProvider.getConnection(); PreparedStatement ps = connection.prepareStatement(LOAD_REGION))
 		{
 			ps.setString(1, name);
 
@@ -98,39 +95,12 @@ public class RegionProvider
 		}
 	}
 
-	private void loadGlobalRegions() throws StopServerException
-	{
-		try (Connection connection = connectionProvider.getConnection();
-				PreparedStatement ps = connection.prepareStatement(PRELOAD_GLOBAL_REGIONS))
-		{
-			try (ResultSet rs = ps.executeQuery())
-			{
-				int count = 0;
-
-				while (rs.next())
-				{
-					++count;
-					cache.addToCache(new GlobalRegion(connectionProvider, rs));
-				}
-
-				log.info("{} global regions loaded from database.", count);
-			}
-		}
-		catch (final SQLException ex)
-		{
-			ex.printStackTrace();
-			throw new StopServerException(); // Close server if we can't load regions
-		}
-	}
-
-	public Region createRegion(String name, String world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ)
-			throws HeavenException
+	public Region createRegion(String name, String world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) throws HeavenException
 	{
 		if (cache.regionExists(name))
 			throw new HeavenException("La protection {%1$s} existe déjà.", name);
 
-		try (Connection connection = connectionProvider.getConnection();
-				PreparedStatement ps = connection.prepareStatement(CREATE_REGION))
+		try (Connection connection = connectionProvider.getConnection(); PreparedStatement ps = connection.prepareStatement(CREATE_REGION))
 		{
 			ps.setString(1, name);
 			ps.setString(2, world);
@@ -157,8 +127,7 @@ public class RegionProvider
 
 	public void deleteRegion(String name) throws HeavenException
 	{
-		try (Connection connection = connectionProvider.getConnection();
-				PreparedStatement ps = connection.prepareStatement(DELETE_REGION))
+		try (Connection connection = connectionProvider.getConnection(); PreparedStatement ps = connection.prepareStatement(DELETE_REGION))
 		{
 			ps.setString(1, name);
 
@@ -214,11 +183,6 @@ public class RegionProvider
 	public Collection<Region> getRegionsInWorld(String world)
 	{
 		return cache.getRegionsInWorld(world);
-	}
-
-	public GlobalRegion getGlobalRegion(String world)
-	{
-		return cache.getGlobalRegionByWorld(world);
 	}
 
 	public boolean regionExists(String name)
