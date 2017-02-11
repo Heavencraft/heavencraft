@@ -1,5 +1,6 @@
 package fr.hc.core.cmd.admin;
 
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -24,7 +25,7 @@ public class HealCommand extends AbstractCommandExecutor
 		switch (args.length)
 		{
 			case 0:
-				player.setHealth(player.getMaxHealth());
+				player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 				player.setFoodLevel(20);
 				player.setSaturation(player.getFoodLevel());
 				player.setFireTicks(0);
@@ -33,7 +34,7 @@ public class HealCommand extends AbstractCommandExecutor
 			case 1:
 				if (PlayerUtil.getPlayer(args[0]) != null)
 				{
-					PlayerUtil.getPlayer(args[0]).setHealth(player.getMaxHealth());
+					PlayerUtil.getPlayer(args[0]).setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					PlayerUtil.getPlayer(args[0]).setFoodLevel(20);
 					PlayerUtil.getPlayer(args[0]).setSaturation(player.getFoodLevel());
 					PlayerUtil.getPlayer(args[0]).setFireTicks(0);
@@ -62,7 +63,7 @@ public class HealCommand extends AbstractCommandExecutor
 		final Player player = PlayerUtil.getPlayer(args[0]);
 		if (PlayerUtil.getPlayer(args[0]) != null)
 		{
-			PlayerUtil.getPlayer(args[0]).setHealth(player.getMaxHealth());
+			PlayerUtil.getPlayer(args[0]).setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		}
 		else
 		{
