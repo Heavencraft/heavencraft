@@ -31,7 +31,6 @@ import fr.heavencraft.heavenproxy.commands.SpyCommand;
 import fr.heavencraft.heavenproxy.commands.TextCommand;
 import fr.heavencraft.heavenproxy.commands.VoterCommand;
 import fr.heavencraft.heavenproxy.commands.WikiCommand;
-import fr.heavencraft.heavenproxy.jit.ServerProcessManager;
 import fr.heavencraft.heavenproxy.kick.KickCommand;
 import fr.heavencraft.heavenproxy.kick.RagequitCommand;
 import fr.heavencraft.heavenproxy.listeners.LogListener;
@@ -83,8 +82,7 @@ public class HeavenProxy extends Plugin
 
 			final ConnectionProviderFactory connectionProviderFactory = new HikariConnectionProviderFactory();
 			connectionProvider = connectionProviderFactory.newConnectionProvider(database, username, password);
-			semirpConnectionProvider = connectionProviderFactory.newConnectionProvider(semirpDatabase, username,
-					password);
+			semirpConnectionProvider = connectionProviderFactory.newConnectionProvider(semirpDatabase, username, password);
 
 			new QueriesHandler();
 
@@ -140,7 +138,7 @@ public class HeavenProxy extends Plugin
 			// Warn
 			new WarnCommand();
 
-			new ServerProcessManager();
+			// new ServerProcessManager();
 
 			new AutoMessageTask();
 
