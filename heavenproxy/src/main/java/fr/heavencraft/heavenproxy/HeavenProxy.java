@@ -109,7 +109,7 @@ public class HeavenProxy extends Plugin
 			// Ban
 			new BanCommand();
 			new BanListener();
-			new SilentBanListener();
+//			new SilentBanListener();
 			new UnbanCommand();
 
 			// Chat
