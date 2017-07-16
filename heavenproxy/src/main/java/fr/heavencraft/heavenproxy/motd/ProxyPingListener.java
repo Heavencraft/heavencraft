@@ -44,7 +44,7 @@ public class ProxyPingListener extends AbstractListener
 	{
 		final ComponentBuilder builder = new ComponentBuilder("Heaven").color(ChatColor.WHITE).bold(true);
 		builder.append("craft").color(ChatColor.AQUA);
-		builder.append(" [1.11.2]\n").reset();
+		builder.append(" [1.12]\n").reset();
 		return builder;
 	}
 }
