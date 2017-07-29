@@ -14,6 +14,8 @@ import fr.heavencraft.heavenproxy.database.users.User;
 import fr.heavencraft.heavenproxy.database.users.UserProvider;
 import fr.heavencraft.heavenproxy.kick.KickCommand;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -27,7 +29,10 @@ public class UsersListener extends AbstractListener
 	private static final String STAFF_ADDRESS = "licorne.heavencraft.fr";
 
 	private static final String LOG_BAD_VERSION = "[onLogin] {} is not in 1.12.";
-	private static final String KICK_BAD_VERSION = "§fHeaven§bcraft§r est en 1.12.\n\nMerci de vous connecter avec cette version.";
+	private static final BaseComponent[] KICK_BAD_VERSION = new ComponentBuilder("Heaven").color(ChatColor.WHITE) //
+			.append("craft").color(ChatColor.AQUA) //
+			.append(" est en 1.12.\n\nMerci de vous connecter avec cette version.").reset() //
+			.create();
 
 	@EventHandler
 	public void onLogin(LoginEvent event)

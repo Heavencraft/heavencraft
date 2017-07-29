@@ -11,6 +11,7 @@ import fr.heavencraft.heavenproxy.AbstractListener;
 import fr.heavencraft.heavenproxy.HeavenProxy;
 import fr.heavencraft.heavenproxy.HeavenProxyInstance;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.event.EventHandler;
@@ -44,7 +45,7 @@ public class SilentBanListener extends AbstractListener
 
 			saveIntoDatabase(uuid, event.getConnection().getName(), address);
 
-			event.setCancelReason("java.net.ConnectException: Connection refused:");
+			event.setCancelReason(new TextComponent("java.net.ConnectException: Connection refused:"));
 			event.setCancelled(true);
 		}
 	}
