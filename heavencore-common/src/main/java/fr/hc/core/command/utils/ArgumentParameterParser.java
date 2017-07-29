@@ -7,7 +7,7 @@ import fr.hc.core.exceptions.HeavenException;
 
 /**
  * This class offers methods to parse user input.
- * 
+ *
  * @author Manuel
  *
  */
@@ -22,7 +22,7 @@ public class ArgumentParameterParser
 
 	/**
 	 * Parses an array of parameters to a Parameter Result object.
-	 * 
+	 *
 	 * @param conf
 	 * @param arguments
 	 * @return
@@ -30,7 +30,7 @@ public class ArgumentParameterParser
 	 */
 	public static ArgumentResult parse(CommandArgumentsConfiguration conf, String... arguments) throws HeavenException
 	{
-		ArgumentResult rsl = new ArgumentResult();
+		final ArgumentResult rsl = new ArgumentResult();
 		for (int i = 0; i < arguments.length; i++)
 		{
 			// If the parameter is empty, pass on to the next.
@@ -47,12 +47,11 @@ public class ArgumentParameterParser
 
 	/**
 	 * Checks if all mandatory arguments have been defined.
-	 * 
+	 *
 	 * @param conf
 	 * @param rsl
 	 */
-	private static boolean CheckArgumentsFullfitted(CommandArgumentsConfiguration conf, ArgumentResult rsl)
-			throws HeavenException
+	private static boolean CheckArgumentsFullfitted(CommandArgumentsConfiguration conf, ArgumentResult rsl) throws HeavenException
 	{
 		if (conf.price == ArgumentRequirement.MANDATORY && !conf.treatedPrice)
 			throw new HeavenException(OMMITED_MANDATORY_ARGUMENT, "price");
@@ -64,20 +63,19 @@ public class ArgumentParameterParser
 
 	/**
 	 * Checks if a parameter exists, and updates the value
-	 * 
+	 *
 	 * @param rsl
 	 * @param para
 	 * @throws UnkownParameterPassed
 	 */
-	private static void UpdateArgumentResult(CommandArgumentsConfiguration conf, ArgumentResult rsl, String para)
-			throws HeavenException
+	private static void UpdateArgumentResult(CommandArgumentsConfiguration conf, ArgumentResult rsl, String para) throws HeavenException
 	{
 		// Do we have "{type}:{data}"?
-		String[] splitted = para.split(":");
+		final String[] splitted = para.split(":");
 		if (splitted.length != 2)
 			throw new HeavenException(WRONG_ARGUMENT_FORMAT, para);
 		// Does the prefix exist?
-		String arg = splitted[0].toLowerCase();
+		final String arg = splitted[0].toLowerCase();
 
 		try
 		{
@@ -108,7 +106,7 @@ public class ArgumentParameterParser
 					throw new HeavenException(UNKOWN_ARGUMENT, splitted[0]);
 			}
 		}
-		catch (NumberFormatException e)
+		catch (final NumberFormatException e)
 		{
 			throw new HeavenException(NUMERICAL_PARAMETER_OF_ARGUMENT_UNPARSABLE, splitted[0]);
 		}
@@ -116,19 +114,20 @@ public class ArgumentParameterParser
 
 	/**
 	 * Returns a formatted list of all allowed parameters for a given configuration.
-	 * 
+	 *
 	 * @param conf
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<String> GetAllowedParameters(CommandArgumentsConfiguration conf)
 	{
 		final String OPT = " (optionnel)";
 		final String MAND = " (obligatoire)";
-		List<String> rsl = new ArrayList<String>();
+		final List<String> rsl = new ArrayList<String>();
 
 		if (conf.price != ArgumentRequirement.NO)
 		{
-			String s = "'price' : Le prix en PO.";
+			final String s = "'price' : Le prix en PO.";
 			if (conf.price != ArgumentRequirement.MANDATORY)
 				rsl.add(s + MAND);
 			else
@@ -137,7 +136,7 @@ public class ArgumentParameterParser
 
 		if (conf.magicPoints != ArgumentRequirement.NO)
 		{
-			String s = "'magicpoints', 'mpts' : Nombre de points de magie nécessaires.";
+			final String s = "'magicpoints', 'mpts' : Nombre de points de magie nécessaires.";
 			if (conf.magicPoints != ArgumentRequirement.MANDATORY)
 				rsl.add(s + MAND);
 			else

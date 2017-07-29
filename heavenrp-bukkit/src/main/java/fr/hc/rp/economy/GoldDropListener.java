@@ -6,11 +6,12 @@ import java.util.Optional;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,9 +39,12 @@ public class GoldDropListener extends AbstractBukkitListener
 	}
 
 	@EventHandler(ignoreCancelled = true)
-	private void onPlayerPickupItem(final PlayerPickupItemEvent event)
+	private void onPlayerPickupItem(final EntityPickupItemEvent event)
 	{
-		final Player player = event.getPlayer();
+		if (event.getEntityType() != EntityType.PLAYER)
+			return;
+
+		final Player player = (Player) event.getEntity();
 
 		try
 		{
@@ -129,8 +133,7 @@ public class GoldDropListener extends AbstractBukkitListener
 			@Override
 			public void onSuccess()
 			{
-				ChatUtil.sendMessage(player, "Vous avez perdu {%1$s} pièces d'or que vous aviez dans votre bourse.",
-						amount);
+				ChatUtil.sendMessage(player, "Vous avez perdu {%1$s} pièces d'or que vous aviez dans votre bourse.", amount);
 				ChatUtil.sendMessage(player, "Pensez à déposer votre argent à la banque la prochaine fois.");
 
 				dropGold(player.getLocation(), amount);

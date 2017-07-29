@@ -11,7 +11,6 @@ import fr.hc.core.connection.HikariConnectionProviderFactory;
 import fr.heavencraft.heavenproxy.async.QueriesHandler;
 import fr.heavencraft.heavenproxy.ban.BanCommand;
 import fr.heavencraft.heavenproxy.ban.BanListener;
-import fr.heavencraft.heavenproxy.ban.SilentBanListener;
 import fr.heavencraft.heavenproxy.ban.UnbanCommand;
 import fr.heavencraft.heavenproxy.chat.ChatListener;
 import fr.heavencraft.heavenproxy.chat.FloodListener;
@@ -57,7 +56,7 @@ public class HeavenProxy extends Plugin
 	private ConnectionProvider connectionProvider;
 	private ConnectionProvider semirpConnectionProvider;
 
-	private RequestsManager _requestsManager;
+	private RequestsManager requestsManager;
 
 	public HeavenProxy()
 	{
@@ -109,7 +108,7 @@ public class HeavenProxy extends Plugin
 			// Ban
 			new BanCommand();
 			new BanListener();
-//			new SilentBanListener();
+			// new SilentBanListener();
 			new UnbanCommand();
 
 			// Chat
@@ -142,7 +141,7 @@ public class HeavenProxy extends Plugin
 
 			new AutoMessageTask();
 
-			_requestsManager = new RequestsManager();
+			requestsManager = new RequestsManager();
 
 		}
 		catch (final Throwable t)
@@ -162,7 +161,7 @@ public class HeavenProxy extends Plugin
 
 	public RequestsManager getRequestsManager()
 	{
-		return _requestsManager;
+		return requestsManager;
 	}
 
 	public ConnectionProvider getConnectionProvider()

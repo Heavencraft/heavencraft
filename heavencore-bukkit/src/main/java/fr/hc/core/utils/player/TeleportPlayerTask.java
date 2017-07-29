@@ -68,7 +68,8 @@ public class TeleportPlayerTask implements SyncTask
 				public void run()
 				{
 					horse.setHealth(horse.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-					horse.setPassenger(player);
+					horse.getPassengers().forEach(entity -> horse.removePassenger(entity));
+					horse.addPassenger(player);
 				}
 			}, 20);
 		}
